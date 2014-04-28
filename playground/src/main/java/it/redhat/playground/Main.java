@@ -38,7 +38,6 @@ public class Main {
         banner();
         log.info("Connecting to Node: " + node);
         new JDG().connect(node).attachUI(new TextUI(System.in, System.out)).processCommands();
-
     }
 
     private static void banner() {
