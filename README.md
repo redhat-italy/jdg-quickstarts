@@ -72,4 +72,4 @@ mvn -P run -Djgroups.bind_addr=ip4
 Usage
 -----
 
-Please refer to every submdule Readme.md for detailed instructions
+Please refer to every submodule Readme.md for detailed instructions
