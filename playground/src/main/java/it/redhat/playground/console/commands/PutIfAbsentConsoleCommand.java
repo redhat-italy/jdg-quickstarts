@@ -63,6 +63,6 @@ public class PutIfAbsentConsoleCommand implements ConsoleCommand {
     @Override
     public void usage(TextUI console) {
         console.println(COMMAND_NAME + " <key> <value>");
-        console.println("\t\tModify an id object with value.");
+        console.println("\t\tPut an object (id, value) in the grid if not already present");
     }
 }

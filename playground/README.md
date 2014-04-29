@@ -24,7 +24,7 @@ put id value
      Put an object (id, value) in the grid.
 
 putIfAbsent|putifabsent|pia id value
-     Modify an id object with value.
+     Put an object (id, value) in the grid if not already present
 
 locate id
      Locate an object in the grid.
