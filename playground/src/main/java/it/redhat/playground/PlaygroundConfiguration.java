@@ -58,7 +58,11 @@ public class PlaygroundConfiguration {
     }
 
     private int getNumOwners() {
-        return Integer.valueOf(System.getProperty("playground.numOwners", "2"));
+        try {
+            return Integer.valueOf(System.getProperty("playground.numOwners", "2"));
+        } catch (IllegalArgumentException e) {
+            return 2;
+        }
     }
 
     public final void start() {
