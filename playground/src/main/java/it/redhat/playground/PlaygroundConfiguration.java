@@ -51,7 +51,7 @@ public class PlaygroundConfiguration {
 
     private CacheMode getCacheMode() {
         try {
-            return CacheMode.valueOf(System.getProperty("playground.cacheMode", ""));
+            return CacheMode.valueOf(System.getProperty("playground.cacheMode", "DIST_SYNC"));
         } catch (IllegalArgumentException e) {
             return CacheMode.DIST_SYNC;
         }
