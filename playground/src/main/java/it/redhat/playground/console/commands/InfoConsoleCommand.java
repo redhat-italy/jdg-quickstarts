@@ -17,9 +17,10 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import org.infinispan.Cache;
+import org.infinispan.manager.DefaultCacheManager;
 
 import java.util.Iterator;
 
@@ -27,19 +28,46 @@ public class InfoConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "info";
 
+    private DefaultCacheManager cacheManager;
+
+    public InfoConsoleCommand(DefaultCacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
+
     @Override
     public String command() {
         return COMMAND_NAME;
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
-        console.println(jdg.info());
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+        console.println(buildInfo());
         return true;
     }
 
+    private String buildInfo() {
+        StringBuilder info = new StringBuilder();
+        info.append("Cache Manager Status: ").append(cacheManager.getStatus()).append("\n");
+        info.append("Cache Manager Address: ").append(cacheManager.getAddress()).append("\n");
+        info.append("Coordinator address: ").append(cacheManager.getCoordinator()).append("\n");
+        info.append("Is Coordinator: ").append(cacheManager.isCoordinator()).append("\n");
+        info.append("Cluster Name: ").append(cacheManager.getClusterName()).append("\n");
+        info.append("Member list: ").append(cacheManager.getMembers()).append("\n");
+
+        for(String cacheName: cacheManager.getCacheNames()) {
+            Cache cache= cacheManager.getCache(cacheName);
+            info.append("Cache name: ").append(cacheName).append("\n");
+            info.append("Cache size: ").append(cache.size()).append("\n");
+            info.append("Cache status: ").append(cache.getStatus()).append("\n");
+            info.append("Number of owners: ").append(cache.getAdvancedCache().getDistributionManager().getConsistentHash().getNumOwners()).append("\n");
+            info.append("Number of segments: ").append(cache.getAdvancedCache().getDistributionManager().getConsistentHash().getNumSegments()).append("\n");
+            return info.toString();
+        }
+        return info.toString();
+    }
+
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tInformation on cache.");
     }

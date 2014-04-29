@@ -18,14 +18,21 @@
 package it.redhat.playground.console.commands;
 
 import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
 
 import java.util.Iterator;
 
 public class RoutingConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "routing";
+    private final Cache<Long, Value> cache;
+
+    public RoutingConsoleCommand(Cache<Long, Value> cache) {
+        this.cache = cache;
+    }
 
     @Override
     public String command() {
@@ -33,13 +40,13 @@ public class RoutingConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
-        console.println(jdg.routingTable());
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+        console.println(JDG.routingTable(cache));
         return true;
     }
 
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tPrint routing table.");
     }

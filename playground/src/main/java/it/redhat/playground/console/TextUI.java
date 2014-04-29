@@ -17,17 +17,18 @@
 
 package it.redhat.playground.console;
 
-import it.redhat.playground.JDG;
-import it.redhat.playground.console.commands.*;
+import it.redhat.playground.console.commands.ConsoleCommand;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class TextUI implements UIConsole {
+public class TextUI {
 
     private final static Logger log = LoggerFactory.getLogger(TextUI.class);
 
@@ -35,23 +36,21 @@ public class TextUI implements UIConsole {
     private final PrintStream out;
     private final Map<Pattern, ConsoleCommand> commands = new HashMap<Pattern, ConsoleCommand>();
 
-    private JDG jdg;
-
     public TextUI(InputStream in, PrintStream out) {
         this.in = new BufferedReader(new InputStreamReader(in));
         this.out = out;
-        this.registerCommands();
     }
 
-    public void register(ConsoleCommand cmd) {
+    public TextUI register(ConsoleCommand cmd) {
         if (cmd == null) {
             throw new IllegalArgumentException("Command argument cannot be null");
         }
         String name = cmd.command();
         commands.put(Pattern.compile(name), cmd);
+        return this;
     }
 
-    public void processCommands() throws IOException {
+    public void start() throws IOException {
         boolean keepRunning = true;
         while (keepRunning) {
             out.print("> ");
@@ -71,7 +70,7 @@ public class TextUI implements UIConsole {
             for(Pattern key: commands.keySet()) {
                 if(key.matcher(name).matches()) {
                     ConsoleCommand command = commands.get(key);
-                    return command.execute(this, jdg, scanner);
+                    return command.execute(this, scanner);
                 }
             }
             out.println("> ");
@@ -81,41 +80,18 @@ public class TextUI implements UIConsole {
         return true;
     }
 
-    @Override
     public void println(Object message) {
         out.println(message);
     }
 
-    @Override
     public void println(String message) {
         out.println(message);
     }
 
-    @Override
     public void printUsage() {
         out.println("Commands:");
         for(ConsoleCommand command : commands.values()) {
             command.usage(this);
         }
-    }
-
-    public void setJdg(JDG jdg) {
-        this.jdg = jdg;
-    }
-
-    private void registerCommands() {
-        register(new ClearConsoleCommand());
-        register(new GetConsoleCommand());
-        register(new HelpConsoleCommand());
-        register(new InfoConsoleCommand());
-        register(new LoadTestConsoleCommand());
-        register(new LocalConsoleCommand());
-        register(new LocateConsoleCommand());
-        register(new ModifyConsoleCommand());
-        register(new PrimaryConsoleCommand());
-        register(new PutConsoleCommand());
-        register(new QuitConsoleCommand());
-        register(new RotateConsoleCommand());
-        register(new RoutingConsoleCommand());
     }
 }

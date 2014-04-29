@@ -17,9 +17,13 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.distexec.Rotate;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
+import org.infinispan.distexec.DefaultExecutorService;
+import org.infinispan.distexec.DistributedExecutorService;
 
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +34,11 @@ import java.util.concurrent.Future;
 public class RotateConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "rotate";
+    private final Cache<Long, Value> cache;
+
+    public RotateConsoleCommand(Cache<Long, Value> cache) {
+        this.cache = cache;
+    }
 
     @Override
     public String command() {
@@ -37,10 +46,12 @@ public class RotateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Integer offset = Integer.parseInt(args.next());
-            List<Future> results = jdg.rot(offset);
+
+            DistributedExecutorService des = new DefaultExecutorService(cache);
+            List<Future> results = des.submitEverywhere(new Rotate(offset));
 
             console.println("Rotated all strings of " + offset + " characters");
             for (Future result : results) {
@@ -61,7 +72,7 @@ public class RotateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME + " <offset>");
         console.println("\t\tGet an object from the grid.");
     }

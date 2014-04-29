@@ -17,15 +17,21 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
 
 import java.util.Iterator;
 
 public class LoadTestConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "loadtest";
+    private final Cache<Long, Value> cache;
+
+    public LoadTestConsoleCommand(Cache<Long, Value> cache) {
+        this.cache = cache;
+    }
 
     @Override
     public String command() {
@@ -33,34 +39,34 @@ public class LoadTestConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
-        jdg.put(1, "Led Zeppelin");
-        jdg.put(2, "Deep Purple");
-        jdg.put(3, "Jethro Tull");
-        jdg.put(4, "Pink Floyd");
-        jdg.put(5, "Arctic Monkeys");
-        jdg.put(6, "Franz Ferdinand");
-        jdg.put(7, "Queen");
-        jdg.put(8, "The Police");
-        jdg.put(9, "Frank Zappa");
-        jdg.put(10, "Dire Straits");
-        jdg.put(11, "The Who");
-        jdg.put(12, "Van Halen");
-        jdg.put(13, "Jimi Hendrix");
-        jdg.put(14, "Queens of the Stone Age");
-        jdg.put(15, "Pearl Jam");
-        jdg.put(16, "U2");
-        jdg.put(17, "Lynyrd Skynyrd");
-        jdg.put(18, "AC/DC");
-        jdg.put(19, "Janis Joplin");
-        jdg.put(20, "Prince");
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+        cache.put(1l, new Value("Led Zeppelin"));
+        cache.put(2l, new Value("Deep Purple"));
+        cache.put(3l, new Value("Jethro Tull"));
+        cache.put(4l, new Value("Pink Floyd"));
+        cache.put(5l, new Value("Arctic Monkeys"));
+        cache.put(6l, new Value("Franz Ferdinand"));
+        cache.put(7l, new Value("Queen"));
+        cache.put(8l, new Value("The Police"));
+        cache.put(9l, new Value("Frank Zappa"));
+        cache.put(10l, new Value("Dire Straits"));
+        cache.put(11l, new Value("The Who"));
+        cache.put(12l, new Value("Van Halen"));
+        cache.put(13l, new Value("Jimi Hendrix"));
+        cache.put(14l, new Value("Queens of the Stone Age"));
+        cache.put(15l, new Value("Pearl Jam"));
+        cache.put(16l, new Value("U2"));
+        cache.put(17l, new Value("Lynyrd Skynyrd"));
+        cache.put(18l, new Value("AC/DC"));
+        cache.put(19l, new Value("Janis Joplin"));
+        cache.put(20l, new Value("Prince"));
 
         console.println("Data grid loaded with example values.");
         return true;
     }
 
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tLoad example values in the grid");
     }

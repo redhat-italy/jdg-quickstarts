@@ -17,118 +17,48 @@
 
 package it.redhat.playground;
 
-import it.redhat.playground.console.TextUI;
-import it.redhat.playground.distexec.Rotate;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
-import org.infinispan.distexec.DefaultExecutorService;
-import org.infinispan.distexec.DistributedExecutorService;
-import org.infinispan.manager.EmbeddedCacheManager;
 import org.infinispan.remoting.transport.Address;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.Future;
-import java.util.logging.Logger;
 
 public class JDG {
 
-    public JDG connect(JDGNode node) {
-
-        cacheManager = node.getManager();
-        cache = cacheManager.getCache();
-        log.info("Connected to cacheManager: " + cache.toString());
-        return this;
-    }
-
-    public TextUI attachUI(TextUI ui) {
-        ui.setJdg(this);
-        return ui;
-    }
-
-    public Set<String> keySet() {
-        return valuesFromKeys(cache.keySet());
-    }
-
-    public Set<String> primaryKeySet() {
-        return primaryValuesFromKeys(cache.keySet());
-    }
-
-    public Value get(long id) {
-        return cache.get(id);
-    }
-
-    public Value put(long id, String value) {
-        return cache.put(id, new Value(value));
-    }
-
-    public Value modify(long id, String value) {
-        Value v = cache.get(id);
-        return v.setVal(value);
-    }
-
-    public void clear() {
-        cache.clear();
-    }
-
-    public List<Address> locate(long id) {
-        return cache.getAdvancedCache().getDistributionManager().getConsistentHash().locateOwners(id);
-    }
-
-    public void shutdown() {
-        cacheManager.stop();
-    }
-
-    public String info() {
-        StringBuilder info = new StringBuilder();
-        info.append("Cache Manager Status: ").append(cacheManager.getStatus()).append("\n");
-        info.append("Cache Manager Address: ").append(cacheManager.getAddress()).append("\n");
-        info.append("Coordinator address: ").append(cacheManager.getCoordinator()).append("\n");
-        info.append("Is Coordinator: ").append(cacheManager.isCoordinator()).append("\n");
-        info.append("Cluster Name: ").append(cacheManager.getClusterName()).append("\n");
-        info.append("Member list: ").append(cacheManager.getMembers()).append("\n");
-        info.append("Cache name: ").append(cache.toString()).append("\n");
-        info.append("Cache size: ").append(cache.size()).append("\n");
-        info.append("Cache status: ").append(cache.getStatus()).append("\n");
-        info.append("Number of owners: ").append(cache.getAdvancedCache().getDistributionManager().getConsistentHash().getNumOwners()).append("\n");
-        info.append("Number of segments: ").append(cache.getAdvancedCache().getDistributionManager().getConsistentHash().getNumSegments()).append("\n");
-        return info.toString();
-    }
-
-    public String routingTable() {
+    public static String routingTable(Cache<Long, Value> cache) {
         return cache.getAdvancedCache().getDistributionManager().getConsistentHash().getRoutingTableAsString();
     }
 
-    public List<Future> rot(int offset) {
-        DistributedExecutorService des = new DefaultExecutorService(cache);
-        return des.submitEverywhere(new Rotate(offset));
+    public static List<Address> locate(Cache<Long, Value> cache, long id) {
+        return cache.getAdvancedCache().getDistributionManager().getConsistentHash().locateOwners(id);
     }
 
     public static boolean checkIfCacheIsPrimaryFor(Cache<Long, Value> cache, long key) {
         return cache.getAdvancedCache().getDistributionManager().getPrimaryLocation(key).equals(cache.getCacheManager().getAddress());
     }
 
-    private Set<String> valuesFromKeys(Set<Long> keys) {
+    public static Set<String> valuesFromKeys(Cache<Long, Value> cache) {
         Set<String> values = new HashSet<String>();
-        for (long l : keys) {
-            values.add(l + "," + get(l));
+        for (Long l : cache.keySet()) {
+            values.add(l + "," + cache.get(l));
         }
         return values;
     }
 
-    private Set<String> primaryValuesFromKeys(Set<Long> keys) {
+    public static Set<String> primaryValuesFromKeys(Cache<Long, Value> cache) {
         Set<String> values = new HashSet<String>();
-        for (long l : keys) {
+        for (Long l : cache.keySet()) {
             if (checkIfCacheIsPrimaryFor(cache, l)) {
-                values.add(l + "," + get(l));
+            values.add(l + "," + cache.get(l));
             }
         }
         return values;
     }
 
-    private EmbeddedCacheManager cacheManager;
-    private Cache<Long, Value> cache;
-    private Logger log = Logger.getLogger(this.getClass().getName());
+    private static  final Logger log = LoggerFactory.getLogger(JDG.class);
 
 }

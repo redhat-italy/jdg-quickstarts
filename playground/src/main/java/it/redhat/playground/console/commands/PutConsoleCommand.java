@@ -17,9 +17,10 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -27,6 +28,11 @@ import java.util.NoSuchElementException;
 public class PutConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "put";
+    private final Cache<Long, Value> cache;
+
+    public PutConsoleCommand(Cache<Long, Value> cache) {
+        this.cache = cache;
+    }
 
     @Override
     public String command() {
@@ -34,12 +40,13 @@ public class PutConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Long id = Long.parseLong(args.next());
             String value = args.next();
 
-            jdg.put(id, value);
+            cache.put(id, new Value(value));
+
             console.println("Written (" + id + "," + value + ")");
         } catch (NumberFormatException e) {
             throw new IllegalParametersException("Expected usage: put <key> <value>\nValue for key has to be a number. In example\nput 10 test");
@@ -50,7 +57,7 @@ public class PutConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME + " <key> <value>");
         console.println("\t\tPut an object (id, value) in the grid.");
     }

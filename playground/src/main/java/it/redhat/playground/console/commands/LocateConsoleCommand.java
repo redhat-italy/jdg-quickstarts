@@ -18,8 +18,10 @@
 package it.redhat.playground.console.commands;
 
 import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
 import org.infinispan.remoting.transport.Address;
 
 import java.util.Iterator;
@@ -28,6 +30,11 @@ import java.util.NoSuchElementException;
 public class LocateConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "locate";
+    private final Cache<Long, Value> cache;
+
+    public LocateConsoleCommand(Cache<Long, Value> cache) {
+        this.cache = cache;
+    }
 
     @Override
     public String command() {
@@ -35,12 +42,12 @@ public class LocateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Long id = Long.parseLong(args.next());
 
             console.println("Locate key " + id);
-            for (Address address : jdg.locate(id)) {
+            for (Address address : JDG.locate(cache, id)) {
                 console.println(address);
             }
         } catch (NumberFormatException e) {
@@ -52,7 +59,7 @@ public class LocateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME + " <key>");
         console.println("\t\tLocate an object in the grid.");
     }

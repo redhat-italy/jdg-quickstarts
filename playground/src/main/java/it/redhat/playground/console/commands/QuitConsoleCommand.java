@@ -17,15 +17,20 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import org.infinispan.manager.DefaultCacheManager;
 
 import java.util.Iterator;
 
 public class QuitConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "quit|exit|q|x";
+    private final DefaultCacheManager cacheManager;
+
+    public QuitConsoleCommand(DefaultCacheManager cacheManager) {
+        this.cacheManager = cacheManager;
+    }
 
     @Override
     public String command() {
@@ -33,14 +38,14 @@ public class QuitConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
         console.println("Shutting down...");
-        jdg.shutdown();
+        cacheManager.stop();
         return false;
     }
 
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tExit the shell.");
     }

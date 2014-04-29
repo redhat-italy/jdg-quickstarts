@@ -18,14 +18,21 @@
 package it.redhat.playground.console.commands;
 
 import it.redhat.playground.JDG;
-import it.redhat.playground.console.UIConsole;
+import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
 
 import java.util.Iterator;
 
 public class LocalConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "local";
+    private final Cache<Long, Value> cache;
+
+    public LocalConsoleCommand(Cache<Long, Value> cache) {
+        this.cache = cache;
+    }
 
     @Override
     public String command() {
@@ -33,15 +40,15 @@ public class LocalConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(UIConsole console, JDG jdg, Iterator<String> args) throws IllegalParametersException {
-        for(String key : jdg.keySet()) {
+    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+        for(String key : JDG.valuesFromKeys(cache)) {
             console.println(key);
         }
         return true;
     }
 
     @Override
-    public void usage(UIConsole console) {
+    public void usage(TextUI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tList all local valuesFromKeys.");
     }
