@@ -14,7 +14,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -37,7 +36,7 @@ public class PlaygroundConfiguration {
                         // the global configuration and allows for duplicate JMX domains
                 .build(); // Builds the GlobalConfiguration object
         Configuration loc = new ConfigurationBuilder().jmxStatistics().enable() // Enable JMX statistics
-                .clustering().cacheMode(CacheMode.DIST_SYNC) // Set Cache mode to DISTRIBUTED with SYNCHRONOUS replication
+                .clustering().cacheMode(getCacheMode()) // Set Cache mode to DISTRIBUTED with SYNCHRONOUS replication
                 .hash().numOwners(2) // Keeps two copies of each key/value pair
                         //.expiration().lifespan(ENTRY_LIFESPAN) // Set expiration - cacheManager entries expire after some time (given by
                         // the lifespan parameter) and are removed from the cacheManager (cluster-wide).
@@ -51,6 +50,14 @@ public class PlaygroundConfiguration {
             textUI.register(command);
         }
         return this;
+    }
+
+    private CacheMode getCacheMode() {
+        try {
+            return CacheMode.valueOf(System.getProperty("playground.cache_mode", ""));
+        } catch (IllegalArgumentException e) {
+            return CacheMode.DIST_SYNC;
+        }
     }
 
     public final void start() {
@@ -78,8 +85,7 @@ public class PlaygroundConfiguration {
 
     protected void banner() {
         System.out.println("---------------------------------------");
-        System.out.println("           JDG Testing CLI");
-        System.out.println("            written by uL");
+        System.out.println("           JDG Playgroud CLI");
         System.out.println("---------------------------------------");
         System.out.println();
     }
