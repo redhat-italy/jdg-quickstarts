@@ -47,7 +47,7 @@ public class InfoConsoleCommand implements ConsoleCommand {
     private String buildInfo() {
 
         StringBuilder info = new StringBuilder();
-        info.append("Cache Mode:").append(cacheManager.getCache().getCacheConfiguration().clustering().cacheModeString()).append("\n");
+        info.append("Cache Mode: ").append(cacheManager.getCache().getCacheConfiguration().clustering().cacheModeString()).append("\n");
         info.append("Cache Manager Status: ").append(cacheManager.getStatus()).append("\n");
         info.append("Cache Manager Address: ").append(cacheManager.getAddress()).append("\n");
         info.append("Coordinator address: ").append(cacheManager.getCoordinator()).append("\n");
