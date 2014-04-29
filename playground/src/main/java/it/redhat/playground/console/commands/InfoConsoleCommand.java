@@ -47,18 +47,18 @@ public class InfoConsoleCommand implements ConsoleCommand {
     private String buildInfo() {
 
         StringBuilder info = new StringBuilder();
+        info.append("Cache Mode:").append(cacheManager.getCache().getCacheConfiguration().clustering().cacheModeString()).append("\n");
         info.append("Cache Manager Status: ").append(cacheManager.getStatus()).append("\n");
         info.append("Cache Manager Address: ").append(cacheManager.getAddress()).append("\n");
         info.append("Coordinator address: ").append(cacheManager.getCoordinator()).append("\n");
         info.append("Is Coordinator: ").append(cacheManager.isCoordinator()).append("\n");
         info.append("Cluster Name: ").append(cacheManager.getClusterName()).append("\n");
         info.append("Member list: ").append(cacheManager.getMembers()).append("\n");
-        info.append("Cache name: ").append(cacheManager.getCache()).append("\n");
-        info.append("Cache size: ").append(cacheManager.getCache().size()).append("\n");
-        info.append("Cache status: ").append(cacheManager.getCache().getStatus()).append("\n");
-        info.append("Number of owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumOwners()).append("\n");
-        info.append("Number of segments: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumSegments()).append("\n");
-
+        info.append("Cache Name: ").append(cacheManager.getCache()).append("\n");
+        info.append("Cache Size: ").append(cacheManager.getCache().size()).append("\n");
+        info.append("Cache Status: ").append(cacheManager.getCache().getStatus()).append("\n");
+        info.append("Number of Owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumOwners()).append("\n");
+        info.append("Number of Segments: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumSegments()).append("\n");
         return info.toString();
     }
 
