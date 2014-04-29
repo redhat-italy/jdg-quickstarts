@@ -2,7 +2,35 @@ JDG-quickstarts
 ==============
 
 A small project to learn and explore Jboss Data Grid (Infinispan).
-This is the common base project.
+This is the root project.
+
+Every module is a standalone project inheriting common features by the 'playground' module: basically a simple Data Grid with small 'business' CLI.
+
+At the moment this quickstart contains these modules:
+
+Playground
+----------
+
+Playground consists of a small CLI which is very useful to experiment and learn Infinispan/JDG. Every other modules extends these features adding more commands to the CLI.
+See the module Readme file for more details.
+
+Dist-exec
+----------
+
+This module adds a 'rotate' command which plays with the strings in the Data Grid. See the module Readme file for more details.
+
+
+Map-reduce
+----------
+
+This module adds a 'count' command which counts the rock groups longer/shorter than a given threshold. See the module Readme file for more details.
+
+
+Jmx-statistics
+--------------
+
+This module is useful if you want to know how to expose via JMX your MBeans. See the module Readme file for more details.
+
 
 Build instructions
 ==================
@@ -28,7 +56,8 @@ This Maven settings.xml assumes you have unzipped the repositories in the follow
 Build the code
 --------------
 
-You can optionally run these commands if you want to build every module
+You can optionally run these commands if you want to build every module upfront.
+
 ```shell
 mvn clean install
 ```
@@ -36,7 +65,7 @@ mvn clean install
 Run the examples
 ----------------
 
-To run some nodes, just enter in one of the submodules and execute the correct profile.
+To run some nodes, just enter in one of the modules and execute the correct profile.
 
 For example to launch four nodes on a single machine for the basic playground just run these commands using different terminals:
 

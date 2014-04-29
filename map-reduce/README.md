@@ -13,7 +13,7 @@ Usage
 -----
 
 Every node will have its own command line interface "attached", which you can use to play with your Data Grid.
-Type 'help' on the command line to show a list of commands, please refer to the parent project Readme.md for details
+Type 'help' on the command line to show a list of commands, please refer to the 'playground' project Readme.md for more details
 
 MAP/Reduce specific commands
 ----------------------------
