@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -73,6 +74,7 @@ public class TextUI {
                     return command.execute(this, scanner);
                 }
             }
+        } catch (NoSuchElementException e) {
             out.println("> ");
         } catch (IllegalParametersException e) {
             println(e.getMessage());
