@@ -31,13 +31,13 @@ After installing the repositories, you just have to clone the code and run some 
 For example to launch four nodes on a single machine (or four different machines) just run these commands using different terminals:
 
 ```shell
-mvn -P run-node clean install exec:java
+mvn -P run-node
 
-mvn -P run-node clean install exec:java
+mvn -P run-node
 
-mvn -P run-node clean install exec:java
+mvn -P run-node
 
-mvn -P run-node clean install exec:java
+mvn -P run-node
 ```
 
 Usage
