@@ -19,6 +19,7 @@ package it.redhat.playground;
 
 import it.redhat.playground.console.commands.ConsoleCommand;
 import it.redhat.playground.console.commands.SPutConsoleCommand;
+import it.redhat.playground.console.commands.SizeConsoleCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class PerfTestConfiguration extends PlaygroundConfiguration {
     protected List<ConsoleCommand> baseCommands() {
         ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>(super.baseCommands());
         commands.add(new SPutConsoleCommand(this.cache));
+        commands.add(new SizeConsoleCommand(this.cache));
         return commands;
     }
 }

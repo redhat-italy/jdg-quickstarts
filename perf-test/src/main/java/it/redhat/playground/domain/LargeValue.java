@@ -42,6 +42,10 @@ public class LargeValue implements Value {
         }
     }
 
+    public long size() {
+        return data.length;
+    }
+
     @Override
     public String toString() {
         String result = new String(data, 0, data.length > MAX_VISIBLE_LENGTH ? MAX_VISIBLE_LENGTH : data.length, Charset.forName("UTF-8"));
