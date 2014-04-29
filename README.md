@@ -28,8 +28,6 @@ This Maven settings.xml assumes you have unzipped the repositories in the follow
 Build the code
 --------------
 
-After installing the repositories, you just have to git-clone the code and run some nodes.
-
 You can optionally run these commands if you want to build every module
 ```shell
 mvn clean install
@@ -38,10 +36,14 @@ mvn clean install
 Run the examples
 ----------------
 
-With the repositories installed, you just have to run some nodes.
-For example to launch four nodes on a single machine just run these commands using different terminals:
+To run some nodes, just enter in one of the submodules and execute the correct profile.
+
+For example to launch four nodes on a single machine for the basic playground just run these commands using different terminals:
 
 ```shell
+
+cd playground
+
 mvn -P run
 
 mvn -P run
