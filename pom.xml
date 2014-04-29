@@ -43,6 +43,7 @@
     <modules>
         <module>playground</module>
         <module>dist-exec</module>
+        <module>map-reduce</module>
         <module>jmx-statistics</module>
     </modules>
 
