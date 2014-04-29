@@ -19,6 +19,7 @@ package it.redhat.playground.console.commands;
 
 import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.LargeValue;
 import it.redhat.playground.domain.SimpleValue;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
@@ -45,11 +46,11 @@ public class SPutConsoleCommand implements ConsoleCommand {
         try {
             Long id = Long.parseLong(args.next());
             String value = args.next();
-            Long size = Long.parseLong(args.next());
+            int size = Integer.parseInt(args.next());
 
-            cache.put(id, new SimpleValue(value));
+            cache.put(id, new LargeValue(value, size));
 
-            console.println("Written (" + id + "," + value + ")");
+            console.println("Written (" + id + "," + value + ") of " + size + " bytes");
         } catch (NumberFormatException e) {
             throw new IllegalParametersException("Expected usage: put <key> <value> <size>\nValues for key and size have to be a number. In example\nsput 10 test 1024");
         } catch (NoSuchElementException e) {
