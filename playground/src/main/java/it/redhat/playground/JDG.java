@@ -53,7 +53,7 @@ public class JDG {
         Set<String> values = new HashSet<String>();
         for (Long l : cache.keySet()) {
             if (checkIfCacheIsPrimaryFor(cache, l)) {
-            values.add(l + "," + cache.get(l));
+                values.add(l + "," + cache.get(l));
             }
         }
         return values;

@@ -19,7 +19,6 @@ package it.redhat.playground.console.commands;
 
 import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
-import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
 
 import java.util.Iterator;
@@ -46,6 +45,7 @@ public class InfoConsoleCommand implements ConsoleCommand {
     }
 
     private String buildInfo() {
+
         StringBuilder info = new StringBuilder();
         info.append("Cache Manager Status: ").append(cacheManager.getStatus()).append("\n");
         info.append("Cache Manager Address: ").append(cacheManager.getAddress()).append("\n");
@@ -53,16 +53,12 @@ public class InfoConsoleCommand implements ConsoleCommand {
         info.append("Is Coordinator: ").append(cacheManager.isCoordinator()).append("\n");
         info.append("Cluster Name: ").append(cacheManager.getClusterName()).append("\n");
         info.append("Member list: ").append(cacheManager.getMembers()).append("\n");
+        info.append("Cache name: ").append(cacheManager.getCache()).append("\n");
+        info.append("Cache size: ").append(cacheManager.getCache().size()).append("\n");
+        info.append("Cache status: ").append(cacheManager.getCache().getStatus()).append("\n");
+        info.append("Number of owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumOwners()).append("\n");
+        info.append("Number of segments: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumSegments()).append("\n");
 
-        for(String cacheName: cacheManager.getCacheNames()) {
-            Cache cache= cacheManager.getCache(cacheName);
-            info.append("Cache name: ").append(cacheName).append("\n");
-            info.append("Cache size: ").append(cache.size()).append("\n");
-            info.append("Cache status: ").append(cache.getStatus()).append("\n");
-            info.append("Number of owners: ").append(cache.getAdvancedCache().getDistributionManager().getConsistentHash().getNumOwners()).append("\n");
-            info.append("Number of segments: ").append(cache.getAdvancedCache().getDistributionManager().getConsistentHash().getNumSegments()).append("\n");
-            return info.toString();
-        }
         return info.toString();
     }
 
@@ -71,4 +67,5 @@ public class InfoConsoleCommand implements ConsoleCommand {
         console.println(COMMAND_NAME);
         console.println("\t\tInformation on cache.");
     }
+
 }
