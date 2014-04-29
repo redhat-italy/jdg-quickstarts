@@ -9,14 +9,14 @@ import org.infinispan.jmx.annotations.ManagedOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@MBean(description = "Plugin di prova", objectName = "InfinispanStatistics")
+@MBean(description = "Test Plugin", objectName = "InfinispanStatistics")
 public class InfinispanStatistics {
     private Logger log = LoggerFactory.getLogger(InfinispanStatistics.class);
 
     @ManagedAttribute(writable = true, description = "Get test value", displayName = "GET_TEST", dataType = DataType.TRAIT)
     public String test;
 
-    @ManagedOperation(displayName = "display name test", name = "custom", description = "my custom description")
+    @ManagedOperation(displayName = "Display name test", name = "custom", description = "My custom description")
     public String getTest() {
         return test;
     }
