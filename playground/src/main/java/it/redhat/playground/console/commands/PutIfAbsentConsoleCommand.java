@@ -19,6 +19,7 @@ package it.redhat.playground.console.commands;
 
 import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.SimpleValue;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
@@ -44,7 +45,7 @@ public class PutIfAbsentConsoleCommand implements ConsoleCommand {
         try {
             Long id = Long.parseLong(args.next());
 
-            Value newValue = new Value(args.next());
+            Value newValue = new SimpleValue(args.next());
 
             Value value = cache.putIfAbsent(id, newValue);
             if (value == null) {

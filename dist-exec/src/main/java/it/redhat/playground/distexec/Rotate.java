@@ -18,6 +18,7 @@
 package it.redhat.playground.distexec;
 
 import it.redhat.playground.JDG;
+import it.redhat.playground.domain.SimpleValue;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 import org.infinispan.distexec.DistributedCallable;
@@ -64,7 +65,7 @@ public class Rotate implements DistributedCallable, Serializable {
                 encoded.append(i);
             }
         }
-        return new Value(encoded.toString());
+        return new SimpleValue(encoded.toString());
 
     }
 

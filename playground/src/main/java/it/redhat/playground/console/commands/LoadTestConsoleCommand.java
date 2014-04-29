@@ -19,6 +19,7 @@ package it.redhat.playground.console.commands;
 
 import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.SimpleValue;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
@@ -40,26 +41,26 @@ public class LoadTestConsoleCommand implements ConsoleCommand {
 
     @Override
     public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
-        cache.put(1l, new Value("Led Zeppelin"));
-        cache.put(2l, new Value("Deep Purple"));
-        cache.put(3l, new Value("Jethro Tull"));
-        cache.put(4l, new Value("Pink Floyd"));
-        cache.put(5l, new Value("Arctic Monkeys"));
-        cache.put(6l, new Value("Franz Ferdinand"));
-        cache.put(7l, new Value("Queen"));
-        cache.put(8l, new Value("The Police"));
-        cache.put(9l, new Value("Frank Zappa"));
-        cache.put(10l, new Value("Dire Straits"));
-        cache.put(11l, new Value("The Who"));
-        cache.put(12l, new Value("Van Halen"));
-        cache.put(13l, new Value("Jimi Hendrix"));
-        cache.put(14l, new Value("Queens of the Stone Age"));
-        cache.put(15l, new Value("Pearl Jam"));
-        cache.put(16l, new Value("U2"));
-        cache.put(17l, new Value("Lynyrd Skynyrd"));
-        cache.put(18l, new Value("AC/DC"));
-        cache.put(19l, new Value("Janis Joplin"));
-        cache.put(20l, new Value("Prince"));
+        cache.put(1l, new SimpleValue("Led Zeppelin"));
+        cache.put(2l, new SimpleValue("Deep Purple"));
+        cache.put(3l, new SimpleValue("Jethro Tull"));
+        cache.put(4l, new SimpleValue("Pink Floyd"));
+        cache.put(5l, new SimpleValue("Arctic Monkeys"));
+        cache.put(6l, new SimpleValue("Franz Ferdinand"));
+        cache.put(7l, new SimpleValue("Queen"));
+        cache.put(8l, new SimpleValue("The Police"));
+        cache.put(9l, new SimpleValue("Frank Zappa"));
+        cache.put(10l, new SimpleValue("Dire Straits"));
+        cache.put(11l, new SimpleValue("The Who"));
+        cache.put(12l, new SimpleValue("Van Halen"));
+        cache.put(13l, new SimpleValue("Jimi Hendrix"));
+        cache.put(14l, new SimpleValue("Queens of the Stone Age"));
+        cache.put(15l, new SimpleValue("Pearl Jam"));
+        cache.put(16l, new SimpleValue("U2"));
+        cache.put(17l, new SimpleValue("Lynyrd Skynyrd"));
+        cache.put(18l, new SimpleValue("AC/DC"));
+        cache.put(19l, new SimpleValue("Janis Joplin"));
+        cache.put(20l, new SimpleValue("Prince"));
 
         console.println("Data grid loaded with example values.");
         return true;

@@ -44,6 +44,7 @@
         <module>playground</module>
         <module>dist-exec</module>
         <module>map-reduce</module>
+        <module>perf-test</module>
         <module>jmx-statistics</module>
     </modules>
 

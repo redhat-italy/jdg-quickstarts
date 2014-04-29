@@ -19,6 +19,7 @@ package it.redhat.playground.console.commands;
 
 import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.SimpleValue;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
@@ -45,7 +46,7 @@ public class PutConsoleCommand implements ConsoleCommand {
             Long id = Long.parseLong(args.next());
             String value = args.next();
 
-            cache.put(id, new Value(value));
+            cache.put(id, new SimpleValue(value));
 
             console.println("Written (" + id + "," + value + ")");
         } catch (NumberFormatException e) {
