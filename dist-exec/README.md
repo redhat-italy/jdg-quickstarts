@@ -7,6 +7,8 @@ This module adds a simple Distexec (Distributed Execution) task.
 Build instructions
 ==================
 
+For example to launch four nodes on a single machine just run these commands using different terminals:
+
 ```shell
 
 mvn -P run

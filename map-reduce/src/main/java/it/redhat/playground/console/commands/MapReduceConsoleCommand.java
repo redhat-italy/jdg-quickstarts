@@ -23,13 +23,9 @@ import it.redhat.playground.domain.Value;
 import it.redhat.playground.mapreduce.MapperCountGroup;
 import it.redhat.playground.mapreduce.ReducerCountGroup;
 import org.infinispan.Cache;
-import org.infinispan.distexec.DefaultExecutorService;
-import org.infinispan.distexec.DistributedExecutorService;
-import org.infinispan.distexec.mapreduce.MapReduceManagerFactory;
 import org.infinispan.distexec.mapreduce.MapReduceTask;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
@@ -69,16 +65,16 @@ public class MapReduceConsoleCommand implements ConsoleCommand {
             } catch (ExecutionException e) {
             }
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: count <limit>\nValue for limit has to be a number. In example\ncount 4");
+            throw new IllegalParametersException("Expected usage: count <threshold>\nValue for threshold has to be a number. In example\ncount 4");
         } catch (NoSuchElementException e) {
-            throw new IllegalParametersException("Expected usage: count <limit>");
+            throw new IllegalParametersException("Expected usage: count <threshold>");
         }
         return true;
     }
 
     @Override
     public void usage(TextUI console) {
-        console.println(COMMAND_NAME + " <limit>");
-        console.println("\t\tReturn how many group's names are shorter and longer than the limit");
+        console.println(COMMAND_NAME + " <threshold>");
+        console.println("\t\tReturn how many group's names are shorter/longer than the threshold");
     }
 }

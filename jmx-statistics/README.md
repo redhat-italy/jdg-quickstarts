@@ -7,6 +7,8 @@ This module adds to the global component registry a new service that handle the 
 Build instructions
 ==================
 
+For example to launch four nodes on a single machine just run these commands using different terminals:
+
 ```shell
 
 mvn -P run
