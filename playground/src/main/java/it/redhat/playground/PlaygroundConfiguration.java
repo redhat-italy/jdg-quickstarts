@@ -35,7 +35,7 @@ public class PlaygroundConfiguration {
                 .build();
         Configuration loc = new ConfigurationBuilder().jmxStatistics().enable()
                 .clustering().cacheMode(getCacheMode())
-                .hash().numOwners(2)
+                .hash().numOwners(getNumOwners())
                         //.expiration().lifespan(ENTRY_LIFESPAN)
                 .build();
 
@@ -51,10 +51,14 @@ public class PlaygroundConfiguration {
 
     private CacheMode getCacheMode() {
         try {
-            return CacheMode.valueOf(System.getProperty("playground.cache_mode", ""));
+            return CacheMode.valueOf(System.getProperty("playground.cacheMode", ""));
         } catch (IllegalArgumentException e) {
             return CacheMode.DIST_SYNC;
         }
+    }
+
+    private int getNumOwners() {
+        return Integer.valueOf(System.getProperty("playground.numOwners", "2"));
     }
 
     public final void start() {
