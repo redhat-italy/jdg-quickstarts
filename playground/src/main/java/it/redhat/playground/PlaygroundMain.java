@@ -15,26 +15,20 @@
  * limitations under the License.
  */
 
-package it.redhat.playground.domain;
+package it.redhat.playground;
 
-import java.io.Serializable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class Value implements Serializable {
+import java.io.IOException;
 
-    public Value(String val) {
-      this.val = val;
+public class PlaygroundMain {
+
+    public static void main(String[] args) throws IOException {
+        new PlaygroundConfiguration()
+                .configure()
+                .start();
     }
 
-    public Value setVal(String val) {
-        this.val = val;
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return val;
-    }
-
-    private String val;
-
+    private static Logger log = LoggerFactory.getLogger(PlaygroundMain.class.getName());
 }

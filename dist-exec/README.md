@@ -1,4 +1,4 @@
-JDG-playground
+JDG-dist-exec
 ==============
 
 A small project to learn and explore Jboss Data Grid (Infinispan)
@@ -85,6 +85,9 @@ clear
 
 info
      Information on cache.
+
+rotate n
+     Apply a rotate n on String values with a Distributed Executor
 
 routing
      Print routing table.

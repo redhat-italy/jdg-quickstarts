@@ -1,20 +1,3 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
- * this work for additional information regarding copyright ownership.
- * The ASF licenses this file to You under the Apache License, Version 2.0
- * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package it.redhat.playground;
 
 import it.redhat.playground.console.TextUI;
@@ -31,10 +14,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-public class Main {
+public class PlaygroundConfiguration {
 
-    public static void main(String[] args) throws IOException {
+    private final static Logger log = LoggerFactory.getLogger(PlaygroundConfiguration.class);
+
+    protected DefaultCacheManager manager;
+    protected Cache<Long, Value> cache;
+
+    private TextUI textUI;
+
+    public final PlaygroundConfiguration configure() {
         banner();
 
         GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault() // Builds a default clustered
@@ -50,27 +43,40 @@ public class Main {
                         // the lifespan parameter) and are removed from the cacheManager (cluster-wide).
                 .build();
 
-        DefaultCacheManager manager = new DefaultCacheManager(glob, loc, true);
-        Cache<Long, Value> cache = manager.getCache();
+        manager = new DefaultCacheManager(glob, loc, true);
+        cache = manager.getCache();
 
-        new TextUI(System.in, System.out)
-                .register(new ClearConsoleCommand(manager))
-                .register(new GetConsoleCommand(cache))
-                .register(new HelpConsoleCommand())
-                .register(new InfoConsoleCommand(manager))
-                .register(new LoadTestConsoleCommand(cache))
-                .register(new LocalConsoleCommand(cache))
-                .register(new LocateConsoleCommand(cache))
-                .register(new PutIfAbsentConsoleCommand(cache))
-                .register(new PrimaryConsoleCommand(cache))
-                .register(new PutConsoleCommand(cache))
-                .register(new QuitConsoleCommand(manager))
-                .register(new RotateConsoleCommand(cache))
-                .register(new RoutingConsoleCommand(cache))
-                .start();
+        textUI = new TextUI(System.in, System.out);
+        for (ConsoleCommand command : baseCommands()) {
+            textUI.register(command);
+        }
+        return this;
     }
 
-    private static void banner() {
+    public final void start() {
+        try {
+            textUI.start();
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    protected List<ConsoleCommand> baseCommands() {
+        return Arrays.asList(new ClearConsoleCommand(manager),
+                new GetConsoleCommand(cache),
+                new HelpConsoleCommand(),
+                new InfoConsoleCommand(manager),
+                new LoadTestConsoleCommand(cache),
+                new LocalConsoleCommand(cache),
+                new LocateConsoleCommand(cache),
+                new PutIfAbsentConsoleCommand(cache),
+                new PrimaryConsoleCommand(cache),
+                new PutConsoleCommand(cache),
+                new QuitConsoleCommand(manager),
+                new RoutingConsoleCommand(cache));
+    }
+
+    protected void banner() {
         System.out.println("---------------------------------------");
         System.out.println("           JDG Testing CLI");
         System.out.println("            written by uL");
@@ -78,5 +84,4 @@ public class Main {
         System.out.println();
     }
 
-    private static Logger log = LoggerFactory.getLogger(Main.class.getName());
 }

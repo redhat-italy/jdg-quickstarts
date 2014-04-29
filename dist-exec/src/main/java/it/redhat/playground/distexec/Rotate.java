@@ -37,7 +37,6 @@ public class Rotate implements DistributedCallable, Serializable {
         this.cache = cache;
     }
 
-
     @Override
     public Set<Value> call() throws Exception {
 
@@ -45,14 +44,28 @@ public class Rotate implements DistributedCallable, Serializable {
         Set<Value> result = new HashSet<Value>();
 
         for (long key : keys) {
-
             if (JDG.checkIfCacheIsPrimaryFor(cache, key)) {
-                Value v = cache.get(key);
-                result.add(v.rotate(shift));
+                Value v = rotate(cache.get(key));
+                cache.put(key, v);
+                result.add(v);
             }
-
         }
         return result;
+    }
+
+    public Value rotate(Value v) {
+        shift = shift % 26 + 26;
+        StringBuilder encoded = new StringBuilder();
+        for (char i : v.toString().toLowerCase().toCharArray()) {
+            if (Character.isLetter(i)) {
+                int j = (i - 'a' + shift) % 26;
+                encoded.append((char) (j + 'a'));
+            } else {
+                encoded.append(i);
+            }
+        }
+        return new Value(encoded.toString());
+
     }
 
     private transient Cache<Long, Value> cache;
