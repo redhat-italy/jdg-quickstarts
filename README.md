@@ -56,12 +56,16 @@ mvn -P run
 Or on four different machines:
 
 ```shell
+cd playground
 mvn -P run -Djgroups.bind_addr=ip1
 
+cd playground
 mvn -P run -Djgroups.bind_addr=ip2
 
+cd playground
 mvn -P run -Djgroups.bind_addr=ip3
 
+cd playground
 mvn -P run -Djgroups.bind_addr=ip4
 ```
 
