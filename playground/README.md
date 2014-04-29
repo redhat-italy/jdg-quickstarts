@@ -28,7 +28,7 @@ Build the code
 --------------
 
 After installing the repositories, you just have to clone the code and run some nodes.
-For example to launch four nodes on a single machine (or four different machines) just run these commands using different terminals:
+For example to launch four nodes on a single machine just run these commands using different terminals:
 
 ```shell
 mvn -P run-node
@@ -38,6 +38,18 @@ mvn -P run-node
 mvn -P run-node
 
 mvn -P run-node
+```
+
+Or on four different machines:
+
+```shell
+mvn -P run-node -Djgroups.bind_addr=ip1
+
+mvn -P run-node -Djgroups.bind_addr=ip2
+
+mvn -P run-node -Djgroups.bind_addr=ip3
+
+mvn -P run-node -Djgroups.bind_addr=ip4
 ```
 
 Usage
