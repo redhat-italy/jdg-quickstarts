@@ -29,17 +29,14 @@ public class PlaygroundConfiguration {
     public final PlaygroundConfiguration configure() {
         banner();
 
-        GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault() // Builds a default clustered
-                // configuration
-                .transport().addProperty("configurationFile", "jgroups-udp.xml") // provide a specific JGroups configuration
-                .globalJmxStatistics().allowDuplicateDomains(true).enable() // This method enables the jmx statistics of
-                        // the global configuration and allows for duplicate JMX domains
-                .build(); // Builds the GlobalConfiguration object
-        Configuration loc = new ConfigurationBuilder().jmxStatistics().enable() // Enable JMX statistics
-                .clustering().cacheMode(getCacheMode()) // Set Cache mode to DISTRIBUTED with SYNCHRONOUS replication
-                .hash().numOwners(2) // Keeps two copies of each key/value pair
-                        //.expiration().lifespan(ENTRY_LIFESPAN) // Set expiration - cacheManager entries expire after some time (given by
-                        // the lifespan parameter) and are removed from the cacheManager (cluster-wide).
+        GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault()
+                .transport().addProperty("configurationFile", "jgroups-udp.xml")
+                .globalJmxStatistics().allowDuplicateDomains(true).enable()
+                .build();
+        Configuration loc = new ConfigurationBuilder().jmxStatistics().enable()
+                .clustering().cacheMode(getCacheMode())
+                .hash().numOwners(2)
+                        //.expiration().lifespan(ENTRY_LIFESPAN)
                 .build();
 
         manager = new DefaultCacheManager(glob, loc, true);
@@ -85,7 +82,7 @@ public class PlaygroundConfiguration {
 
     protected void banner() {
         System.out.println("---------------------------------------");
-        System.out.println("           JDG Playgroud CLI");
+        System.out.println("           JDG Playground CLI");
         System.out.println("---------------------------------------");
         System.out.println();
     }
