@@ -61,7 +61,7 @@ public class Main {
                 .register(new LoadTestConsoleCommand(cache))
                 .register(new LocalConsoleCommand(cache))
                 .register(new LocateConsoleCommand(cache))
-                .register(new ModifyConsoleCommand(cache))
+                .register(new PutIfAbsentConsoleCommand(cache))
                 .register(new PrimaryConsoleCommand(cache))
                 .register(new PutConsoleCommand(cache))
                 .register(new QuitConsoleCommand(manager))

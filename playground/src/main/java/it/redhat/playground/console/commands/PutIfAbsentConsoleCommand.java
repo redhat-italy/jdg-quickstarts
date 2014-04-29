@@ -25,12 +25,12 @@ import org.infinispan.Cache;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class ModifyConsoleCommand implements ConsoleCommand {
+public class PutIfAbsentConsoleCommand implements ConsoleCommand {
 
-    private static final String COMMAND_NAME = "modify";
+    private static final String COMMAND_NAME = "putIfAbsent|putifabsent|pia";
     private final Cache<Long, Value> cache;
 
-    public ModifyConsoleCommand(Cache<Long, Value> cache) {
+    public PutIfAbsentConsoleCommand(Cache<Long, Value> cache) {
         this.cache = cache;
     }
 
@@ -43,16 +43,19 @@ public class ModifyConsoleCommand implements ConsoleCommand {
     public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Long id = Long.parseLong(args.next());
-            String newValue = args.next();
 
-            Value value = cache.get(id);
-            value.setVal(newValue);
+            Value newValue = new Value(args.next());
 
-            console.println("Written (" + id + "," + newValue + ")");
+            Value value = cache.putIfAbsent(id, newValue);
+            if (value == null) {
+                console.println("Written (" + id + "," + newValue + ")");
+            } else {
+                console.println("Already associated (" + id + "," + value + ")");
+            }
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: modify <key> <value>\nValue for key has to be a number. In example\nmodify 10 test");
+            throw new IllegalParametersException("Expected usage: putIfAbsent <key> <value>\nValue for key has to be a number. In example\nputIfAbsent 10 test");
         } catch (NoSuchElementException e) {
-            throw new IllegalParametersException("Expected usage: modify <key> <value>");
+            throw new IllegalParametersException("Expected usage: putIfAbsent <key> <value>");
         }
         return true;
     }
