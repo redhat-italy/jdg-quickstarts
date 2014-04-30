@@ -130,6 +130,45 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>perf-test-repl</id>
+            <build>
+                <defaultGoal>install</defaultGoal>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2.1</version>
+                        <executions>
+                            <execution>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>java</executable>
+                                    <arguments>
+                                        <argument>-server</argument>
+                                        <argument>-Xms4096m</argument>
+                                        <argument>-Xmx4096m</argument>
+                                        <argument>-XX:MaxPermSize=512m</argument>
+                                        <argument>-XX:NewRatio=3</argument>
+                                        <argument>-XX:+UseConcMarkSweepGC</argument>
+                                        <argument>-XX:+UseParNewGC</argument>
+                                        <argument>-Dplayground.cacheMode=REPL_SYNC</argument>
+                                        <argument>-classpath</argument>
+                                        <classpath/>
+                                        <argument>it.redhat.playground.PerfTestMain</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 </project>
