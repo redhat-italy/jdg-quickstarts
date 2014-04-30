@@ -18,15 +18,13 @@
 package it.redhat.playground.console;
 
 import it.redhat.playground.console.commands.ConsoleCommand;
+import it.redhat.playground.console.support.ConsoleCommandComparator;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class TextUI {
@@ -91,8 +89,11 @@ public class TextUI {
     }
 
     public void printUsage() {
+        TreeSet<ConsoleCommand> orderedSet = new TreeSet<ConsoleCommand>(new ConsoleCommandComparator());
+        orderedSet.addAll(commands.values());
+
         out.println("Commands:");
-        for(ConsoleCommand command : commands.values()) {
+        for(ConsoleCommand command : orderedSet) {
             command.usage(this);
         }
     }
