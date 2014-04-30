@@ -26,6 +26,11 @@ public class LargeValue implements Value {
     public static final int MAX_VISIBLE_LENGTH = 20;
     private byte[] data;
 
+    public LargeValue(byte[] seed, LargeValue v) {
+        this.data = new byte[v.data.length];
+        System.arraycopy(v.data, 0, this.data, 0, v.data.length);
+        System.arraycopy(seed, 0, this.data, 0, seed.length);
+    }
     public LargeValue(String seed, int size) {
         ByteArrayOutputStream bos = new ByteArrayOutputStream(size);
         try {
