@@ -44,6 +44,7 @@ public class LocalConsoleCommand implements ConsoleCommand {
         for(String key : JDG.valuesFromKeys(cache)) {
             console.println(key);
         }
+        console.println("Cache Size: " + cache.size() + "\n");
         return true;
     }
 
