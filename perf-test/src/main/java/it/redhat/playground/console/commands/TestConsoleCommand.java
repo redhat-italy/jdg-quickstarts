@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -54,13 +54,12 @@ public class TestConsoleCommand implements ConsoleCommand {
         testDuration = 0;
         long warmupStartTime = System.nanoTime();
         console.println(String.format("%tT - Warm up", Calendar.getInstance()));
-//        LargeValue[] values = warmup(10, maxCounter < Long.MAX_VALUE ? (int) maxCounter : 1000, (int) size);
         warmup(10, maxCounter < Long.MAX_VALUE ? (int) maxCounter : 1000, (int) size);
         warmupDuration = System.nanoTime() - warmupStartTime;
         console.println(String.format("%tT - End warm up. Duration %d in millis", Calendar.getInstance(), warmupDuration / DIVIDER_NANO_TO_MILLIS));
 
         LargeValue master = new LargeValue("data", (int) size);
-        LargeValue value = new LargeValue("data", (int) size);
+        LargeValue value;
         for (int i = 0; i < 100; i++) {
             Timer timer = new Timer(true);
             timer.schedule(new ThroughputStatistics(console), STATISTICS_DELAY, STATISTICS_DELAY);
@@ -76,7 +75,6 @@ public class TestConsoleCommand implements ConsoleCommand {
 
                 counter += 1;
                 cache.put(counter, value);
-//                cache.put(counter, values[((int) (counter % values.length))]);
 
                 long nanoSleep = nextOp - System.nanoTime();
                 if ((nanosPerOp > 0) && (nanoSleep > 0)) {
