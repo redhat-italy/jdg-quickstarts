@@ -37,7 +37,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.org.infinispan>6.0.1.Final-redhat-2</version.org.infinispan>
+        <version.org.infinispan>6.0.3.Final-redhat-3</version.org.infinispan>
 
         <version.buildhelper.maven.plugin>1.7</version.buildhelper.maven.plugin>
         <war.plugin.version>2.2</war.plugin.version>

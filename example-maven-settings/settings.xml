@@ -98,7 +98,7 @@
                 <repository>
                     <id>jboss-datagrid-repository</id>
                     <name>JBoss Data Grid Maven Repository</name>
-                    <url>file:///opt/jboss-datagrid-6.2.0-maven-repository/</url>
+                    <url>file:///opt/jboss-datagrid-6.2.1-maven-repository/</url>
                     <layout>default</layout>
                     <releases>
                         <enabled>true</enabled>
@@ -128,7 +128,7 @@
                 <pluginRepository>
                     <id>jboss-datagrid-repository</id>
                     <name>JBoss Data Grid Maven Repository</name>
-                    <url>file:///opt/jboss-datagrid-6.2.0-maven-repository/</url>
+                    <url>file:///opt/jboss-datagrid-6.2.1-maven-repository/</url>
                     <layout>default</layout>
                     <releases>
                         <enabled>true</enabled>
