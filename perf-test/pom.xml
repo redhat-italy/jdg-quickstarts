@@ -188,8 +188,8 @@
                 <playground.cacheMode>DIST_SYNC</playground.cacheMode>
                 <playground.numOwners>2</playground.numOwners>
                 <playground.jgroups.configurationFile>jgroups-udp-aws.xml</playground.jgroups.configurationFile>
-                <jgroups.s3.access_key>AKIAJ56AZU6C7CDTJTGQ</jgroups.s3.access_key>
-                <jgroups.s3.secret_access_key>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</jgroups.s3.secret_access_key>
+                <jgroups.s3.access_key>REMOVED</jgroups.s3.access_key>
+                <jgroups.s3.secret_access_key>REMOVED</jgroups.s3.secret_access_key>
                 <jgroups.s3.bucket>jdg-bucket</jgroups.s3.bucket>
             </properties>
 
