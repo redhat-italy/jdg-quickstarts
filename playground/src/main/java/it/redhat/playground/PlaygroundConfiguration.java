@@ -24,12 +24,15 @@ import org.infinispan.Cache;
 import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
+import org.infinispan.configuration.cache.HashConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.persistence.leveldb.configuration.LevelDBStoreConfigurationBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -50,11 +53,14 @@ public class PlaygroundConfiguration {
                 .transport().addProperty("configurationFile", "jgroups-udp.xml")
                 .globalJmxStatistics().allowDuplicateDomains(true).enable()
                 .build();
-        Configuration loc = new ConfigurationBuilder().jmxStatistics().enable()
-                .clustering().cacheMode(getCacheMode())
-                .hash().numOwners(getNumOwners())
-                        //.expiration().lifespan(ENTRY_LIFESPAN)
-                .build();
+
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.jmxStatistics().enable();
+        configureCacheMode(configurationBuilder);
+        configureCacheStore(configurationBuilder);
+
+
+        Configuration loc = configurationBuilder.build();
 
         manager = new DefaultCacheManager(glob, loc, true);
         cache = manager.getCache();
@@ -64,6 +70,31 @@ public class PlaygroundConfiguration {
             textUI.register(command);
         }
         return this;
+    }
+
+    private void configureCacheStore(ConfigurationBuilder configurationBuilder) {
+        String location = System.getProperty("playground.levelDB.location");
+        String expiredLocation = System.getProperty("playground.levelDB.expired");
+        if (location == null || expiredLocation == null) {
+            return;
+        }
+
+        configurationBuilder.persistence().passivation(false)
+                .addStore(LevelDBStoreConfigurationBuilder.class)
+                .location(location)
+                .expiredLocation(expiredLocation);
+    }
+
+    private void configureCacheMode(ConfigurationBuilder configurationBuilder) {
+        CacheMode cacheMode = getCacheMode();
+        if (cacheMode.isDistributed()) {
+            configurationBuilder
+                    .clustering().cacheMode(cacheMode)
+                    .hash().numOwners(getNumOwners());
+        } else {
+            configurationBuilder
+                    .clustering().cacheMode(cacheMode);
+        }
     }
 
     private CacheMode getCacheMode() {
