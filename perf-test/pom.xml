@@ -183,6 +183,8 @@
 
         <profile>
             <properties>
+                <playground.levelDB.location/>
+                <playground.levelDB.expired/>
                 <playground.cacheMode>DIST_SYNC</playground.cacheMode>
                 <playground.numOwners>2</playground.numOwners>
                 <playground.jgroups.configurationFile>jgroups-udp-aws.xml</playground.jgroups.configurationFile>
@@ -217,7 +219,7 @@
                                         <argument>-XX:NewRatio=3</argument>
                                         <argument>-XX:+UseConcMarkSweepGC</argument>
                                         <argument>-XX:+UseParNewGC</argument>
-                                        <argument>-XX:+UseLargePages</argument>
+                                        <!--<argument>-XX:+UseLargePages</argument>-->
                                         <argument>-Dplayground.levelDB.location=${playground.levelDB.location}</argument>
                                         <argument>-Dplayground.levelDB.expired=${playground.levelDB.expired}</argument>
                                         <argument>-Dplayground.cacheMode=${playground.cacheMode}</argument>

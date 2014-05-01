@@ -75,7 +75,7 @@ public class PlaygroundConfiguration {
     private void configureCacheStore(ConfigurationBuilder configurationBuilder) {
         String location = System.getProperty("playground.levelDB.location");
         String expiredLocation = System.getProperty("playground.levelDB.expired");
-        if (location == null || expiredLocation == null) {
+        if (location == null || location.isEmpty() || expiredLocation == null || expiredLocation.isEmpty()) {
             return;
         }
 
