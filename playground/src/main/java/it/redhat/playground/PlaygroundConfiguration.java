@@ -50,7 +50,7 @@ public class PlaygroundConfiguration {
         banner();
 
         GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault()
-                .transport().addProperty("configurationFile", "jgroups-udp.xml")
+                .transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configurationFile", "jgroups-udp.xml"))
                 .globalJmxStatistics().allowDuplicateDomains(true).enable()
                 .build();
 
