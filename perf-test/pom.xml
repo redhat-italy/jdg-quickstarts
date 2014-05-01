@@ -183,8 +183,6 @@
 
         <profile>
             <properties>
-                <playground.levelDB.location>${project.build.directory}/location</playground.levelDB.location>
-                <playground.levelDB.expired>${project.build.directory}/expired</playground.levelDB.expired>
                 <playground.cacheMode>DIST_SYNC</playground.cacheMode>
                 <playground.numOwners>2</playground.numOwners>
                 <playground.jgroups.configurationFile>jgroups-udp-aws.xml</playground.jgroups.configurationFile>
