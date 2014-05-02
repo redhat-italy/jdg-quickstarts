@@ -17,6 +17,7 @@
 
 package it.redhat.playground;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.commands.ConsoleCommand;
 import it.redhat.playground.console.commands.MapReduceConsoleCommand;
 

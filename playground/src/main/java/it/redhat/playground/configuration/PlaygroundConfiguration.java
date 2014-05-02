@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package it.redhat.playground;
+package it.redhat.playground.configuration;
 
 import it.redhat.playground.console.TextUI;
 import it.redhat.playground.console.commands.*;
@@ -76,10 +76,19 @@ public class PlaygroundConfiguration {
             return;
         }
 
-        configurationBuilder.persistence().passivation(false)
+        if (log.isDebugEnabled()) {
+            log.debug(String.format("Configure levelDB store location=%s, expired=%s", location, expiredLocation));
+        }
+        LevelDBStoreConfigurationBuilder builder = configurationBuilder.persistence().passivation(false)
                 .addStore(LevelDBStoreConfigurationBuilder.class)
                 .location(location)
                 .expiredLocation(expiredLocation);
+        if (Boolean.valueOf(System.getProperty("playground.levelDB.writeBehind"))) {
+            if (log.isDebugEnabled()) {
+                log.debug("Configure levelDB store with Write-Behind strategy");
+            }
+            builder.async().enable();
+        }
     }
 
     private void configureCacheMode(ConfigurationBuilder configurationBuilder) {

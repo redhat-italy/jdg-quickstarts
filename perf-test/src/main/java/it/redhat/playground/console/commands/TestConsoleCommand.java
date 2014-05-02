@@ -24,6 +24,9 @@ import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
 import java.util.*;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,10 +41,8 @@ public class TestConsoleCommand implements ConsoleCommand {
 
     private final Cache<Long, Value> cache;
 
-    private long counter;
-    private long warmupDuration;
-    private long testDuration;
-    private long totalTestDuration;
+    private AtomicLong counter = new AtomicLong(0);
+    private AtomicLong testDuration = new AtomicLong(0);
 
     public TestConsoleCommand(Cache<Long, Value> cache) {
         this.cache = cache;
@@ -52,22 +53,49 @@ public class TestConsoleCommand implements ConsoleCommand {
         return COMMAND_NAME;
     }
 
-    private void runTest(TextUI console, long duration, long maxCounter, long size) {
+    private class TestTask implements Runnable {
+
+        private long duration;
+        private long maxCounter;
+        private long size;
+
+        private TestTask(long duration, long maxCounter, long size) {
+            this.duration = duration;
+            this.maxCounter = maxCounter;
+            this.size = size;
+        }
+
+        @Override
+        public void run() {
+            LargeValue master = new LargeValue("data", (int) size);
+            LargeValue value;
+            long testStartTime = System.nanoTime();
+            while ((System.nanoTime() - testStartTime) < duration) {
+                long i = counter.incrementAndGet();
+                value = new LargeValue(("" + i).getBytes(), master);
+                cache.put(i % maxCounter, value);
+            }
+            testDuration.addAndGet(System.nanoTime() - testStartTime);
+        }
+    }
+
+    private void runTest(TextUI console, int poolSize, long duration, long maxCounter, long size) {
+        ForkJoinPool pool = new ForkJoinPool(poolSize);
         Timer timer = new Timer(true);
         timer.schedule(new ThroughputStatistics(console), STATISTICS_DELAY, STATISTICS_DELAY);
-
         cache.clear();
-        LargeValue master = new LargeValue("data", (int) size);
-        LargeValue value;
-        long testStartTime = System.nanoTime();
-        while ((System.nanoTime() - testStartTime) < duration) {
-            counter += 1;
-            value = new LargeValue(("" + counter).getBytes(), master);
-            cache.put(counter % maxCounter, value);
+        try {
+            for (int i = 0; i < poolSize; i++) {
+                pool.execute(new TestTask(duration, maxCounter, size));
+            }
+            pool.shutdown();
+            pool.awaitTermination(1, TimeUnit.DAYS);
+        } catch (InterruptedException e) {
+        } finally {
+            timer.cancel();
+            timer.purge();
+            pool.shutdownNow();
         }
-        testDuration += System.nanoTime() - testStartTime;
-        timer.cancel();
-        timer.purge();
     }
 
     @Override
@@ -86,29 +114,35 @@ public class TestConsoleCommand implements ConsoleCommand {
 
             int size = parseSize(args.next());
 
+            int poolSize = 1;
             if (args.hasNext()) {
-                throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size>");
+                poolSize = Integer.parseInt(args.next());
+                console.println(String.format("%tT - Using concurrent strategy with pool size %d", Calendar.getInstance(), poolSize));
+            }
+
+            if (args.hasNext()) {
+                throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size> <poolSize>");
             }
 
             // WARMUP
-            counter = 0;
-            testDuration = 0;
+            counter.set(0);
+            testDuration.set(0);
             console.println(String.format("%tT - Warm up", Calendar.getInstance()));
-            runTest(console, 30 * DIVIDER_NANO_SECONDS, maxObjects, size);
-            console.println(String.format("%tT - Stop warmup. Created %d elements", Calendar.getInstance(), counter));
-            console.println(String.format("%tT - Warmup duration %d in millis", Calendar.getInstance(), testDuration / DIVIDER_NANO_TO_MILLIS));
+            runTest(console, 1, 30 * DIVIDER_NANO_SECONDS, maxObjects, size);
+            console.println(String.format("%tT - Stop warmup. Created %d elements", Calendar.getInstance(), counter.get()));
+            console.println(String.format("%tT - Warmup duration %d in millis", Calendar.getInstance(), testDuration.get() / DIVIDER_NANO_TO_MILLIS));
 
             // TEST
-            counter = 0;
-            testDuration = 0;
+            counter.set(0);
+            testDuration.set(0);
             console.println(String.format("%tT - Started test.", Calendar.getInstance()));
-            runTest(console, duration, maxObjects, size);
-            console.println(String.format("%tT - Stop test. Created %d elements", Calendar.getInstance(), counter));
-            console.println(String.format("%tT - Test duration %d in millis", Calendar.getInstance(), testDuration / DIVIDER_NANO_TO_MILLIS));
+            runTest(console, poolSize, duration, maxObjects, size);
+            console.println(String.format("%tT - Stop test. Created %d elements", Calendar.getInstance(), counter.get()));
+            console.println(String.format("%tT - Test duration %d in millis", Calendar.getInstance(), testDuration.get() / DIVIDER_NANO_TO_MILLIS));
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size>");
+            throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size> <poolSize>");
         } catch (NoSuchElementException e) {
-            throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size>");
+            throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size> <poolSize>");
         }
 
         return true;
@@ -131,14 +165,14 @@ public class TestConsoleCommand implements ConsoleCommand {
                 }
             }
         } else {
-            throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size>");
+            throw new IllegalParametersException("Expected usage: test <duration> <maxobjects> <size> <poolSize>");
         }
         return size;
     }
 
     private long parseDuration(String text) throws IllegalParametersException {
         Matcher durationMatcher = Pattern.compile(REGEXP_DURATION).matcher(text);
-        if(durationMatcher.matches()) {
+        if (durationMatcher.matches()) {
             long duration = Long.parseLong(durationMatcher.group(1));
             switch (durationMatcher.group(2).charAt(0)) {
                 case 'h':
@@ -158,7 +192,7 @@ public class TestConsoleCommand implements ConsoleCommand {
 
     @Override
     public void usage(TextUI console) {
-        console.println(COMMAND_NAME + " <duration> <maxobjects> <size> <rate>");
+        console.println(COMMAND_NAME + " <duration> <maxobjects> <size> <poolSize>");
         console.println("\t\tduration format is a number followed by a flag choose between s (seconds), m (minutes), h (hours)");
         console.println("\t\tmaxobjects format is a number");
         console.println("\t\tIf you've used a duration, this command will start a load test of indicated <duration> using values of <size> bytes long.");
@@ -173,14 +207,14 @@ public class TestConsoleCommand implements ConsoleCommand {
         public ThroughputStatistics(TextUI console) {
             this.console = console;
             this.lastStatistics = System.nanoTime();
-            this.lastCounter = counter;
+            this.lastCounter = counter.get();
         }
 
         @Override
         public void run() {
             long elapsed = (System.nanoTime() - lastStatistics);
             if (elapsed > 0) {
-                long objectCounter = counter - lastCounter;
+                long objectCounter = counter.get() - lastCounter;
 
                 console.println(String.format("%tT - Throughput %d object/s, for a total of %d in %d millis",
                         Calendar.getInstance(),
@@ -188,7 +222,7 @@ public class TestConsoleCommand implements ConsoleCommand {
                         objectCounter,
                         elapsed / DIVIDER_NANO_TO_MILLIS));
 
-                lastCounter = counter;
+                lastCounter = counter.get();
                 lastStatistics = System.nanoTime();
             }
         }

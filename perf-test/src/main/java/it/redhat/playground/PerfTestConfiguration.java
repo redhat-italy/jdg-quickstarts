@@ -17,10 +17,8 @@
 
 package it.redhat.playground;
 
-import it.redhat.playground.console.commands.ConsoleCommand;
-import it.redhat.playground.console.commands.SPutConsoleCommand;
-import it.redhat.playground.console.commands.SizeConsoleCommand;
-import it.redhat.playground.console.commands.TestConsoleCommand;
+import it.redhat.playground.configuration.PlaygroundConfiguration;
+import it.redhat.playground.console.commands.*;
 
 import java.util.ArrayList;
 import java.util.List;

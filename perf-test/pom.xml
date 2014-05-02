@@ -94,6 +94,14 @@
         </profile>
 
         <profile>
+            <properties>
+                <playground.levelDB.location/>
+                <playground.levelDB.expired/>
+                <playground.levelDB.writeBehind>FALSE</playground.levelDB.writeBehind>
+                <playground.cacheMode>DIST_SYNC</playground.cacheMode>
+                <playground.numOwners>2</playground.numOwners>
+            </properties>
+
             <id>perf-test</id>
             <build>
                 <defaultGoal>install</defaultGoal>
@@ -119,6 +127,11 @@
                                         <argument>-XX:NewRatio=3</argument>
                                         <argument>-XX:+UseConcMarkSweepGC</argument>
                                         <argument>-XX:+UseParNewGC</argument>
+                                        <argument>-Dplayground.levelDB.location=${playground.levelDB.location}</argument>
+                                        <argument>-Dplayground.levelDB.expired=${playground.levelDB.expired}</argument>
+                                        <argument>-Dplayground.levelDB.writeBehind=${playground.levelDB.writeBehind}</argument>
+                                        <argument>-Dplayground.cacheMode=${playground.cacheMode}</argument>
+                                        <argument>-Dplayground.numOwners=${playground.numOwners}</argument>
                                         <argument>-classpath</argument>
                                         <classpath/>
                                         <argument>it.redhat.playground.PerfTestMain</argument>
@@ -133,8 +146,9 @@
 
         <profile>
             <properties>
-                <playground.levelDB.location>${project.build.directory}/location</playground.levelDB.location>
-                <playground.levelDB.expired>${project.build.directory}/expired</playground.levelDB.expired>
+                <playground.levelDB.location/>
+                <playground.levelDB.expired/>
+                <playground.levelDB.writeBehind>FALSE</playground.levelDB.writeBehind>
                 <playground.cacheMode>DIST_SYNC</playground.cacheMode>
                 <playground.numOwners>2</playground.numOwners>
             </properties>
@@ -167,6 +181,7 @@
                                         <argument>-XX:+UseParNewGC</argument>
                                         <argument>-Dplayground.levelDB.location=${playground.levelDB.location}</argument>
                                         <argument>-Dplayground.levelDB.expired=${playground.levelDB.expired}</argument>
+                                        <argument>-Dplayground.levelDB.writeBehind=${playground.levelDB.writeBehind}</argument>
                                         <argument>-Dplayground.cacheMode=${playground.cacheMode}</argument>
                                         <argument>-Dplayground.numOwners=${playground.numOwners}</argument>
                                         <argument>-classpath</argument>
@@ -185,6 +200,7 @@
             <properties>
                 <playground.levelDB.location/>
                 <playground.levelDB.expired/>
+                <playground.levelDB.writeBehind>FALSE</playground.levelDB.writeBehind>
                 <playground.cacheMode>DIST_SYNC</playground.cacheMode>
                 <playground.numOwners>2</playground.numOwners>
                 <playground.jgroups.configurationFile>jgroups-udp-aws.xml</playground.jgroups.configurationFile>
@@ -222,51 +238,13 @@
                                         <argument>-XX:+UseLargePages</argument>
                                         <argument>-Dplayground.levelDB.location=${playground.levelDB.location}</argument>
                                         <argument>-Dplayground.levelDB.expired=${playground.levelDB.expired}</argument>
+                                        <argument>-Dplayground.levelDB.writeBehind=${playground.levelDB.writeBehind}</argument>
                                         <argument>-Dplayground.cacheMode=${playground.cacheMode}</argument>
                                         <argument>-Dplayground.numOwners=${playground.numOwners}</argument>
                                         <argument>-Dplayground.jgroups.configurationFile=${playground.jgroups.configurationFile}</argument>
                                         <argument>-Djgroups.s3.access_key=${jgroups.s3.access_key}</argument>
                                         <argument>-Djgroups.s3.secret_access_key=${jgroups.s3.secret_access_key}</argument>
                                         <argument>-Djgroups.s3.bucket=${jgroups.s3.bucket}</argument>
-                                        <argument>-classpath</argument>
-                                        <classpath/>
-                                        <argument>it.redhat.playground.PerfTestMain</argument>
-                                    </arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>perf-test-repl</id>
-            <build>
-                <defaultGoal>install</defaultGoal>
-
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.2.1</version>
-                        <executions>
-                            <execution>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>exec</goal>
-                                </goals>
-                                <configuration>
-                                    <executable>java</executable>
-                                    <arguments>
-                                        <argument>-server</argument>
-                                        <argument>-Xms4096m</argument>
-                                        <argument>-Xmx4096m</argument>
-                                        <argument>-XX:MaxPermSize=512m</argument>
-                                        <argument>-XX:NewRatio=3</argument>
-                                        <argument>-XX:+UseConcMarkSweepGC</argument>
-                                        <argument>-XX:+UseParNewGC</argument>
-                                        <argument>-Dplayground.cacheMode=REPL_SYNC</argument>
                                         <argument>-classpath</argument>
                                         <classpath/>
                                         <argument>it.redhat.playground.PerfTestMain</argument>

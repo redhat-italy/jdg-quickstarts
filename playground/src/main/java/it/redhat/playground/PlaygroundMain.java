@@ -17,6 +17,7 @@
 
 package it.redhat.playground;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
