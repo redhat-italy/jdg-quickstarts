@@ -24,7 +24,6 @@ import org.infinispan.Cache;
 import org.infinispan.configuration.cache.CacheMode;
 import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.configuration.cache.HashConfigurationBuilder;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
@@ -32,7 +31,6 @@ import org.infinispan.persistence.leveldb.configuration.LevelDBStoreConfiguratio
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -58,7 +56,6 @@ public class PlaygroundConfiguration {
         configurationBuilder.jmxStatistics().enable();
         configureCacheMode(configurationBuilder);
         configureCacheStore(configurationBuilder);
-
 
         Configuration loc = configurationBuilder.build();
 
