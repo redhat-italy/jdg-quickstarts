@@ -42,12 +42,12 @@ public class PrimaryConsoleCommand implements ConsoleCommand {
 
     @Override
     public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
-        Set<String> values = JDG.primaryValuesFromKeys(cache);
-        for(String key: values) {
+        Set<String> primaryVals = JDG.primaryValuesFromKeys(cache);
+        for(String key: primaryVals) {
             console.println(key);
         }
         console.println("Cache Size: " + cache.size() +  "\n");
-        console.println("Primary Size: " + values.size() + "\n");
+        console.println("Primary Size: " + primaryVals.size() + "\n");
         return true;
     }
 

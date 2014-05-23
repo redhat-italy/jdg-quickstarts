@@ -42,12 +42,12 @@ public class ReplicaConsoleCommand implements ConsoleCommand {
 
     @Override
     public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
-        Set<String> values = JDG.replicaValuesFromKeys(cache);
-        for(String key: values) {
+        Set<String> replicas = JDG.replicaValuesFromKeys(cache);
+        for(String key: replicas) {
             console.println(key);
         }
         console.println("Cache Size: " + cache.size() +  "\n");
-        console.println("Replica Size: " + values.size() + "\n");
+        console.println("Replica Size: " + replicas.size() + "\n");
         return true;
     }
 
