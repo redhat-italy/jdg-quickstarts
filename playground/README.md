@@ -68,6 +68,9 @@ clear
 info
      Information on cache.
 
+replica
+    List all local valuesFromKeys for which this node is a replica.
+    
 routing
      Print routing table.
 
