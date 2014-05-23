@@ -137,6 +137,7 @@ public class PlaygroundConfiguration {
                 new LocateConsoleCommand(cache),
                 new PutIfAbsentConsoleCommand(cache),
                 new PrimaryConsoleCommand(cache),
+                new ReplicaConsoleCommand(cache),
                 new PutConsoleCommand(cache),
                 new QuitConsoleCommand(manager),
                 new RoutingConsoleCommand(cache));

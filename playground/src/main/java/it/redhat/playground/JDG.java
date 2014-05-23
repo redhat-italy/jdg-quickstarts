@@ -42,23 +42,42 @@ public class JDG {
     }
 
     public static Set<String> valuesFromKeys(Cache<Long, Value> cache) {
-        Set<String> values = new HashSet<String>();
-        for (Long l : cache.keySet()) {
-            values.add(l + "," + cache.get(l));
-        }
-        return values;
+        return valuesFromKeys(cache, Filter.ALL);
     }
 
     public static Set<String> primaryValuesFromKeys(Cache<Long, Value> cache) {
+        return valuesFromKeys(cache, Filter.PRIMARY);
+    }
+
+    public static Set<String> replicaValuesFromKeys(Cache<Long, Value> cache) {
+        return valuesFromKeys(cache, Filter.REPLICA);
+    }
+
+    private static Set<String> valuesFromKeys(Cache<Long, Value> cache, Filter filter) {
         Set<String> values = new HashSet<String>();
+
         for (Long l : cache.keySet()) {
-            if (checkIfCacheIsPrimaryFor(cache, l)) {
-                values.add(l + "," + cache.get(l));
+            switch (filter) {
+                case ALL:
+                    values.add(l + "," + cache.get(l));
+                    break;
+                case PRIMARY:
+                    if (checkIfCacheIsPrimaryFor(cache, l)) {
+                        values.add(l + "," + cache.get(l));
+                    }
+                    break;
+                case REPLICA:
+                    if (!checkIfCacheIsPrimaryFor(cache, l)) {
+                        values.add(l + "," + cache.get(l));
+                    }
+                    break;
             }
         }
         return values;
     }
 
     private static  final Logger log = LoggerFactory.getLogger(JDG.class);
+
+    private static enum Filter {ALL, PRIMARY, REPLICA};
 
 }
