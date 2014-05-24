@@ -74,6 +74,6 @@ public class RotateConsoleCommand implements ConsoleCommand {
     @Override
     public void usage(TextUI console) {
         console.println(COMMAND_NAME + " <offset>");
-        console.println("\t\tGet an object from the grid.");
+        console.println("\t\tRotate every string in the grid by offset.");
     }
 }
