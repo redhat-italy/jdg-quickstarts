@@ -28,6 +28,8 @@ import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalConfigurationBuilder;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.persistence.leveldb.configuration.LevelDBStoreConfigurationBuilder;
+import org.infinispan.transaction.TransactionMode;
+import org.infinispan.transaction.lookup.DummyTransactionManagerLookup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +50,7 @@ public class PlaygroundConfiguration {
         banner();
 
         GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault()
+
                 .transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configurationFile", "jgroups-udp.xml"))
                 .globalJmxStatistics().allowDuplicateDomains(true).enable()
                 .build();
@@ -57,8 +60,8 @@ public class PlaygroundConfiguration {
         configureCacheMode(configurationBuilder);
         configureCacheStore(configurationBuilder);
 
-        Configuration loc = configurationBuilder.build();
-
+        Configuration loc = configurationBuilder.transaction().transactionMode(TransactionMode.TRANSACTIONAL).transactionManagerLookup(new DummyTransactionManagerLookup()).build();
+        assert loc.transaction().transactionMode().isTransactional();
         manager = new DefaultCacheManager(glob, loc, true);
         cache = manager.getCache();
 
