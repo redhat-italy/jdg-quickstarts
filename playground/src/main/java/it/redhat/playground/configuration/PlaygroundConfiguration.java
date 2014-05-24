@@ -61,7 +61,6 @@ public class PlaygroundConfiguration {
         configureCacheStore(configurationBuilder);
 
         Configuration loc = configurationBuilder.transaction().transactionMode(TransactionMode.TRANSACTIONAL).transactionManagerLookup(new DummyTransactionManagerLookup()).build();
-        assert loc.transaction().transactionMode().isTransactional();
         manager = new DefaultCacheManager(glob, loc, true);
         cache = manager.getCache();
 
