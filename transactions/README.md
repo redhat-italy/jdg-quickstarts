@@ -46,6 +46,8 @@ Distexec specific commands
 ```shell
 begin
      Starts a transaction
-end
-     Ends a transaction
+commit
+     Commits a transaction
+rollback
+     Rollbacks a transaction
 ```
