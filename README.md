@@ -35,23 +35,30 @@ This module is useful if you want to know how to expose via JMX your MBeans. See
 Build instructions
 ==================
 
-To build the code you just need Maven and the JDG repositories installed somewhere (for a simple setup, just download the repositories and install them locally on your disk).
+To build the code you just need Maven.
+
+If you want to use the Red Hat supported bits you must also have the JDG maven repositories installed somewhere (for a simple setup, just download the repositories and install them locally on your disk).
+See next section for more details on how to reference the local maven repos.
+
 You *won't* need to install the JDG server, as this example is engineered to run in Library mode.
 
 Install the Maven repositories
 ------------------------------
 
-Installing [JDG 6.2.1 maven repository](https://access.redhat.com/jbossnetwork/restricted/softwareDetail.html?softwareId=29093&product=data.grid&version=6.2.1&downloadType=distributions),
-which depends by the [EAP 6.1.1 Maven repository](https://access.redhat.com/jbossnetwork/restricted/softwareDetail.html?softwareId=24173&product=appplatform&version=6.1.1&downloadType=distributions), is the first step.
+Please note that if you want to use just the Open Source bits, you can completely skip this step.
+If you want to use the Red Hat supported bits, you must install JDG repos and edit the <version.org.infinispan> attribute in POM.xml.
 
-You'll find detailed instructions on how to install the Maven repositories in the JDG 6.2 [Getting Started Guide] (https://access.redhat.com/site/documentation/en-US/Red_Hat_JBoss_Data_Grid/6.2/html-single/Getting_Started_Guide/index.html#chap-Install_and_Use_the_Maven_Repositories)
+Installing [JDG 6.3.2 maven repository](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=34433),
+which depends by the [EAP 6.2.4 Maven repository](https://access.redhat.com/jbossnetwork/restricted/softwareDetail.html?softwareId=30633&product=appplatform&version=6.2.0&downloadType=patches), is the first step.
+
+You'll find detailed instructions on how to install the Maven repositories in the JDG 6.3 [Getting Started Guide] (https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Data_Grid/6.3/html/Getting_Started_Guide/chap-Install_and_Use_the_Maven_Repositories.html)
 
 For your reference, you will find an example settings.xml to copy in your .m2 directory in the example-maven-settings directory.
 
 This Maven settings.xml assumes you have unzipped the repositories in the following locations, so edit it accordingly:
 
-* /opt/jboss-datagrid-6.2.1-maven-repository/
-* /opt/jboss-eap-6.1.1.GA-maven-repository
+* /opt/jboss-datagrid-6.3.2-maven-repository/
+* /opt/jboss-eap-6.2.4.GA-maven-repository
 
 Build the code
 --------------

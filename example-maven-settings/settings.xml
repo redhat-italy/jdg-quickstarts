@@ -26,7 +26,7 @@
             <repositories>
                 <repository>
                     <id>jboss-eap-repository</id>
-                    <url>file:///opt/jboss-eap-6.1.1.GA-maven-repository</url>
+                    <url>file:///opt/jboss-eap-6.2.4.GA-maven-repository</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -38,7 +38,7 @@
             <pluginRepositories>
                 <pluginRepository>
                     <id>jboss-eap-plugin-repository</id>
-                    <url>file:///opt/jboss-eap-6.1.1.GA-maven-repository</url>
+                    <url>file:///opt/jboss-eap-6.2.4.GA-maven-repository</url>
                     <releases>
                         <enabled>true</enabled>
                     </releases>
@@ -98,7 +98,7 @@
                 <repository>
                     <id>jboss-datagrid-repository</id>
                     <name>JBoss Data Grid Maven Repository</name>
-                    <url>file:///opt/jboss-datagrid-6.2.1-maven-repository/</url>
+                    <url>file:///opt/jboss-datagrid-6.3.2-maven-repository/</url>
                     <layout>default</layout>
                     <releases>
                         <enabled>true</enabled>
@@ -128,7 +128,7 @@
                 <pluginRepository>
                     <id>jboss-datagrid-repository</id>
                     <name>JBoss Data Grid Maven Repository</name>
-                    <url>file:///opt/jboss-datagrid-6.2.1-maven-repository/</url>
+                    <url>file:///opt/jboss-datagrid-6.3.2-maven-repository/</url>
                     <layout>default</layout>
                     <releases>
                         <enabled>true</enabled>
