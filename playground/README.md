@@ -10,17 +10,14 @@ Build instructions
 For example to launch four nodes on a single machine just run these commands using different terminals:
 
 ```shell
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -Djava.net.preferIPv4Stack=true -P run
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -Djava.net.preferIPv4Stack=true -P run
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -Djava.net.preferIPv4Stack=true -P run
-
-mvn -Djava.net.preferIPv4Stack=true -P run
+mvn -P run -Djgroups.bind_addr=localhost
 ```
-
-Using -Djava.net.preferIPv4Stack=true makes the example easier to work with if your IPv6 stack isn't correctly configured.
 
 Or on four different machines:
 
