@@ -43,6 +43,10 @@ Every node will have its own command line interface "attached", which you can us
 Type 'help' on the command line to show a list of commands:
 
 ```shell
+
+all
+     List all valuesFromKeys.
+
 get id
      Get an object from the grid.
 
