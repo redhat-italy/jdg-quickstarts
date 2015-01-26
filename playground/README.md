@@ -11,14 +11,16 @@ For example to launch four nodes on a single machine just run these commands usi
 
 ```shell
 
-mvn -P run
+mvn -Djava.net.preferIPv4Stack=true -P run
 
-mvn -P run
+mvn -Djava.net.preferIPv4Stack=true -P run
 
-mvn -P run
+mvn -Djava.net.preferIPv4Stack=true -P run
 
-mvn -P run
+mvn -Djava.net.preferIPv4Stack=true -P run
 ```
+
+Using -Djava.net.preferIPv4Stack=true makes the example easier to work with if your IPv6 stack isn't correctly configured.
 
 Or on four different machines:
 
