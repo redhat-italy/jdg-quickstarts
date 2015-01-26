@@ -136,6 +136,7 @@ public class PlaygroundConfiguration {
                 new HelpConsoleCommand(),
                 new InfoConsoleCommand(manager),
                 new LoadTestConsoleCommand(cache),
+                new AllConsoleCommand(cache),
                 new LocalConsoleCommand(cache),
                 new LocateConsoleCommand(cache),
                 new PutIfAbsentConsoleCommand(cache),

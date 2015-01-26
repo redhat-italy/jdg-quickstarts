@@ -41,8 +41,20 @@ public class JDG {
         return cache.getAdvancedCache().getDistributionManager().getPrimaryLocation(key).equals(cache.getCacheManager().getAddress());
     }
 
+    public static boolean checkIfKeyIsLocalInCache(Cache<Long, Value> cache, long key) {
+        return cache.getAdvancedCache().getDistributionManager().getLocality(key).isLocal();
+    }
+
+    public static boolean checkIfCacheIsSecondaryFor(Cache<Long, Value> cache, long key) {
+        return !checkIfCacheIsPrimaryFor(cache, key) && checkIfKeyIsLocalInCache(cache, key);
+    }
+
     public static Set<String> valuesFromKeys(Cache<Long, Value> cache) {
         return valuesFromKeys(cache, Filter.ALL);
+    }
+
+    public static Set<String> localValuesFromKeys(Cache<Long, Value> cache) {
+        return valuesFromKeys(cache, Filter.LOCAL);
     }
 
     public static Set<String> primaryValuesFromKeys(Cache<Long, Value> cache) {
@@ -61,13 +73,18 @@ public class JDG {
                 case ALL:
                     values.add(l + "," + cache.get(l));
                     break;
+                case LOCAL:
+                    if (checkIfKeyIsLocalInCache(cache, l)) {
+                        values.add(l + "," + cache.get(l));
+                    }
+                    break;
                 case PRIMARY:
                     if (checkIfCacheIsPrimaryFor(cache, l)) {
                         values.add(l + "," + cache.get(l));
                     }
                     break;
                 case REPLICA:
-                    if (!checkIfCacheIsPrimaryFor(cache, l)) {
+                    if (checkIfCacheIsSecondaryFor(cache, l)) {
                         values.add(l + "," + cache.get(l));
                     }
                     break;
@@ -78,6 +95,6 @@ public class JDG {
 
     private static  final Logger log = LoggerFactory.getLogger(JDG.class);
 
-    private static enum Filter {ALL, PRIMARY, REPLICA};
+    private static enum Filter {ALL, LOCAL, PRIMARY, REPLICA};
 
 }

@@ -1,12 +1,12 @@
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,14 +24,13 @@ import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
 import java.util.Iterator;
-import java.util.Set;
 
-public class LocalConsoleCommand implements ConsoleCommand {
+public class AllConsoleCommand implements ConsoleCommand {
 
-    private static final String COMMAND_NAME = "local";
+    private static final String COMMAND_NAME = "all";
     private final Cache<Long, Value> cache;
 
-    public LocalConsoleCommand(Cache<Long, Value> cache) {
+    public AllConsoleCommand(Cache<Long, Value> cache) {
         this.cache = cache;
     }
 
@@ -42,19 +41,16 @@ public class LocalConsoleCommand implements ConsoleCommand {
 
     @Override
     public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
-        Set<String> local = JDG.localValuesFromKeys(cache);
-        for(String key : local) {
+        for(String key : JDG.valuesFromKeys(cache)) {
             console.println(key);
         }
         console.println("Cache Size: " + cache.size() + "\n");
-        console.println("Local Size: " + local.size() + "\n");
-
         return true;
     }
 
     @Override
     public void usage(TextUI console) {
         console.println(COMMAND_NAME);
-        console.println("\t\tList all local valuesFromKeys.");
+        console.println("\t\tList all valuesFromKeys.");
     }
 }
