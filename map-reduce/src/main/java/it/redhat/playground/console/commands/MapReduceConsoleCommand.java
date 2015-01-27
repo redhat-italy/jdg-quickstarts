@@ -61,8 +61,8 @@ public class MapReduceConsoleCommand implements ConsoleCommand {
                 for (String key : map.keySet()) {
                     console.println(String.format("\t%s = %d", key, map.get(key)));
                 }
-            } catch (InterruptedException e) {
-            } catch (ExecutionException e) {
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
             }
         } catch (NumberFormatException e) {
             throw new IllegalParametersException("Expected usage: count <threshold>\nValue for threshold has to be a number. In example\ncount 4");

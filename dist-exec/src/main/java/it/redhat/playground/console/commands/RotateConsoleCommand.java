@@ -50,6 +50,8 @@ public class RotateConsoleCommand implements ConsoleCommand {
         try {
             Integer offset = Integer.parseInt(args.next());
 
+            long before = System.currentTimeMillis();
+
             DistributedExecutorService des = new DefaultExecutorService(cache);
             List<Future> results = des.submitEverywhere(new Rotate(offset));
 
@@ -57,12 +59,13 @@ public class RotateConsoleCommand implements ConsoleCommand {
             for (Future result : results) {
                 try {
                     console.println(result.get());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
+                } catch (InterruptedException | ExecutionException e) {
                     e.printStackTrace();
                 }
             }
+
+            long after = System.currentTimeMillis();
+            console.println("Total time: " + (after - before));
         } catch (NumberFormatException e) {
             throw new IllegalParametersException("Expected usage: rotate <offset>\nValue for offset has to be a number. In example\nrotate 10");
         } catch (NoSuchElementException e) {
