@@ -10,14 +10,13 @@ Build instructions
 For example to launch four nodes on a single machine just run these commands using different terminals:
 
 ```shell
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -P run
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -P run
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -P run
-
-mvn -P run
+mvn -P run -Djgroups.bind_addr=localhost
 ```
 
 Or on four different machines:

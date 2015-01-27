@@ -77,16 +77,13 @@ To run some nodes, just enter in one of the modules and execute the correct prof
 For example to launch four nodes on a single machine for the basic playground just run these commands using different terminals:
 
 ```shell
+mvn -P run -Djgroups.bind_addr=localhost
 
-cd playground
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -P run
+mvn -P run -Djgroups.bind_addr=localhost
 
-mvn -P run
-
-mvn -P run
-
-mvn -P run
+mvn -P run -Djgroups.bind_addr=localhost
 ```
 
 Or on four different machines:
