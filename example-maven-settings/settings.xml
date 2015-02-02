@@ -1,153 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-<!--
-  ~ Licensed to the Apache Software Foundation (ASF) under one or more
-  ~ contributor license agreements.  See the NOTICE file distributed with
-  ~ this work for additional information regarding copyright ownership.
-  ~ The ASF licenses this file to You under the Apache License, Version 2.0
-  ~ (the "License"); you may not use this file except in compliance with
-  ~ the License.  You may obtain a copy of the License at
-  ~
-  ~      http://www.apache.org/licenses/LICENSE-2.0
-  ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
-  -->
-
-<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-
-    <profiles>
-        <profile>
-            <id>jboss-eap-repository</id>
-            <repositories>
-                <repository>
-                    <id>jboss-eap-repository</id>
-                    <url>file:///opt/jboss-eap-6.2.4.GA-maven-repository</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>jboss-eap-plugin-repository</id>
-                    <url>file:///opt/jboss-eap-6.2.4.GA-maven-repository</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
-
-        <!-- Configure the JBoss Community Maven repository -->
-        <profile>
-            <id>jboss-community-repository</id>
-            <repositories>
-                <repository>
-                    <id>jboss-community-repository</id>
-                    <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>jboss-community-plugin-repository</id>
-                    <url>http://repository.jboss.org/nexus/content/groups/public/</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                    </snapshots>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
-
-        <profile>
-            <id>jboss-datagrid-repository</id>
-            <repositories>
-                <repository>
-                    <id>techpreview-all-repository</id>
-                    <name>Red Hat Enterprise Maven Repository</name>
-                    <url>http://maven.repository.redhat.com/techpreview/all/</url>
-                    <layout>default</layout>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </snapshots>
-                </repository>
-                <repository>
-                    <id>jboss-datagrid-repository</id>
-                    <name>JBoss Data Grid Maven Repository</name>
-                    <url>file:///opt/jboss-datagrid-6.3.2-maven-repository/</url>
-                    <layout>default</layout>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </snapshots>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>techpreview-all-repository</id>
-                    <name>Red Hat Enterprise Maven Repository</name>
-                    <url>http://maven.repository.redhat.com/techpreview/all/</url>
-                    <layout>default</layout>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </snapshots>
-                </pluginRepository>
-                <pluginRepository>
-                    <id>jboss-datagrid-repository</id>
-                    <name>JBoss Data Grid Maven Repository</name>
-                    <url>file:///opt/jboss-datagrid-6.3.2-maven-repository/</url>
-                    <layout>default</layout>
-                    <releases>
-                        <enabled>true</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </releases>
-                    <snapshots>
-                        <enabled>false</enabled>
-                        <updatePolicy>never</updatePolicy>
-                    </snapshots>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
-    </profiles>
-
-    <activeProfiles>
-        <activeProfile>jboss-datagrid-repository</activeProfile>
-        <activeProfile>jboss-eap-repository</activeProfile>
-        <activeProfile>jboss-community-repository</activeProfile>
-    </activeProfiles>
+<profiles>
+    <profile>
+        <id>jboss-datagrid-repository</id>
+        <repositories>
+            <repository>
+                <id>techpreview-all-repository</id>
+                <name>Red Hat Enterprise Maven Repository</name>
+                <url>http://maven.repository.redhat.com/techpreview/all/</url>
+                <layout>default</layout>
+                <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </releases>
+                <snapshots>
+                    <enabled>false</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </snapshots>
+            </repository>
+            <repository>
+                <id>jboss-datagrid-repository</id>
+                <name>JBoss Data Grid Maven Repository</name>
+                <url>file:///opt/jboss-datagrid-maven-repository</url>
+                <layout>default</layout>
+                <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </releases>
+                <snapshots>
+                    <enabled>false</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </snapshots>
+            </repository>
+        </repositories>
+        <pluginRepositories>
+            <pluginRepository>
+                <id>techpreview-all-repository</id>
+                <name>Red Hat Enterprise Maven Repository</name>
+                <url>http://maven.repository.redhat.com/techpreview/all/</url>
+                <layout>default</layout>
+                <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </releases>
+                <snapshots>
+                    <enabled>false</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </snapshots>
+            </pluginRepository>
+            <pluginRepository>
+                <id>jboss-datagrid-repository</id>
+                <name>JBoss Data Grid Maven Repository</name>
+                <url>file:///opt/jboss-datagrid-maven-repository</url>
+                <layout>default</layout>
+                <releases>
+                    <enabled>true</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </releases>
+                <snapshots>
+                    <enabled>false</enabled>
+                    <updatePolicy>never</updatePolicy>
+                </snapshots>
+            </pluginRepository>
+        </pluginRepositories>
+    </profile>
+</profiles>
+<activeProfiles>
+    <!-- make the profile active by default -->
+    <activeProfile>jboss-datagrid-repository</activeProfile>
+</activeProfiles>
 
 </settings>
 

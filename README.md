@@ -48,17 +48,14 @@ Install the Maven repositories
 Please note that if you want to use just the Open Source bits, you can completely skip this step.
 If you want to use the Red Hat supported bits, you must install JDG repos and edit the <version.org.infinispan> attribute in POM.xml.
 
-Installing [JDG 6.3.2 maven repository](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=34433),
-which depends by the [EAP 6.2.4 Maven repository](https://access.redhat.com/jbossnetwork/restricted/softwareDetail.html?softwareId=30633&product=appplatform&version=6.2.0&downloadType=patches), is the first step.
-
-You'll find detailed instructions on how to install the Maven repositories in the JDG 6.3 [Getting Started Guide] (https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Data_Grid/6.3/html/Getting_Started_Guide/chap-Install_and_Use_the_Maven_Repositories.html)
+You'll find detailed instructions on how to install the [JDG 6.4.0 maven repository](https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=35213)
+ in the JDG 6.4 [Getting Started Guide] (https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Data_Grid/6.4/html/Getting_Started_Guide/chap-Install_and_Use_the_Maven_Repositories.html)
 
 For your reference, you will find an example settings.xml to copy in your .m2 directory in the example-maven-settings directory.
 
 This Maven settings.xml assumes you have unzipped the repositories in the following locations, so edit it accordingly:
 
-* /opt/jboss-datagrid-6.3.2-maven-repository/
-* /opt/jboss-eap-6.2.4.GA-maven-repository
+* /opt/jboss-datagrid-maven-repository/
 
 Build the code
 --------------
