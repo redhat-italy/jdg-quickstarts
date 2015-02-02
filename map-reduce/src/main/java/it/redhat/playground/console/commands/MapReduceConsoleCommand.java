@@ -55,6 +55,8 @@ public class MapReduceConsoleCommand implements ConsoleCommand {
                     .reducedWith(new ReducerCountGroup())
                     .executeAsynchronously();
 
+            long before = System.currentTimeMillis();
+
             try {
                 Map<String, Long> map = future.get();
                 console.println("Count results:");
@@ -64,6 +66,10 @@ public class MapReduceConsoleCommand implements ConsoleCommand {
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }
+
+            long after = System.currentTimeMillis();
+            console.println("Total time: " + (after - before));
+
         } catch (NumberFormatException e) {
             throw new IllegalParametersException("Expected usage: count <threshold>\nValue for threshold has to be a number. In example\ncount 4");
         } catch (NoSuchElementException e) {
