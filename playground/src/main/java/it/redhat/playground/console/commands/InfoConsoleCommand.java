@@ -53,6 +53,7 @@ public class InfoConsoleCommand implements ConsoleCommand {
         info.append("Coordinator address: ").append(cacheManager.getCoordinator()).append("\n");
         info.append("Is Coordinator: ").append(cacheManager.isCoordinator()).append("\n");
         info.append("Cluster Name: ").append(cacheManager.getClusterName()).append("\n");
+        info.append("Cluster Size: ").append(cacheManager.getClusterSize()).append("\n");
         info.append("Member list: ").append(cacheManager.getMembers()).append("\n");
         info.append("Cache Name: ").append(cacheManager.getCache()).append("\n");
         info.append("Cache Size: ").append(cacheManager.getCache().size()).append("\n");
