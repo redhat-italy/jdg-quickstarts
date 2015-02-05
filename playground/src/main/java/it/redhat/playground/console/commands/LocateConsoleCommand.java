@@ -25,6 +25,7 @@ import org.infinispan.Cache;
 import org.infinispan.remoting.transport.Address;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class LocateConsoleCommand implements ConsoleCommand {
@@ -47,8 +48,21 @@ public class LocateConsoleCommand implements ConsoleCommand {
             Long id = Long.parseLong(args.next());
 
             console.println("Locate key " + id);
-            for (Address address : JDG.locate(cache, id)) {
-                console.println(address);
+            List<Address> owners = JDG.locate(cache, id);
+            for (int i = 0; i < owners.size(); i++) {
+
+                Address address = owners.get(i);
+                console.print(address);
+
+                if (address.equals(cache.getCacheManager().getAddress())) {
+                    console.print(" *");
+                }
+
+                if (i==0) {
+                    console.println(" (primary)");
+                } else {
+                    console.println();
+                }
             }
         } catch (NumberFormatException e) {
             throw new IllegalParametersException("Expected usage: locate <key>\nValue for key has to be a number. In example\nlocate 10");

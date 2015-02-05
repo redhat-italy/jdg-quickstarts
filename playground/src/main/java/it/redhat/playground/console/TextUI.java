@@ -80,12 +80,24 @@ public class TextUI {
         return true;
     }
 
+    public void print(Object message) {
+        out.print(message);
+    }
+
     public void println(Object message) {
         out.println(message);
     }
 
+    public void print(String message) {
+        out.print(message);
+    }
+
     public void println(String message) {
         out.println(message);
+    }
+
+    public void println() {
+        out.println();
     }
 
     public void printUsage() {
