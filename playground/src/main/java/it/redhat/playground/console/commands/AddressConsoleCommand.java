@@ -47,6 +47,6 @@ public class AddressConsoleCommand implements ConsoleCommand {
     @Override
     public void usage(TextUI console) {
         console.println(COMMAND_NAME);
-        console.println("\t\tAddress of this Cache Manager");
+        console.println("\t\tAddress of this cluster node");
     }
 }
