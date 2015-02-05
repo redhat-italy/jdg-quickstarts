@@ -47,7 +47,7 @@ public class LocateConsoleCommand implements ConsoleCommand {
         try {
             Long id = Long.parseLong(args.next());
 
-            console.println("Locate key " + id);
+            console.println("Locating key " + id);
             List<Address> owners = JDG.locate(cache, id);
             for (int i = 0; i < owners.size(); i++) {
 

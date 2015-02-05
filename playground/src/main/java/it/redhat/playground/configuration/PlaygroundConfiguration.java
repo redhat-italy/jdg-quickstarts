@@ -131,7 +131,9 @@ public class PlaygroundConfiguration {
     }
 
     protected List<ConsoleCommand> baseCommands() {
-        return Arrays.asList(new ClearConsoleCommand(manager),
+        return Arrays.asList(
+                new ClearConsoleCommand(manager),
+                new AddressConsoleCommand(manager),
                 new GetConsoleCommand(cache),
                 new HelpConsoleCommand(),
                 new InfoConsoleCommand(manager),
