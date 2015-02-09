@@ -26,6 +26,7 @@ import org.infinispan.affinity.impl.RndKeyGenerator;
 import org.infinispan.manager.DefaultCacheManager;
 
 import java.util.Iterator;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class KeyConsoleCommand implements ConsoleCommand {
@@ -47,10 +48,12 @@ public class KeyConsoleCommand implements ConsoleCommand {
     public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
 
         Cache cache = cacheManager.getCache();
+        ExecutorService service = Executors.newSingleThreadExecutor();
         KeyAffinityService keyAffinityService = KeyAffinityServiceFactory.newLocalKeyAffinityService(cache, new RndKeyGenerator(),
-                Executors.newSingleThreadExecutor(), 100);
+               service , 100);
         Object localKey = keyAffinityService.getKeyForAddress(cacheManager.getAddress());
         keyAffinityService.stop();
+        service.shutdown();
         console.println(localKey);
         return true;
 
