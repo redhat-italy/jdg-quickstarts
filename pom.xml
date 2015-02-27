@@ -64,6 +64,7 @@
         <module>transactions</module>
         <module>perf-test</module>
         <module>jmx-statistics</module>
+        <module>jdg-web</module>
     </modules>
 
     <dependencyManagement>
