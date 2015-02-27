@@ -9,7 +9,7 @@
 
     <context-param>
         <param-name>resteasy.resources</param-name>
-        <param-value>it.redhat.playground.service.JdgService</param-value>
+        <param-value>it.redhat.playground.rest.JdgService</param-value>
     </context-param>
     <context-param>
         <param-name>javax.ws.rs.core.Application</param-name>
@@ -38,6 +38,12 @@
     <servlet>
         <servlet-name>Resteasy</servlet-name>
         <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>JdgWebServlet</servlet-name>
+        <servlet-class>it.redhat.playground.servlet.JdgWebServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

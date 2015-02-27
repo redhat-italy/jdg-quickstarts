@@ -5,20 +5,22 @@ package it.redhat.playground.bean;
  */
 public class JdgServer {
 
-    private int numberOfEntries;
+    private Long numberOfEntries;
 
     private String serverName;
 
-    public void setServerName(String serverName) {
+    public JdgServer setServerName(String serverName) {
         this.serverName = serverName;
+        return this;
     }
 
-    public int getNumberOfEntries() {
+    public Long getNumberOfEntries() {
         return numberOfEntries;
     }
 
-    public void setNumberOfEntries(int numberOfEntries) {
+    public JdgServer setNumberOfEntries(Long numberOfEntries) {
         this.numberOfEntries = numberOfEntries;
+        return this;
     }
 
     public String getServerName() {

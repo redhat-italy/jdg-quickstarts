@@ -37,7 +37,7 @@ public class JDG {
         return cache.getAdvancedCache().getDistributionManager().getConsistentHash().locateOwners(id);
     }
 
-    public static Address locatePrimary(Cache<Long, Value> cache, long id) {
+    public static Address locatePrimary(Cache<Long, Value> cache, Long id) {
         return cache.getAdvancedCache().getDistributionManager().getConsistentHash().locatePrimaryOwner(id);
     }
 
