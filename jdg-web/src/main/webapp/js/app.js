@@ -32,7 +32,7 @@ app.directive('extendedPieChart', function() {
 });
 
 
-function MainCtrl($scope, $http, $timeout) {
+function MainCtrl($scope, $http, $timeout, $interval) {
 
     $scope.loadPrimary = function() {
         $http.get("/rest/jdg/distprimary").success(
@@ -97,6 +97,30 @@ function MainCtrl($scope, $http, $timeout) {
         return function (d) {
             return d.numberOfEntries;
         };
+    }
+
+    $scope.startTw = function() {
+        $http.post("/rest/jdg/starttw",$scope.hashtag).success(
+            function(data, status, headers, config) {
+                console.log(data)
+            }).
+            error(function(data, status, headers, config) {
+                console.log("ERROR: "+status)
+            });
+        $scope.refreshPriPromise = $interval( function() { $scope.loadPrimary() }, 2000)
+        $scope.refreshAllPromise = $interval( function() { $scope.loadall() }, 2000)
+    }
+
+    $scope.stopTw = function() {
+        $http.get("/rest/jdg/stoptw").success(
+            function(data, status, headers, config) {
+                console.log(data)
+            }).
+            error(function(data, status, headers, config) {
+                console.log("ERROR: "+status)
+            });
+        $interval.cancel($scope.refreshAllPromise)
+        $interval.cancel($scope.refreshPriPromise)
     }
 
     $scope.loadPrimary()

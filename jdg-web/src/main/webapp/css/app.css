@@ -10,3 +10,8 @@ body {
     height: 450px;
 
 }
+
+.twitter-button {
+    margin-left: 33%;
+    width: 150px;
+}
