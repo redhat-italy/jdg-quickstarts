@@ -9,7 +9,7 @@ public class JdgWebConfiguration extends PlaygroundConfiguration {
 
 
     public void saveCache() {
-        ConfigContainer.setCache(this.cache);
+        ConfigContainer.getInstance().setCache(this.cache);
     }
 
 }

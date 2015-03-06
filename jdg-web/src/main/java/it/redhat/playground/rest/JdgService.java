@@ -1,12 +1,11 @@
 package it.redhat.playground.rest;
 
+import it.redhat.playground.application.ApplicationConfig;
 import it.redhat.playground.application.ConfigContainer;
+import it.redhat.playground.application.JdgWebConfiguration;
 import it.redhat.playground.bean.CacheData;
 import it.redhat.playground.bean.JdgEntry;
-import it.redhat.playground.service.CountKeyService;
-import it.redhat.playground.service.LocateAllService;
-import it.redhat.playground.service.LocatePrimaryService;
-import it.redhat.playground.service.PutService;
+import it.redhat.playground.service.*;
 import org.infinispan.remoting.transport.Address;
 
 import javax.ws.rs.*;
@@ -25,7 +24,7 @@ public class JdgService {
     public CacheData getDistributionInfo() {
 
 
-        Map<Address,Long> keyCountMap = CountKeyService.count(ConfigContainer.getCache(),new LocatePrimaryService());
+        Map<Address,Long> keyCountMap = CountKeyService.count(ConfigContainer.getInstance().getCache(),new LocatePrimaryService());
         return CountKeyService.toDTO(keyCountMap);
     }
 
@@ -35,7 +34,7 @@ public class JdgService {
     public CacheData getDistributionAllInfo() {
 
 
-        Map<Address,Long> keyCountMap = CountKeyService.count(ConfigContainer.getCache(),new LocateAllService());
+        Map<Address,Long> keyCountMap = CountKeyService.count(ConfigContainer.getInstance().getCache(), new LocateAllService());
         return CountKeyService.toDTO(keyCountMap);
     }
 
@@ -44,6 +43,19 @@ public class JdgService {
     @Consumes(MediaType.APPLICATION_JSON)
     public void putEntries(List<JdgEntry> entries) {
         PutService.doPut(entries);
+    }
+
+    @POST
+    @Path("/starttw")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void startTw(String hashtag) {
+        TwService.start(hashtag);
+    }
+
+    @GET
+    @Path("/stoptw")
+    public void stopTw() {
+        TwService.stop();
     }
 
 

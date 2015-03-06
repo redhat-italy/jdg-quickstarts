@@ -13,7 +13,7 @@ public class PutService {
     public static void doPut(List<JdgEntry> entries) {
 
         for(JdgEntry entry : entries) {
-            ConfigContainer.getCache().put(entry.getKey(),entry.getValue());
+            ConfigContainer.getInstance().getCache().put(entry.getKey(),entry.getValue());
         }
     }
 }
