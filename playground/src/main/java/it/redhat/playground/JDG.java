@@ -75,21 +75,21 @@ public class JDG {
         for (Long l : cache.keySet()) {
             switch (filter) {
                 case ALL:
-                    values.add(l + "," + cache.get(l));
+                    values.add(l + " " + cache.get(l));
                     break;
                 case LOCAL:
                     if (checkIfKeyIsLocalInCache(cache, l)) {
-                        values.add(l + "," + cache.get(l));
+                        values.add(l + " " + cache.get(l));
                     }
                     break;
                 case PRIMARY:
                     if (checkIfCacheIsPrimaryFor(cache, l)) {
-                        values.add(l + "," + cache.get(l));
+                        values.add(l + " " + cache.get(l));
                     }
                     break;
                 case REPLICA:
                     if (checkIfCacheIsSecondaryFor(cache, l)) {
-                        values.add(l + "," + cache.get(l));
+                        values.add(l + " " + cache.get(l));
                     }
                     break;
             }

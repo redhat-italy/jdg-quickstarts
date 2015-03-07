@@ -59,6 +59,7 @@
 
     <modules>
         <module>playground</module>
+        <module>twitter</module>
         <module>dist-exec</module>
         <module>map-reduce</module>
         <module>transactions</module>
