@@ -55,7 +55,7 @@ public class TwitterService {
         String tokenSecret = System.getProperty("twitter.tokenSecret", "");
 
         Authentication auth = new OAuth1(consumerKey,consumerSecret,token,tokenSecret);
-        
+
         client = new ClientBuilder()
                 .name("JDG #" + hashtag + " client")
                 .hosts(Constants.STREAM_HOST)

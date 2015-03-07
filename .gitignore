@@ -2,6 +2,9 @@
 # General
 ######################
 
+# Secret Twitter OAuth
+runTwitter.sh
+
 # Directories #
 /build/
 /bin/
