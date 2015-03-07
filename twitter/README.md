@@ -35,6 +35,8 @@ Twitter specific commands
 ----------------------------
 
 ```shell
+hashtags
+        List all registered hashtags feeding the grid
 start <hashtag> <timeout>
 		Start feeding the grid with tweets containing the hashtag
 stats <hashtag>

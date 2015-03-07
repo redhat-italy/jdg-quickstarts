@@ -47,6 +47,6 @@ public class TwitterHashtagsCommand implements ConsoleCommand {
     @Override
     public void usage(TextUI console) {
         console.println(COMMAND_NAME);
-        console.println("\t\tList all registered hashtags");
+        console.println("\t\tList all registered hashtags feeding the grid");
     }
 }
