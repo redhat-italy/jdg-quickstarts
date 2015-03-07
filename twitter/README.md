@@ -7,7 +7,7 @@ This module adds Twitter commands to fill the grid with tweets
 Build instructions
 ==================
 
-For example to launch four nodes on a single machine just run these commands using different terminals (or different machines):
+For example to launch four nodes on a single machine just run these commands using different terminals (or on different machines editing the IP):
 
 ```shell
 runTwitterExample.sh
@@ -27,7 +27,7 @@ Usage
 Every node will have its own command line interface "attached", which you can use to play with your Data Grid.
 Type 'help' on the command line to show a list of commands, please refer to the 'playground' project Readme.md for more details.
 
-Before running the code you have to provide your own Twitter OAuth keys and tokens in the file runTwitterExample.sh
+Before running the Twitter code you have to provide your own Twitter OAuth keys and tokens in the file runTwitterExample.sh
 
 You can generate your own OAuth keys at https://apps.twitter.com
 
