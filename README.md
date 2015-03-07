@@ -25,6 +25,10 @@ Map-reduce
 
 This module adds a 'count' command which counts the rock groups longer/shorter than a given threshold. See the module Readme file for more details.
 
+Twitter
+-------
+
+This module adds commands to fill the grid automatically with tweets. See the module Readme file for more details.
 
 Jmx-statistics
 --------------
