@@ -55,12 +55,7 @@ public class TwitterService {
         String tokenSecret = System.getProperty("twitter.tokenSecret", "");
 
         Authentication auth = new OAuth1(consumerKey,consumerSecret,token,tokenSecret);
-
-        /*Authentication auth = new OAuth1("cMBCl9j2T32mkPLWDcWRb2AZ8",
-                "ZxDU9jx1I7r6LvGyCHgDdLwaEadpkSa9OdFz7S4Lr1RA17Tglp",
-                "26061798-vpmUnJnKeVRm4hY1x46aBMSnFNmGNyLbuwjLXHdoQ",
-                "veCMHaOPGl72Ua6NbdbKhvpEbk11xBHFp72z3fcHvOTHS");
-                */
+        
         client = new ClientBuilder()
                 .name("JDG #" + hashtag + " client")
                 .hosts(Constants.STREAM_HOST)
