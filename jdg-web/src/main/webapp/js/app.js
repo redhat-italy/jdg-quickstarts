@@ -109,6 +109,7 @@ function MainCtrl($scope, $http, $timeout, $interval) {
             });
         $scope.refreshPriPromise = $interval( function() { $scope.loadPrimary() }, 2000)
         $scope.refreshAllPromise = $interval( function() { $scope.loadall() }, 2000)
+        $scope.started = 1
     }
 
     $scope.stopTw = function() {
@@ -121,6 +122,7 @@ function MainCtrl($scope, $http, $timeout, $interval) {
             });
         $interval.cancel($scope.refreshAllPromise)
         $interval.cancel($scope.refreshPriPromise)
+        $scope.started = undefined
     }
 
     $scope.loadPrimary()
