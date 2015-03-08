@@ -66,6 +66,7 @@
         <module>perf-test</module>
         <module>jmx-statistics</module>
         <module>jdg-web</module>
+        <module>jdg-visualizer</module>
     </modules>
 
     <dependencyManagement>
