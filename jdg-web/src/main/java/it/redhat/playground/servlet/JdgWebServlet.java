@@ -18,7 +18,7 @@ public class JdgWebServlet extends HttpServlet {
         JdgWebConfiguration config = new JdgWebConfiguration();
         config.configure();
         config.saveCache();
-
+        config.configTwitter();
 
     }
 }

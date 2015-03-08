@@ -74,11 +74,12 @@
             <h2>Get data from Twitter</h2>
             <input class="form-control" type="text" placeholder="hashtag" ng-model="hashtag"/>
             <br>
-            <div style="text-align: center">
-                <a class="btn btn-block btn-social btn-sm btn-twitter twitter-button" ng-click="startTw()">
+            <div>
+                <a class="btn btn-block btn-social btn-sm btn-twitter twitter-button" ng-click="startTw()" ng-hide="started">
                     <i class="fa fa-twitter"></i>
                     start tweets
                 </a>
+                <button class="btn btn-block btn-sm btn-danger twitter-button" ng-click="stopTw()" ng-show="started">Stop</button>
             </div>
         </div>
     </div>
