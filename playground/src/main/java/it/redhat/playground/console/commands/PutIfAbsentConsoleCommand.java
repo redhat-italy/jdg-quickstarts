@@ -54,7 +54,7 @@ public class PutIfAbsentConsoleCommand implements ConsoleCommand {
                 console.println("Already associated (" + id + "," + value + ")");
             }
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: putIfAbsent <key> <value>\nValue for key has to be a number. In example\nputIfAbsent 10 test");
+            throw new IllegalParametersException("Expected usage: putIfAbsent <key> <value>\nValue for key has to be a number. Example:\n putIfAbsent 10 test");
         } catch (NoSuchElementException e) {
             throw new IllegalParametersException("Expected usage: putIfAbsent <key> <value>");
         }

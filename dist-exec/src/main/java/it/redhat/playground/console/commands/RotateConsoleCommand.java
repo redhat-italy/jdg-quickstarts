@@ -67,7 +67,7 @@ public class RotateConsoleCommand implements ConsoleCommand {
             long after = System.currentTimeMillis();
             console.println("Total time: " + (after - before));
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: rotate <offset>\nValue for offset has to be a number. In example\nrotate 10");
+            throw new IllegalParametersException("Expected usage: rotate <offset>\nValue for offset has to be a number. Example:\n rotate 10");
         } catch (NoSuchElementException e) {
             throw new IllegalParametersException("Expected usage: rotate <offset>");
         }

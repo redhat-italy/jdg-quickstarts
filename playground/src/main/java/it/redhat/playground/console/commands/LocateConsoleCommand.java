@@ -65,7 +65,7 @@ public class LocateConsoleCommand implements ConsoleCommand {
                 }
             }
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: locate <key>\nValue for key has to be a number. In example\nlocate 10");
+            throw new IllegalParametersException("Expected usage: locate <key>\nValue for key has to be a number. Example:\n locate 10");
         } catch (NoSuchElementException e) {
             throw new IllegalParametersException("Expected usage: locate <key>");
         }

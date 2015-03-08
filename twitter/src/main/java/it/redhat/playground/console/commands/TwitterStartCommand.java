@@ -50,7 +50,7 @@ public class TwitterStartCommand implements ConsoleCommand {
             TwitterService tw = new TwitterService(cache, timeout);
             TwitterServices.addService(hashtag, tw);
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: start <hashtag> <timeout>\nValue for timeout has to be a number. In example\nstart infinispan 5");
+            throw new IllegalParametersException("Expected usage: start <hashtag> <timeout>\nValue for timeout has to be a number. Example:\n start infinispan 5");
         } catch (NoSuchElementException e) {
             throw new IllegalParametersException("Expected usage: start <hashtag> <timeout>");
         }

@@ -71,7 +71,7 @@ public class MapReduceConsoleCommand implements ConsoleCommand {
             console.println("Total time: " + (after - before));
 
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: count <threshold>\nValue for threshold has to be a number. In example\ncount 4");
+            throw new IllegalParametersException("Expected usage: count <threshold>\nValue for threshold has to be a number. Example:\n count 4");
         } catch (NoSuchElementException e) {
             throw new IllegalParametersException("Expected usage: count <threshold>");
         }

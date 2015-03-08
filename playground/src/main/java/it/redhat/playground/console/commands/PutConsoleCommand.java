@@ -50,7 +50,7 @@ public class PutConsoleCommand implements ConsoleCommand {
 
             console.println("Written (" + id + "," + value + ")");
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: put <key> <value>\nValue for key has to be a number. In example\nput 10 test");
+            throw new IllegalParametersException("Expected usage: put <key> <value>\nValue for key has to be a number. Example:\n put 10 test");
         } catch (NoSuchElementException e) {
             throw new IllegalParametersException("Expected usage: put <key> <value>");
         }

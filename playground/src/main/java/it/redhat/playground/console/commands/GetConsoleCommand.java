@@ -46,7 +46,7 @@ public class GetConsoleCommand implements ConsoleCommand {
 
             console.println(cache.get(id));
         } catch (NumberFormatException e) {
-            throw new IllegalParametersException("Expected usage: get <key>\nValue for key has to be a number. In example\nget 10");
+            throw new IllegalParametersException("Expected usage: get <key>\nValue for key has to be a number. Example:\n get 10");
         } catch (NoSuchElementException e) {
             throw new IllegalParametersException("Expected usage: get <key>");
         }
