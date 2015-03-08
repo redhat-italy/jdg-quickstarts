@@ -1,4 +1,4 @@
-JDG-twitter
+JDG-Web
 ==============
 
 A small project to learn and explore Jboss Data Grid (Infinispan).

@@ -35,7 +35,7 @@ public class TwService {
         // Optional: set up some followings and track terms
         List<String> terms = Lists.newArrayList(hashtag);
         hosebirdEndpoint.trackTerms(terms);
-        
+
         Authentication auth = new OAuth1(ConfigContainer.getConsumerKey(), ConfigContainer.getConsumerSecret(), ConfigContainer.getAccessToken(), ConfigContainer.getAccessTokenSecret());
 
         //Authentication auth = new com.twitter.hbc.httpclient.auth.BasicAuth(username, password);
