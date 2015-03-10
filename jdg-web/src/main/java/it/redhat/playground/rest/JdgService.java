@@ -38,26 +38,26 @@ public class JdgService {
         return CountKeyService.toDTO(keyCountMap);
     }
 
-    @POST
-    @Path("/put")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void putEntries(List<JdgEntry> entries) {
-        PutService.doPut(entries);
-    }
-
-    @POST
-    @Path("/starttw")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void startTw(String hashtag) {
-        TwService.start(hashtag);
+    @GET
+    @Path("/address")
+    @Produces({ "application/json" })
+    public String address() {
+        return "{\"result\":\"\"}";
     }
 
     @GET
-    @Path("/stoptw")
-    public void stopTw() {
-        TwService.stop();
+    @Path("/hashtags")
+    @Produces({ "application/json" })
+    public String hashtags() {
+        return "{\"result\":\"\"}";
     }
 
+    @GET
+    @Path("/get")
+    @Produces({ "application/json" })
+    public String get() {
+        return "{\"result\":\"\"}";
+    }
 
 
 }
