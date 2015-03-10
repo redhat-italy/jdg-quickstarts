@@ -32,6 +32,7 @@ app.directive('extendedPieChart', function() {
 });
 
 
+
 function MainCtrl($scope, $http, $timeout, $interval) {
 
     $scope.loadPrimary = function() {
@@ -125,6 +126,7 @@ function MainCtrl($scope, $http, $timeout, $interval) {
         $scope.started = undefined
     }
 
-    $scope.loadPrimary()
-    $scope.loadall()
+    $scope.refreshPriPromise = $interval( function() { $scope.loadPrimary() }, 2000)
+    $scope.refreshAllPromise = $interval( function() { $scope.loadall() }, 2000)
 }
+

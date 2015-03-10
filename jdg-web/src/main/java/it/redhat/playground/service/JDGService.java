@@ -14,19 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package it.redhat.playground.visualizer;
+package it.redhat.playground.service;
 
-import javax.ws.rs.core.CacheControl;
+import it.redhat.playground.JDG;
+import it.redhat.playground.domain.SimpleValue;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
 
 public class JDGService {
+
+    private Cache<Long,Value> cache;
+
+    public JDGService(Cache cache) {
+        setCache(cache);
+    }
 
 
     String address() {
         return "Address of this cluster node";
     }
 
-    String get(String key) {
-        return "Get an object from the grid.";
+    String get(Long key) {
+        return cache.get(key).toString();
     }
 
     String hashtags() {
@@ -49,18 +58,25 @@ public class JDGService {
         return "List all local valuesFromKeys";
     }
 
-    String locate() {
-        return "Locate an object in the grid.";
+    String locate(Long id) {
+        return JDG.locatePrimary(cache,id).toString();
     }
 
     String primary() {
         return "List all local valuesFromKeys for which this node is primary.";
     }
 
-    String put() {
-        return "Put an object (id, value) in the grid.";
+    String put(Long key, String value) {
+        return cache.put(key, new SimpleValue(value)).toString();
     }
 
 
+    public Cache getCache() {
+        return cache;
+    }
+
+    public void setCache(Cache cache) {
+        this.cache = cache;
+    }
 }
 
