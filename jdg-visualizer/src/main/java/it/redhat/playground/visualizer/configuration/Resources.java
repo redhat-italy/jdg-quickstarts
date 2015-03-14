@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package it.redhat.playground.visualizer;
+package it.redhat.playground.visualizer.configuration;
 
 import org.infinispan.manager.DefaultCacheManager;
 

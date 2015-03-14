@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package it.redhat.playground.visualizer;
+package it.redhat.playground.visualizer.console;
 
 import it.redhat.playground.console.UI;
 

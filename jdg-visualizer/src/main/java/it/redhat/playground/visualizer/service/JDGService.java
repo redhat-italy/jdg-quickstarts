@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package it.redhat.playground.visualizer;
+package it.redhat.playground.visualizer.service;
 
 import it.redhat.playground.console.commands.*;
 import it.redhat.playground.domain.Value;
+import it.redhat.playground.visualizer.console.CollectingUI;
 import org.infinispan.manager.DefaultCacheManager;
 
 import javax.inject.Inject;
@@ -86,11 +87,9 @@ public class JDGService {
     }
 
     String loadtest() {
-
         CollectingUI ui = new CollectingUI();
         new LoadTestConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
-
     }
 
     String local() {

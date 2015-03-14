@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package it.redhat.playground.visualizer;
+package it.redhat.playground.visualizer.service;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -23,20 +23,6 @@ import javax.ws.rs.*;
 public class JDGFacade {
     @Inject
     JDGService jdgService;
-
-    @GET
-    @Path("/address")
-    @Produces({ "application/json" })
-    public String address() {
-        return "{\"result\":\"" + jdgService.address() + "\"}";
-    }
-
-    @GET
-    @Path("/hashtags")
-    @Produces({ "application/json" })
-    public String hashtags() {
-        return "{\"result\":\"" + jdgService.hashtags() + "\"}";
-    }
 
     @GET
     @Path("/{key}/locate")
@@ -74,13 +60,6 @@ public class JDGFacade {
     }
 
     @GET
-    @Path("/info")
-    @Produces({ "application/json" })
-    public String info() {
-        return "{\"result\":\"" + jdgService.info() + "\"}";
-    }
-
-    @GET
     @Path("/loadtest")
     @Produces({ "application/json" })
     public String loadtest() {
@@ -95,17 +74,17 @@ public class JDGFacade {
     }
 
     @GET
-    @Path("/local")
-    @Produces({ "application/json" })
-    public String local() {
-        return "{\"result\":\"" + jdgService.local() + "\"}";
-    }
-
-    @GET
     @Path("/all")
     @Produces({ "application/json" })
     public String all() {
         return "{\"result\":\"" + jdgService.all() + "\"}";
+    }
+
+    @GET
+    @Path("/local")
+    @Produces({ "application/json" })
+    public String local() {
+        return "{\"result\":\"" + jdgService.local() + "\"}";
     }
 
     @GET
@@ -123,10 +102,31 @@ public class JDGFacade {
     }
 
     @GET
+    @Path("/address")
+    @Produces({ "application/json" })
+    public String address() {
+        return "{\"result\":\"" + jdgService.address() + "\"}";
+    }
+
+    @GET
+    @Path("/info")
+    @Produces({ "application/json" })
+    public String info() {
+        return "{\"result\":\"" + jdgService.info() + "\"}";
+    }
+
+    @GET
     @Path("/routing")
     @Produces({ "application/json" })
     public String routing() {
         return "{\"result\":\"" + jdgService.routing() + "\"}";
+    }
+
+    @GET
+    @Path("/hashtags")
+    @Produces({ "application/json" })
+    public String hashtags() {
+        return "{\"result\":\"" + jdgService.hashtags() + "\"}";
     }
 
 }
