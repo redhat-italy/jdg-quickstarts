@@ -25,7 +25,7 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JDGService {
+public class JDGHelper {
 
     @Inject
     private DefaultCacheManager cacheManager;
@@ -68,10 +68,6 @@ public class JDGService {
         args.add(key);
         new LocateConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
         return ui.getResult();
-    }
-
-    String hashtags() {
-        return "List all registered hashtags feeding the grid";
     }
 
     String info() {
@@ -120,6 +116,10 @@ public class JDGService {
         CollectingUI ui = new CollectingUI();
         new RoutingConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
+    }
+
+    String hashtags() {
+        return "List all registered hashtags feeding the grid";
     }
 
 }

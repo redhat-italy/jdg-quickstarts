@@ -20,9 +20,9 @@ import javax.inject.Inject;
 import javax.ws.rs.*;
 
 @Path("/")
-public class JDGFacade {
+public class JDGRest {
     @Inject
-    JDGService jdgService;
+    JDGHelper jdgService;
 
     @GET
     @Path("/{key}/locate")
