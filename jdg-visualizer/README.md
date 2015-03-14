@@ -40,7 +40,7 @@ mvn clean install jboss-as:deploy
 Access the application 
 ---------------------
 
-The application is deployed to <http://localhost:8080/jdg-quickstarts-visualizer.war>.
+The application is deployed to <http://localhost:8080/jdg-quickstarts-visualizer>.
 
 
 Undeploy the Archive
