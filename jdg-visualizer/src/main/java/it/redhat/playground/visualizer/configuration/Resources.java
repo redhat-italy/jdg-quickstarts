@@ -20,7 +20,9 @@ package it.redhat.playground.visualizer.configuration;
 import org.infinispan.manager.DefaultCacheManager;
 
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
+import java.util.logging.Logger;
 
 public class Resources {
 
@@ -28,6 +30,12 @@ public class Resources {
     PlaygroundCacheManagerProvider cacheManagerProvider;
 
     @Produces
+    Logger getLogger(InjectionPoint ip) {
+        String category = ip.getMember().getDeclaringClass().getName();
+        return Logger.getLogger(category);
+    }
+
+    @Produces @JDGDemo
     DefaultCacheManager getDefaultCacheManager() {
         return cacheManagerProvider.getCacheManager();
     }

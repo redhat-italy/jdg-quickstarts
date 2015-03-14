@@ -17,34 +17,18 @@
 
 package it.redhat.playground.visualizer.configuration;
 
-import it.redhat.playground.configuration.PlaygroundConfiguration;
-import org.infinispan.manager.DefaultCacheManager;
+import javax.inject.Qualifier;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.logging.Logger;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@ApplicationScoped
-public class PlaygroundCacheManagerProvider {
-
-    @Inject
-    private Logger log;
-
-    private DefaultCacheManager manager;
-
-    public DefaultCacheManager getCacheManager() {
-        if (manager == null) {
-            log.info("\n\n DefaultCacheManager does not exist - constructing a new one\n\n");
-            manager = new PlaygroundConfiguration().getCacheManager();
-        }
-        return manager;
-    }
-
-    @PreDestroy
-    public void cleanUp() {
-        manager.stop();
-        manager = null;
-    }
-
+@Qualifier
+@Retention(RUNTIME)
+@Target({METHOD, FIELD, PARAMETER, TYPE})
+public @interface JDGDemo {
 }

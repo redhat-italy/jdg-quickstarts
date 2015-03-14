@@ -18,11 +18,15 @@ package it.redhat.playground.visualizer.service;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import java.util.logging.Logger;
 
 @Path("/")
 public class JDGRest {
     @Inject
     JDGHelper jdgHelper;
+
+    @Inject
+    private Logger log;
 
     @GET
     @Path("/{key}/locate")

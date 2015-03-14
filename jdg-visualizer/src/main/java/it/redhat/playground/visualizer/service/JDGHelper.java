@@ -18,17 +18,22 @@ package it.redhat.playground.visualizer.service;
 
 import it.redhat.playground.console.commands.*;
 import it.redhat.playground.domain.Value;
+import it.redhat.playground.visualizer.configuration.JDGDemo;
 import it.redhat.playground.visualizer.console.CollectingUI;
 import org.infinispan.manager.DefaultCacheManager;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class JDGHelper {
 
-    @Inject
+    @Inject @JDGDemo
     private DefaultCacheManager cacheManager;
+
+    @Inject
+    private Logger log;
 
     String address() {
         CollectingUI ui = new CollectingUI();
