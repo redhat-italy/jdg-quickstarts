@@ -43,6 +43,15 @@ public class JDGService {
         return ui.getResult();
     }
 
+    String post(String key, String value) {
+        CollectingUI ui = new CollectingUI();
+        List<String> args = new ArrayList<>();
+        args.add(key);
+        args.add(value);
+        new PutConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
+        return ui.getResult();
+    }
+
     String locate(String key) {
         CollectingUI ui = new CollectingUI();
         List<String> args = new ArrayList<>();
@@ -99,6 +108,11 @@ public class JDGService {
         return ui.getResult();
     }
 
+    String routing() {
+        CollectingUI ui = new CollectingUI();
+        new RoutingConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
+        return ui.getResult();
+    }
 
 }
 

@@ -17,10 +17,7 @@
 package it.redhat.playground.visualizer;
 
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 @Path("/")
 public class JDGFacade {
@@ -42,17 +39,31 @@ public class JDGFacade {
     }
 
     @GET
-    @Path("/get/{key}")
+    @Path("/{key}/locate")
     @Produces({ "application/json" })
-    public String get(@PathParam("key") String key) {
+    public String locate(@PathParam("key") String key) {
         return "{\"result\":\"" + jdgService.locate(key) + "\"}";
     }
 
     @GET
-    @Path("/locate/{key}")
+    @Path("/{key}")
     @Produces({ "application/json" })
-    public String locate(@PathParam("key") String key) {
+    public String get(@PathParam("key") String key) {
         return "{\"result\":\"" + jdgService.get(key) + "\"}";
+    }
+
+    @GET
+    @Path("/{key}/put/{value}")
+    @Produces({ "application/json" })
+    public String postWithGet(@PathParam("key") String key, @PathParam("value") String value) {
+        return "{\"result\":\"" + jdgService.post(key, value) + "\"}";
+    }
+
+    @POST
+    @Path("/{key}/{value}")
+    @Produces({ "application/json" })
+    public String post(@PathParam("key") String key, @PathParam("value") String value) {
+        return "{\"result\":\"" + jdgService.post(key, value) + "\"}";
     }
 
     @GET
@@ -102,6 +113,13 @@ public class JDGFacade {
     @Produces({ "application/json" })
     public String replica() {
         return "{\"result\":\"" + jdgService.replica() + "\"}";
+    }
+
+    @GET
+    @Path("/routing")
+    @Produces({ "application/json" })
+    public String routing() {
+        return "{\"result\":\"" + jdgService.routing() + "\"}";
     }
 
 }
