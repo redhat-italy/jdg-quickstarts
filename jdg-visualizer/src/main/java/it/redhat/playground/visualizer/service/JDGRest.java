@@ -22,111 +22,111 @@ import javax.ws.rs.*;
 @Path("/")
 public class JDGRest {
     @Inject
-    JDGHelper jdgService;
+    JDGHelper jdgHelper;
 
     @GET
     @Path("/{key}/locate")
     @Produces({ "application/json" })
     public String locate(@PathParam("key") String key) {
-        return "{\"result\":\"" + jdgService.locate(key) + "\"}";
+        return "{\"result\":\"" + jdgHelper.locate(key) + "\"}";
     }
 
     @GET
     @Path("/{key}")
     @Produces({ "application/json" })
     public String get(@PathParam("key") String key) {
-        return "{\"result\":\"" + jdgService.get(key) + "\"}";
+        return "{\"result\":\"" + jdgHelper.get(key) + "\"}";
     }
 
     @GET
     @Path("/{key}/put/{value}")
     @Produces({ "application/json" })
     public String postWithGet(@PathParam("key") String key, @PathParam("value") String value) {
-        return "{\"result\":\"" + jdgService.post(key, value) + "\"}";
+        return "{\"result\":\"" + jdgHelper.post(key, value) + "\"}";
     }
 
     @GET
     @Path("/{key}/pia/{value}")
     @Produces({ "application/json" })
     public String pia(@PathParam("key") String key, @PathParam("value") String value) {
-        return "{\"result\":\"" + jdgService.pia(key, value) + "\"}";
+        return "{\"result\":\"" + jdgHelper.pia(key, value) + "\"}";
     }
 
     @POST
     @Path("/{key}/{value}")
     @Produces({ "application/json" })
     public String post(@PathParam("key") String key, @PathParam("value") String value) {
-        return "{\"result\":\"" + jdgService.post(key, value) + "\"}";
+        return "{\"result\":\"" + jdgHelper.post(key, value) + "\"}";
     }
 
     @GET
     @Path("/loadtest")
     @Produces({ "application/json" })
     public String loadtest() {
-        return "{\"result\":\"" + jdgService.loadtest() + "\"}";
+        return "{\"result\":\"" + jdgHelper.loadtest() + "\"}";
     }
 
     @GET
     @Path("/key")
     @Produces({ "application/json" })
     public String key() {
-        return "{\"result\":\"" + jdgService.key() + "\"}";
+        return "{\"result\":\"" + jdgHelper.key() + "\"}";
     }
 
     @GET
     @Path("/all")
     @Produces({ "application/json" })
     public String all() {
-        return "{\"result\":\"" + jdgService.all() + "\"}";
+        return "{\"result\":\"" + jdgHelper.all() + "\"}";
     }
 
     @GET
     @Path("/local")
     @Produces({ "application/json" })
     public String local() {
-        return "{\"result\":\"" + jdgService.local() + "\"}";
+        return "{\"result\":\"" + jdgHelper.local() + "\"}";
     }
 
     @GET
     @Path("/primary")
     @Produces({ "application/json" })
     public String primary() {
-        return "{\"result\":\"" + jdgService.primary() + "\"}";
+        return "{\"result\":\"" + jdgHelper.primary() + "\"}";
     }
 
     @GET
     @Path("/replica")
     @Produces({ "application/json" })
     public String replica() {
-        return "{\"result\":\"" + jdgService.replica() + "\"}";
+        return "{\"result\":\"" + jdgHelper.replica() + "\"}";
     }
 
     @GET
     @Path("/address")
     @Produces({ "application/json" })
     public String address() {
-        return "{\"result\":\"" + jdgService.address() + "\"}";
+        return "{\"result\":\"" + jdgHelper.address() + "\"}";
     }
 
     @GET
     @Path("/info")
     @Produces({ "application/json" })
     public String info() {
-        return "{\"result\":\"" + jdgService.info() + "\"}";
+        return "{\"result\":\"" + jdgHelper.info() + "\"}";
     }
 
     @GET
     @Path("/routing")
     @Produces({ "application/json" })
     public String routing() {
-        return "{\"result\":\"" + jdgService.routing() + "\"}";
+        return "{\"result\":\"" + jdgHelper.routing() + "\"}";
     }
 
     @GET
     @Path("/hashtags")
     @Produces({ "application/json" })
     public String hashtags() {
-        return "{\"result\":\"" + jdgService.hashtags() + "\"}";
+        return "{\"result\":\"" + jdgHelper.hashtags() + "\"}";
     }
 
 }
