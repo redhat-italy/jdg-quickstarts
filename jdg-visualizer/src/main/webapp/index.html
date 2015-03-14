@@ -163,8 +163,14 @@
                     term.echo("Expected usage: putIfAbsent <key> <value>");
                 } else {
                     if (key == parseInt(key, 10)) {
-                        term.echo("TODO");
-                        term.echo("Written (" + cmd.args[0] + "," + cmd.args[1] + ")");
+
+                        $.getJSON("rest/" + key + "/pia/" + value)
+                                .done(function (json) {
+                                    term.echo(json.result);
+                                })
+                                .fail(function (jqxhr, textStatus, error) {
+                                    term.echo(error);
+                                });
                     } else {
                         term.echo("Expected usage: putIfAbsent <key> <value>\nValue for key has to be a number. Example:\n putIfAbsent 10 test");
                     }

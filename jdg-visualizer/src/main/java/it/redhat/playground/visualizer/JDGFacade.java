@@ -59,6 +59,13 @@ public class JDGFacade {
         return "{\"result\":\"" + jdgService.post(key, value) + "\"}";
     }
 
+    @GET
+    @Path("/{key}/pia/{value}")
+    @Produces({ "application/json" })
+    public String pia(@PathParam("key") String key, @PathParam("value") String value) {
+        return "{\"result\":\"" + jdgService.pia(key, value) + "\"}";
+    }
+
     @POST
     @Path("/{key}/{value}")
     @Produces({ "application/json" })

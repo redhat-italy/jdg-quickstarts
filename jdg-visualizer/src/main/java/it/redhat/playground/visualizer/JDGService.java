@@ -52,6 +52,15 @@ public class JDGService {
         return ui.getResult();
     }
 
+    String pia(String key, String value) {
+        CollectingUI ui = new CollectingUI();
+        List<String> args = new ArrayList<>();
+        args.add(key);
+        args.add(value);
+        new PutIfAbsentConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
+        return ui.getResult();
+    }
+
     String locate(String key) {
         CollectingUI ui = new CollectingUI();
         List<String> args = new ArrayList<>();
