@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
@@ -40,11 +40,15 @@ public class GetConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Long id = Long.parseLong(args.next());
-
-            console.println(cache.get(id));
+            Value v = cache.get(id);
+            if (v!= null) {
+                console.println(v);
+            } else {
+                console.println("Not found");
+            }
         } catch (NumberFormatException e) {
             throw new IllegalParametersException("Expected usage: get <key>\nValue for key has to be a number. Example:\n get 10");
         } catch (NoSuchElementException e) {
@@ -54,7 +58,7 @@ public class GetConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME + " <key>");
         console.println("\t\tGet an object from the grid.");
     }

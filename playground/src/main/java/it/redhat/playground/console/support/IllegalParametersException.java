@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.support;
 
-public class IllegalParametersException extends Throwable {
+public class IllegalParametersException extends RuntimeException {
 
     public IllegalParametersException(String message) {
         super(message);

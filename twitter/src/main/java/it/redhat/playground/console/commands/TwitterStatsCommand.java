@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.twitter.TwitterService;
 import it.redhat.playground.twitter.TwitterServices;
@@ -38,7 +38,7 @@ public class TwitterStatsCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         try {
             String hashtag = args.next();
             TwitterService service = TwitterServices.getService(hashtag);
@@ -54,7 +54,7 @@ public class TwitterStatsCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME+ " <hashtag>");
         console.println("\t\tStats on tweets received with <hashtag>");
     }

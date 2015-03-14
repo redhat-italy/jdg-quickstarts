@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.LargeValue;
 import it.redhat.playground.domain.Value;
@@ -79,7 +79,7 @@ public class TestConsoleCommand implements ConsoleCommand {
         }
     }
 
-    private void runTest(TextUI console, int poolSize, long duration, long maxCounter, long size) {
+    private void runTest(UI console, int poolSize, long duration, long maxCounter, long size) {
         ForkJoinPool pool = new ForkJoinPool(poolSize);
         Timer timer = new Timer(true);
         timer.schedule(new ThroughputStatistics(console), STATISTICS_DELAY, STATISTICS_DELAY);
@@ -99,7 +99,7 @@ public class TestConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         long duration = 0;
         long maxObjects = 0;
         try {
@@ -191,7 +191,7 @@ public class TestConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME + " <duration> <maxobjects> <size> <poolSize>");
         console.println("\t\tduration format is a number followed by a flag choose between s (seconds), m (minutes), h (hours)");
         console.println("\t\tmaxobjects format is a number");
@@ -200,11 +200,11 @@ public class TestConsoleCommand implements ConsoleCommand {
 
     private class ThroughputStatistics extends TimerTask {
 
-        private final TextUI console;
+        private final UI console;
         private volatile long lastStatistics;
         private volatile long lastCounter;
 
-        public ThroughputStatistics(TextUI console) {
+        public ThroughputStatistics(UI console) {
             this.console = console;
             this.lastStatistics = System.nanoTime();
             this.lastCounter = counter.get();

@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.Value;
 import it.redhat.playground.mapreduce.MapperCountGroup;
@@ -46,7 +46,7 @@ public class MapReduceConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Integer limit = Integer.parseInt(args.next());
 
@@ -79,7 +79,7 @@ public class MapReduceConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME + " <threshold>");
         console.println("\t\tReturn how many group's names are shorter/longer than the threshold");
     }

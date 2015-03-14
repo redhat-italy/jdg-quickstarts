@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
@@ -39,7 +39,7 @@ public class ClearConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         Cache<Object,Object> cache = cacheManager.getCache();
         cache.clear();
         console.println("Data grid cleared.");
@@ -47,7 +47,7 @@ public class ClearConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tClear all valuesFromKeys.");
     }

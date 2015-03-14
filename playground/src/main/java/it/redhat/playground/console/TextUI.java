@@ -27,7 +27,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
-public class TextUI {
+public class TextUI implements UI {
 
     private final static Logger log = LoggerFactory.getLogger(TextUI.class);
 
@@ -40,7 +40,7 @@ public class TextUI {
         this.out = out;
     }
 
-    public TextUI register(ConsoleCommand cmd) {
+    public UI register(ConsoleCommand cmd) {
         if (cmd == null) {
             throw new IllegalArgumentException("Command argument cannot be null");
         }
@@ -80,26 +80,32 @@ public class TextUI {
         return true;
     }
 
+    @Override
     public void print(Object message) {
         out.print(message);
     }
 
+    @Override
     public void println(Object message) {
         out.println(message);
     }
 
+    @Override
     public void print(String message) {
         out.print(message);
     }
 
+    @Override
     public void println(String message) {
         out.println(message);
     }
 
+    @Override
     public void println() {
         out.println();
     }
 
+    @Override
     public void printUsage() {
         TreeSet<ConsoleCommand> orderedSet = new TreeSet<ConsoleCommand>(new ConsoleCommandComparator());
         orderedSet.addAll(commands.values());

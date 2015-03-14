@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.infinispan.Cache;
 import org.infinispan.affinity.KeyAffinityService;
@@ -45,7 +45,7 @@ public class KeyConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
 
         Cache cache = cacheManager.getCache();
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -60,7 +60,7 @@ public class KeyConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tGet a key which is affine to this cluster node");
     }

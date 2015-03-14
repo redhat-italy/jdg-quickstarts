@@ -18,7 +18,7 @@
 package it.redhat.playground.console.commands;
 
 import it.redhat.playground.JDG;
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
@@ -41,7 +41,7 @@ public class LocalConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         Set<String> local = JDG.localValuesFromKeys(cache);
         for(String key : local) {
             console.println(key);
@@ -53,7 +53,7 @@ public class LocalConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tList all local valuesFromKeys.");
     }

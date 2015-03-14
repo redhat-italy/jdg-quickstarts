@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.distexec.Rotate;
 import it.redhat.playground.domain.Value;
@@ -46,7 +46,7 @@ public class RotateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Integer offset = Integer.parseInt(args.next());
 
@@ -75,7 +75,7 @@ public class RotateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME + " <offset>");
         console.println("\t\tRotate every string in the grid by offset.");
     }

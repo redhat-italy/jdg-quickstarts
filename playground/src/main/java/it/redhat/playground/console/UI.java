@@ -1,12 +1,12 @@
 /**
  * Licensed to the Apache Software Foundation (ASF) under one or more
- * contributor license agreements.  See the NOTICE file distributed with
+ * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
- * the License.  You may obtain a copy of the License at
+ * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-package it.redhat.playground.console.commands;
+package it.redhat.playground.console;
 
-import it.redhat.playground.console.UI;
-import it.redhat.playground.console.support.IllegalParametersException;
+public interface UI {
+    void print(Object message);
 
-import java.util.Iterator;
+    void println(Object message);
 
-public interface ConsoleCommand {
+    void print(String message);
 
-    String command();
+    void println(String message);
 
-    boolean execute(UI console, Iterator<String> args) throws IllegalParametersException;
+    void println();
 
-    void usage(UI console);
+    void printUsage();
 }

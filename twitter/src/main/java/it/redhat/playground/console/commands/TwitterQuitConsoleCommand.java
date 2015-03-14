@@ -17,7 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.twitter.TwitterServices;
 import org.infinispan.manager.DefaultCacheManager;
@@ -40,7 +40,7 @@ public class TwitterQuitConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         Set<String> hashtags = TwitterServices.hashtags();
         for (String hashtag:hashtags) {
             console.println("Stopping hashtag #" + hashtag);
@@ -52,7 +52,7 @@ public class TwitterQuitConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME);
         console.println("\t\tExit the shell.");
     }

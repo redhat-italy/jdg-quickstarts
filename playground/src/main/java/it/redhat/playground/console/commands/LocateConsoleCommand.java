@@ -18,7 +18,7 @@
 package it.redhat.playground.console.commands;
 
 import it.redhat.playground.JDG;
-import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
@@ -43,7 +43,7 @@ public class LocateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public boolean execute(TextUI console, Iterator<String> args) throws IllegalParametersException {
+    public boolean execute(UI console, Iterator<String> args) throws IllegalParametersException {
         try {
             Long id = Long.parseLong(args.next());
 
@@ -73,7 +73,7 @@ public class LocateConsoleCommand implements ConsoleCommand {
     }
 
     @Override
-    public void usage(TextUI console) {
+    public void usage(UI console) {
         console.println(COMMAND_NAME + " <key>");
         console.println("\t\tLocate an object in the grid.");
     }
