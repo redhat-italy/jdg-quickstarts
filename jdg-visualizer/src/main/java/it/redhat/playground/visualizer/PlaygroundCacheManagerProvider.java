@@ -17,11 +17,7 @@
 
 package it.redhat.playground.visualizer;
 
-import org.infinispan.configuration.cache.CacheMode;
-import org.infinispan.configuration.cache.Configuration;
-import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.configuration.global.GlobalConfiguration;
-import org.infinispan.configuration.global.GlobalConfigurationBuilder;
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import org.infinispan.manager.DefaultCacheManager;
 
 import javax.annotation.PreDestroy;
@@ -30,24 +26,11 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class PlaygroundCacheManagerProvider {
 
-    //@Inject
-    //private Logger log;
-
     private DefaultCacheManager manager;
 
     public DefaultCacheManager getCacheManager() {
         if (manager == null) {
-            //log.info("\n\n DefaultCacheManager does not exist - constructing a new one\n\n");
-
-            GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault()
-                    .transport().addProperty("configurationFile", "jgroups-tcp.xml")
-                    .globalJmxStatistics().allowDuplicateDomains(true).enable()
-                    .build();
-            Configuration loc = new ConfigurationBuilder().jmxStatistics().enable()
-                    .clustering().cacheMode(CacheMode.DIST_SYNC)
-                    .hash().numOwners(2)
-                    .build();
-            manager = new DefaultCacheManager(glob, loc, true);
+            manager = new PlaygroundConfiguration().getCacheManager();
         }
         return manager;
     }

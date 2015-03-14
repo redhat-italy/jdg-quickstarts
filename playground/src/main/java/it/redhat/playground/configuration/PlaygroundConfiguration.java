@@ -49,10 +49,21 @@ public class PlaygroundConfiguration {
     public final PlaygroundConfiguration configure() {
         banner();
 
+        manager = getCacheManager();
+        cache = manager.getCache();
+
+        textUI = new TextUI(System.in, System.out);
+        for (ConsoleCommand command : baseCommands()) {
+            textUI.register(command);
+        }
+        return this;
+    }
+
+    public DefaultCacheManager getCacheManager() {
         GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault()
 
                 .transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configurationFile", "jgroups-tcp.xml"))
-                //.transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configurationFile", "jgroups-udp.xml"))
+                        //.transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configurationFile", "jgroups-udp.xml"))
                 .globalJmxStatistics().allowDuplicateDomains(true).enable()
                 .build();
 
@@ -62,14 +73,7 @@ public class PlaygroundConfiguration {
         configureCacheStore(configurationBuilder);
 
         Configuration loc = configurationBuilder.transaction().transactionMode(TransactionMode.TRANSACTIONAL).transactionManagerLookup(new DummyTransactionManagerLookup()).build();
-        manager = new DefaultCacheManager(glob, loc, true);
-        cache = manager.getCache();
-
-        textUI = new TextUI(System.in, System.out);
-        for (ConsoleCommand command : baseCommands()) {
-            textUI.register(command);
-        }
-        return this;
+        return new DefaultCacheManager(glob, loc, true);
     }
 
     private void configureCacheStore(ConfigurationBuilder configurationBuilder) {
