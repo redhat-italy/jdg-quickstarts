@@ -82,11 +82,11 @@
                     (cmd.name == 'info') ||
                     (cmd.name == 'key') ||
                     (cmd.name == 'loadtest') ||
+                    (cmd.name == 'all') ||
                     (cmd.name == 'local') ||
                     (cmd.name == 'primary') ||
                     (cmd.name == 'replica') ||
-                    (cmd.name == 'routing') ||
-                    (cmd.name == 'local')
+                    (cmd.name == 'routing')
             ) {
 
                 $.getJSON("rest/" + cmd.name)
@@ -103,7 +103,13 @@
                     term.echo("Expected usage: get <key>");
                 } else {
                     if (key == parseInt(key, 10)) {
-                        term.echo("TODO");
+                        $.getJSON("rest/" + cmd.name + "/" + key)
+                                .done(function (json) {
+                                    term.echo(json.result);
+                                })
+                                .fail(function (jqxhr, textStatus, error) {
+                                    term.echo(error);
+                                });
                     } else {
                         term.echo("Expected usage: get <key>\nValue for key has to be a number. Example:\n get 10");
                     }
@@ -116,7 +122,13 @@
                     term.echo("Expected usage: locate <key>");
                 } else {
                     if (key == parseInt(key, 10)) {
-                        term.echo("TODO");
+                        $.getJSON("rest/" + cmd.name + "/" + key)
+                                .done(function (json) {
+                                    term.echo(json.result);
+                                })
+                                .fail(function (jqxhr, textStatus, error) {
+                                    term.echo(error);
+                                });
                     } else {
                         term.echo("Expected usage: locate <key>\nValue for key has to be a number. Example:\n locate 10");
                     }

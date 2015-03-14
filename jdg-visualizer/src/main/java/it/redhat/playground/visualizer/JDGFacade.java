@@ -19,6 +19,7 @@ package it.redhat.playground.visualizer;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 @Path("/")
@@ -41,10 +42,17 @@ public class JDGFacade {
     }
 
     @GET
-    @Path("/get")
+    @Path("/get/{key}")
     @Produces({ "application/json" })
-    public String get() {
-        return "{\"result\":\"" + jdgService.get("") + "\"}";
+    public String get(@PathParam("key") String key) {
+        return "{\"result\":\"" + jdgService.locate(key) + "\"}";
+    }
+
+    @GET
+    @Path("/locate/{key}")
+    @Produces({ "application/json" })
+    public String locate(@PathParam("key") String key) {
+        return "{\"result\":\"" + jdgService.get(key) + "\"}";
     }
 
     @GET
@@ -59,6 +67,41 @@ public class JDGFacade {
     @Produces({ "application/json" })
     public String loadtest() {
         return "{\"result\":\"" + jdgService.loadtest() + "\"}";
+    }
+
+    @GET
+    @Path("/key")
+    @Produces({ "application/json" })
+    public String key() {
+        return "{\"result\":\"" + jdgService.key() + "\"}";
+    }
+
+    @GET
+    @Path("/local")
+    @Produces({ "application/json" })
+    public String local() {
+        return "{\"result\":\"" + jdgService.local() + "\"}";
+    }
+
+    @GET
+    @Path("/all")
+    @Produces({ "application/json" })
+    public String all() {
+        return "{\"result\":\"" + jdgService.all() + "\"}";
+    }
+
+    @GET
+    @Path("/primary")
+    @Produces({ "application/json" })
+    public String primary() {
+        return "{\"result\":\"" + jdgService.primary() + "\"}";
+    }
+
+    @GET
+    @Path("/replica")
+    @Produces({ "application/json" })
+    public String replica() {
+        return "{\"result\":\"" + jdgService.replica() + "\"}";
     }
 
 }

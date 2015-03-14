@@ -16,15 +16,13 @@
  */
 package it.redhat.playground.visualizer;
 
-import it.redhat.playground.console.TextUI;
-import it.redhat.playground.console.commands.InfoConsoleCommand;
-import it.redhat.playground.console.commands.LoadTestConsoleCommand;
-import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.console.commands.*;
 import it.redhat.playground.domain.Value;
-import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JDGService {
 
@@ -32,11 +30,25 @@ public class JDGService {
     private DefaultCacheManager cacheManager;
 
     String address() {
-        return cacheManager.getCache().toString();
+        CollectingUI ui = new CollectingUI();
+        new AddressConsoleCommand(cacheManager).execute(ui, null);
+        return ui.getResult();
     }
 
     String get(String key) {
-        return cacheManager.getCache().get(key).toString();
+        CollectingUI ui = new CollectingUI();
+        List<String> args = new ArrayList<>();
+        args.add(key);
+        new GetConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
+        return ui.getResult();
+    }
+
+    String locate(String key) {
+        CollectingUI ui = new CollectingUI();
+        List<String> args = new ArrayList<>();
+        args.add(key);
+        new LocateConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
+        return ui.getResult();
     }
 
     String hashtags() {
@@ -44,43 +56,49 @@ public class JDGService {
     }
 
     String info() {
-        try {
-            new InfoConsoleCommand(cacheManager).execute(new TextUI(System.in, System.out), null);
-        } catch (IllegalParametersException e) {
-            e.printStackTrace();
-        }
-        return "Information on cache.";
+        CollectingUI ui = new CollectingUI();
+        new InfoConsoleCommand(cacheManager).execute(ui, null);
+        return ui.getResult();
     }
 
     String key() {
-        return "Get a key which is affine to this cluster node";
+        CollectingUI ui = new CollectingUI();
+        new KeyConsoleCommand(cacheManager).execute(ui, null);
+        return ui.getResult();
     }
 
     String loadtest() {
-        try {
-            Cache<Long, Value> cache = cacheManager.getCache();
-            new LoadTestConsoleCommand(cache).execute(new TextUI(System.in, System.out), null);
-        } catch (IllegalParametersException e) {
-            e.printStackTrace();
-        }
-        return "Load example values in the grid";
+
+        CollectingUI ui = new CollectingUI();
+        new LoadTestConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
+        return ui.getResult();
+
     }
 
     String local() {
-        return "List all local valuesFromKeys";
-    }
-
-    String locate() {
-        return "Locate an object in the grid.";
+        CollectingUI ui = new CollectingUI();
+        new LocalConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
+        return ui.getResult();
     }
 
     String primary() {
-        return "List all local valuesFromKeys for which this node is primary.";
+        CollectingUI ui = new CollectingUI();
+        new PrimaryConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
+        return ui.getResult();
     }
 
-    String put() {
-        return "Put an object (id, value) in the grid.";
+    String all() {
+        CollectingUI ui = new CollectingUI();
+        new AllConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
+        return ui.getResult();
     }
+
+    String replica() {
+        CollectingUI ui = new CollectingUI();
+        new ReplicaConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
+        return ui.getResult();
+    }
+
 
 }
 
