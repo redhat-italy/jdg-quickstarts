@@ -16,17 +16,27 @@
  */
 package it.redhat.playground.visualizer;
 
-import javax.ws.rs.core.CacheControl;
+import it.redhat.playground.console.TextUI;
+import it.redhat.playground.console.commands.InfoConsoleCommand;
+import it.redhat.playground.console.commands.LoadTestConsoleCommand;
+import it.redhat.playground.console.support.IllegalParametersException;
+import it.redhat.playground.domain.Value;
+import org.infinispan.Cache;
+import org.infinispan.manager.DefaultCacheManager;
+
+import javax.inject.Inject;
 
 public class JDGService {
 
+    @Inject
+    private DefaultCacheManager cacheManager;
 
     String address() {
-        return "Address of this cluster node";
+        return cacheManager.getCache().toString();
     }
 
     String get(String key) {
-        return "Get an object from the grid.";
+        return cacheManager.getCache().get(key).toString();
     }
 
     String hashtags() {
@@ -34,6 +44,11 @@ public class JDGService {
     }
 
     String info() {
+        try {
+            new InfoConsoleCommand(cacheManager).execute(new TextUI(System.in, System.out), null);
+        } catch (IllegalParametersException e) {
+            e.printStackTrace();
+        }
         return "Information on cache.";
     }
 
@@ -42,6 +57,12 @@ public class JDGService {
     }
 
     String loadtest() {
+        try {
+            Cache<Long, Value> cache = cacheManager.getCache();
+            new LoadTestConsoleCommand(cache).execute(new TextUI(System.in, System.out), null);
+        } catch (IllegalParametersException e) {
+            e.printStackTrace();
+        }
         return "Load example values in the grid";
     }
 
@@ -60,7 +81,6 @@ public class JDGService {
     String put() {
         return "Put an object (id, value) in the grid.";
     }
-
 
 }
 

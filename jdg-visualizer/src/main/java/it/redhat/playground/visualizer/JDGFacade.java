@@ -47,4 +47,18 @@ public class JDGFacade {
         return "{\"result\":\"" + jdgService.get("") + "\"}";
     }
 
+    @GET
+    @Path("/info")
+    @Produces({ "application/json" })
+    public String info() {
+        return "{\"result\":\"" + jdgService.info() + "\"}";
+    }
+
+    @GET
+    @Path("/loadtest")
+    @Produces({ "application/json" })
+    public String loadtest() {
+        return "{\"result\":\"" + jdgService.loadtest() + "\"}";
+    }
+
 }
