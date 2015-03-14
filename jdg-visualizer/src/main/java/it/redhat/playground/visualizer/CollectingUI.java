@@ -28,7 +28,7 @@ public class CollectingUI implements UI {
 
     @Override
     public void println(Object message) {
-        result.append(convertCRToJson(message.toString()));
+        result.append(convertCRToJson(message.toString() + "\n"));
     }
 
     @Override
@@ -38,12 +38,11 @@ public class CollectingUI implements UI {
 
     @Override
     public void println(String message) {
-        result.append(convertCRToJson(message));
+        result.append(convertCRToJson(message + "\n"));
     }
 
     @Override
     public void println() {
-        result.append("\\n");
     }
 
     @Override
