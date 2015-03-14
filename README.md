@@ -78,29 +78,35 @@ To run some nodes, just enter in one of the modules and execute the correct prof
 For example to launch four nodes on a single machine for the basic playground just run these commands using different terminals:
 
 ```shell
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=localhost
 
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=localhost
 
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=localhost
 
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=localhost
+```
+
+If you bind on localhost and use UDP, you'll probably have to configure your routing table accordingly:
+
+```shell
+sudo route add -net 224.0.0.0/5 127.0.0.1
 ```
 
 Or on four different machines:
 
 ```shell
 cd playground
-mvn -P run -Djgroups.bind_addr=ip1
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=ip1
 
 cd playground
-mvn -P run -Djgroups.bind_addr=ip2
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=ip2
 
 cd playground
-mvn -P run -Djgroups.bind_addr=ip3
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=ip3
 
 cd playground
-mvn -P run -Djgroups.bind_addr=ip4
+mvn -P run -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=ip4
 ```
 
 Usage

@@ -25,7 +25,7 @@ Start the JBoss EAP Server
 1. Open a command prompt and navigate to the root of the JBoss EAP directory.
 2. The following shows the command line to start the server:
 
-        For Unix:   EAP_HOME/bin/standalone.sh
+        For Unix:   $EAP_HOME/bin/standalone.sh -Djgroups.bind_addr=localhost
  
 Build and Deploy the Quickstart
 -------------------------

@@ -10,25 +10,25 @@ Build instructions
 For example to launch four nodes on a single machine just run these commands using different terminals:
 
 ```shell
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=localhost
 
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=localhost
 
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=localhost
 
-mvn -P run -Djgroups.bind_addr=localhost
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=localhost
 ```
 
 Or on four different machines:
 
 ```shell
-mvn -P run -Djgroups.bind_addr=ip1
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=ip1
 
-mvn -P run -Djgroups.bind_addr=ip2
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=ip2
 
-mvn -P run -Djgroups.bind_addr=ip3
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=ip3
 
-mvn -P run -Djgroups.bind_addr=ip4
+mvn -P run -Djgroups.bind_addr=localhost -Djgroups.bind_addr=ip4
 ```
 
 Please refer to the parent project Readme.md for more details
