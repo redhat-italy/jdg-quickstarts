@@ -82,12 +82,14 @@ public class JDGHelper {
 
     String info() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing info command");
         new InfoConsoleCommand(cacheManager).execute(ui, null);
         return ui.getResult();
     }
 
     String key() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing key command");
         new KeyConsoleCommand(cacheManager).execute(ui, null);
         return ui.getResult();
     }
@@ -101,6 +103,7 @@ public class JDGHelper {
 
     String local() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing local command");
         new LocalConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
     }
