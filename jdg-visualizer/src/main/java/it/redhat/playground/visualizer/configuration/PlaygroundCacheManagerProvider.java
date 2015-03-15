@@ -40,7 +40,7 @@ public class PlaygroundCacheManagerProvider {
     public void startup() {
         log.info("DefaultCacheManager does not exist - constructing a new one");
         manager = new PlaygroundConfiguration().getCacheManager();
-        log.info("Starting CacheManager");
+        log.info("Starting Cache");
         manager.getCache().start();
     }
 
