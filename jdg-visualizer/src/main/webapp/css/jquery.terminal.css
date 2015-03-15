@@ -23,6 +23,7 @@
 }
 .terminal {
     padding: 10px;
+    height: 50%;
     position: relative;
     overflow: hidden;
 }
