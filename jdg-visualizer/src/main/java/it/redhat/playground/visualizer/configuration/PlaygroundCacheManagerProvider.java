@@ -20,12 +20,15 @@ package it.redhat.playground.visualizer.configuration;
 import it.redhat.playground.configuration.PlaygroundConfiguration;
 import org.infinispan.manager.DefaultCacheManager;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.enterprise.context.ApplicationScoped;
+import javax.ejb.Singleton;
+import javax.ejb.Startup;
 import javax.inject.Inject;
 import java.util.logging.Logger;
 
-@ApplicationScoped
+@Startup
+@Singleton
 public class PlaygroundCacheManagerProvider {
 
     @Inject
@@ -33,11 +36,13 @@ public class PlaygroundCacheManagerProvider {
 
     private DefaultCacheManager manager;
 
+    @PostConstruct
+    public void startup() {
+        log.info("\n\n DefaultCacheManager does not exist - constructing a new one\n\n");
+        manager = new PlaygroundConfiguration().getCacheManager();
+    }
+
     public DefaultCacheManager getCacheManager() {
-        if (manager == null) {
-            log.info("\n\n DefaultCacheManager does not exist - constructing a new one\n\n");
-            manager = new PlaygroundConfiguration().getCacheManager();
-        }
         return manager;
     }
 

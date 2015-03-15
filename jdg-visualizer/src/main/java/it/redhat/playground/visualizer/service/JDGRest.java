@@ -18,10 +18,13 @@ package it.redhat.playground.visualizer.service;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Application;
 import java.util.logging.Logger;
 
+@ApplicationPath("/rest")
 @Path("/")
-public class JDGRest {
+public class JDGRest extends Application {
+
     @Inject
     JDGHelper jdgHelper;
 
@@ -30,105 +33,105 @@ public class JDGRest {
 
     @GET
     @Path("/{key}/locate")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String locate(@PathParam("key") String key) {
         return "{\"result\":\"" + jdgHelper.locate(key) + "\"}";
     }
 
     @GET
     @Path("/{key}")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String get(@PathParam("key") String key) {
         return "{\"result\":\"" + jdgHelper.get(key) + "\"}";
     }
 
     @GET
     @Path("/{key}/put/{value}")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String postWithGet(@PathParam("key") String key, @PathParam("value") String value) {
         return "{\"result\":\"" + jdgHelper.post(key, value) + "\"}";
     }
 
     @GET
     @Path("/{key}/pia/{value}")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String pia(@PathParam("key") String key, @PathParam("value") String value) {
         return "{\"result\":\"" + jdgHelper.pia(key, value) + "\"}";
     }
 
     @POST
     @Path("/{key}/{value}")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String post(@PathParam("key") String key, @PathParam("value") String value) {
         return "{\"result\":\"" + jdgHelper.post(key, value) + "\"}";
     }
 
     @GET
     @Path("/loadtest")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String loadtest() {
         return "{\"result\":\"" + jdgHelper.loadtest() + "\"}";
     }
 
     @GET
     @Path("/key")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String key() {
         return "{\"result\":\"" + jdgHelper.key() + "\"}";
     }
 
     @GET
     @Path("/all")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String all() {
         return "{\"result\":\"" + jdgHelper.all() + "\"}";
     }
 
     @GET
     @Path("/local")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String local() {
         return "{\"result\":\"" + jdgHelper.local() + "\"}";
     }
 
     @GET
     @Path("/primary")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String primary() {
         return "{\"result\":\"" + jdgHelper.primary() + "\"}";
     }
 
     @GET
     @Path("/replica")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String replica() {
         return "{\"result\":\"" + jdgHelper.replica() + "\"}";
     }
 
     @GET
     @Path("/address")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String address() {
         return "{\"result\":\"" + jdgHelper.address() + "\"}";
     }
 
     @GET
     @Path("/info")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String info() {
         return "{\"result\":\"" + jdgHelper.info() + "\"}";
     }
 
     @GET
     @Path("/routing")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String routing() {
         return "{\"result\":\"" + jdgHelper.routing() + "\"}";
     }
 
     @GET
     @Path("/hashtags")
-    @Produces({ "application/json" })
+    @Produces({"application/json"})
     public String hashtags() {
         return "{\"result\":\"" + jdgHelper.hashtags() + "\"}";
     }
