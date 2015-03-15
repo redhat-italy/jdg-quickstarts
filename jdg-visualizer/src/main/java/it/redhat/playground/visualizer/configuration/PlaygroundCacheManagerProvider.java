@@ -38,8 +38,10 @@ public class PlaygroundCacheManagerProvider {
 
     @PostConstruct
     public void startup() {
-        log.info("\n\n DefaultCacheManager does not exist - constructing a new one\n\n");
+        log.info("DefaultCacheManager does not exist - constructing a new one");
         manager = new PlaygroundConfiguration().getCacheManager();
+        log.info("Starting CacheManager");
+        manager.getCache().start();
     }
 
     public DefaultCacheManager getCacheManager() {
