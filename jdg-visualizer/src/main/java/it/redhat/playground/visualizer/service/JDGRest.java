@@ -35,6 +35,7 @@ public class JDGRest extends Application {
     @Path("/{key}/locate")
     @Produces({"application/json"})
     public String locate(@PathParam("key") String key) {
+        log.info("Received locate request for key: " + key);
         return "{\"result\":\"" + jdgHelper.locate(key) + "\"}";
     }
 
@@ -42,6 +43,7 @@ public class JDGRest extends Application {
     @Path("/{key}")
     @Produces({"application/json"})
     public String get(@PathParam("key") String key) {
+        log.info("Received get request for key: " + key);
         return "{\"result\":\"" + jdgHelper.get(key) + "\"}";
     }
 
@@ -49,6 +51,7 @@ public class JDGRest extends Application {
     @Path("/{key}/put/{value}")
     @Produces({"application/json"})
     public String postWithGet(@PathParam("key") String key, @PathParam("value") String value) {
+        log.info("Received post (GET form) request for key: " + key + " with value: " + value);
         return "{\"result\":\"" + jdgHelper.post(key, value) + "\"}";
     }
 
@@ -56,6 +59,7 @@ public class JDGRest extends Application {
     @Path("/{key}/pia/{value}")
     @Produces({"application/json"})
     public String pia(@PathParam("key") String key, @PathParam("value") String value) {
+        log.info("Received putIfAbsent request for key: " + key + " with value: " + value);
         return "{\"result\":\"" + jdgHelper.pia(key, value) + "\"}";
     }
 
@@ -63,6 +67,7 @@ public class JDGRest extends Application {
     @Path("/{key}/{value}")
     @Produces({"application/json"})
     public String post(@PathParam("key") String key, @PathParam("value") String value) {
+        log.info("Received post request for key: " + key + " with value: " + value);
         return "{\"result\":\"" + jdgHelper.post(key, value) + "\"}";
     }
 
@@ -70,6 +75,7 @@ public class JDGRest extends Application {
     @Path("/loadtest")
     @Produces({"application/json"})
     public String loadtest() {
+        log.info("Received loadtest request");
         return "{\"result\":\"" + jdgHelper.loadtest() + "\"}";
     }
 
@@ -77,6 +83,7 @@ public class JDGRest extends Application {
     @Path("/key")
     @Produces({"application/json"})
     public String key() {
+        log.info("Received key request");
         return "{\"result\":\"" + jdgHelper.key() + "\"}";
     }
 
@@ -84,6 +91,7 @@ public class JDGRest extends Application {
     @Path("/all")
     @Produces({"application/json"})
     public String all() {
+        log.info("Received all request");
         return "{\"result\":\"" + jdgHelper.all() + "\"}";
     }
 
@@ -91,6 +99,7 @@ public class JDGRest extends Application {
     @Path("/local")
     @Produces({"application/json"})
     public String local() {
+        log.info("Received local request");
         return "{\"result\":\"" + jdgHelper.local() + "\"}";
     }
 
@@ -98,6 +107,7 @@ public class JDGRest extends Application {
     @Path("/primary")
     @Produces({"application/json"})
     public String primary() {
+        log.info("Received primary request");
         return "{\"result\":\"" + jdgHelper.primary() + "\"}";
     }
 
@@ -105,6 +115,7 @@ public class JDGRest extends Application {
     @Path("/replica")
     @Produces({"application/json"})
     public String replica() {
+        log.info("Received replica request");
         return "{\"result\":\"" + jdgHelper.replica() + "\"}";
     }
 
@@ -112,6 +123,7 @@ public class JDGRest extends Application {
     @Path("/address")
     @Produces({"application/json"})
     public String address() {
+        log.info("Received address request");
         return "{\"result\":\"" + jdgHelper.address() + "\"}";
     }
 
@@ -119,6 +131,7 @@ public class JDGRest extends Application {
     @Path("/info")
     @Produces({"application/json"})
     public String info() {
+        log.info("Received info request");
         return "{\"result\":\"" + jdgHelper.info() + "\"}";
     }
 
@@ -126,6 +139,7 @@ public class JDGRest extends Application {
     @Path("/routing")
     @Produces({"application/json"})
     public String routing() {
+        log.info("Received routing request");
         return "{\"result\":\"" + jdgHelper.routing() + "\"}";
     }
 
@@ -133,6 +147,7 @@ public class JDGRest extends Application {
     @Path("/hashtags")
     @Produces({"application/json"})
     public String hashtags() {
+        log.info("Received hashtags request");
         return "{\"result\":\"" + jdgHelper.hashtags() + "\"}";
     }
 

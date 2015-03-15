@@ -37,6 +37,7 @@ public class JDGHelper {
 
     String address() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing address command");
         new AddressConsoleCommand(cacheManager).execute(ui, null);
         return ui.getResult();
     }
@@ -45,6 +46,7 @@ public class JDGHelper {
         CollectingUI ui = new CollectingUI();
         List<String> args = new ArrayList<>();
         args.add(key);
+        log.info("Executing key command");
         new GetConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
         return ui.getResult();
     }
@@ -54,6 +56,7 @@ public class JDGHelper {
         List<String> args = new ArrayList<>();
         args.add(key);
         args.add(value);
+        log.info("Executing put command");
         new PutConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
         return ui.getResult();
     }
@@ -63,6 +66,7 @@ public class JDGHelper {
         List<String> args = new ArrayList<>();
         args.add(key);
         args.add(value);
+        log.info("Executing putIfAbsent command");
         new PutIfAbsentConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
         return ui.getResult();
     }
@@ -71,6 +75,7 @@ public class JDGHelper {
         CollectingUI ui = new CollectingUI();
         List<String> args = new ArrayList<>();
         args.add(key);
+        log.info("Executing locate command");
         new LocateConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
         return ui.getResult();
     }
@@ -89,6 +94,7 @@ public class JDGHelper {
 
     String loadtest() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing loadTest command");
         new LoadTestConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
     }
@@ -101,24 +107,28 @@ public class JDGHelper {
 
     String primary() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing primary command");
         new PrimaryConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
     }
 
     String all() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing all command");
         new AllConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
     }
 
     String replica() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing replica command");
         new ReplicaConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
     }
 
     String routing() {
         CollectingUI ui = new CollectingUI();
+        log.info("Executing routing command");
         new RoutingConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
     }
