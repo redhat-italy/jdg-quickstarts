@@ -30,14 +30,38 @@
     <script src="./js/jquery.mousewheel-min.js"></script>
     <script src="./js/jquery.terminal-min.js"></script>
     <script src="./js/jdg-terminal.js"></script>
+    <script src="./js/d3.min.js"></script>
+    <script src="./js/c3.min.js"></script>
     <link href="./css/jquery.terminal.css" rel="stylesheet"/>
     <link href="./css/main.css" rel="stylesheet"/>
+    <link href="./css/c3.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 
 <main>
-    <section class="monitor"></section>
-    <section class="terminal"></section>
+    <div id="chart">
+        <script>
+            var chart = c3.generate({
+                data: {
+                    url: 'rest/data/all',
+                    type : 'donut',
+                    onclick: function (d, i) { console.log("onclick", d, i); },
+                    onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                    onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+                },
+                donut: {
+                    title: "JDG Chart"
+                }
+            });
+
+            setInterval(function () {
+                chart.load({
+                    url: 'rest/data/all'
+                });
+            }, 1000)
+        </script>
+    </div>
+    <div id="terminal"></div>
 </main>
 
 </body>

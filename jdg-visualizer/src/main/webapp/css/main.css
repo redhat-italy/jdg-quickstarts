@@ -2,14 +2,7 @@
     margin: 0; padding: 0;
 }
 
-html, body {
-    height: 100%;
-}
-
-main {
-    height: 100%;
-}
-
-#monitor {
-    height: 50%;
+#chart {
+    height: 400px;
+    background-color: navajowhite;
 }

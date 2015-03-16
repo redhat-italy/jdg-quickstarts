@@ -23,9 +23,9 @@
 }
 .terminal {
     padding: 10px;
-    height: 50%;
+    height: 200px;
     position: relative;
-    overflow: hidden;
+    overflow: auto;
 }
 .cmd {
     padding: 0;

@@ -1,0 +1,137 @@
+<!--
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one or more
+ * contributor license agreements.  See the NOTICE file distributed with
+ * this work for additional information regarding copyright ownership.
+ * The ASF licenses this file to You under the Apache License, Version 2.0
+ * (the "License"); you may not use this file except in compliance with
+ * the License.  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+-->
+
+<!DOCTYPE HTML>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>JDG Quickstarts Console</title>
+    <meta name="author" content="Ugo Landini"/>
+    <meta name="Description" content="JDG Playground Web CLI."/>
+    <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <script src="./js/jquery-1.7.1.min.js"></script>
+    <script src="./js/jquery.mousewheel-min.js"></script>
+    <script src="./js/jquery.terminal-min.js"></script>
+    <script src="./js/jdg-terminal.js"></script>
+    <script src="./js/d3.min.js"></script>
+    <link href="./css/jquery.terminal.css" rel="stylesheet"/>
+    <link href="./css/main.css" rel="stylesheet"/>
+</head>
+<body>
+
+<main>
+    <div id="chart">
+        <script>
+            var w = 400;
+            var h = 400;
+            var r = h / 2;
+            var color = d3.scale.category20c();
+
+            d3.json(
+                    'rest/data/all',
+                    function (data) {
+
+                        var vis = d3.select('#chart')
+                                .append("svg:svg")
+                                .data([data])
+                                .attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
+                        var pie = d3.layout.pie().value(function (d) {
+                            return d.value;
+                        });
+
+                        // declare an arc generator function
+                        var arc = d3.svg.arc().outerRadius(r);
+
+                        // select paths, use arc generator to draw
+                        var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+                        arcs.append("svg:path")
+                                .attr("fill", function (d, i) {
+                                    return color(i);
+                                })
+                                .attr("d", function (d) {
+                                    // log the result of the arc generator to show how cool it is :)
+                                    console.log(arc(d));
+                                    return arc(d);
+                                });
+
+                        // add the text
+                        arcs.append("svg:text").attr("transform", function (d) {
+                            d.innerRadius = 0;
+                            d.outerRadius = r;
+                            return "translate(" + arc.centroid(d) + ")";
+                        }).attr("text-anchor", "middle").text(function (d, i) {
+                                    return data[i].label;
+                                }
+                        );
+
+                        console.log(data);
+
+
+                    });
+
+            setInterval(function () {
+
+                d3.json(
+                        'rest/data/all',
+                        function (data) {
+                            var vis = d3.select('#chart')
+                                    .data([data])
+                                    .transition()
+                                    .duration(500)
+                                    .attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
+                            var pie = d3.layout.pie().value(function (d) {
+                                return d.value;
+                            });
+
+                            // declare an arc generator function
+                            var arc = d3.svg.arc().outerRadius(r);
+
+                            // select paths, use arc generator to draw
+                            var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+                            arcs.append("svg:path")
+                                    .attr("fill", function (d, i) {
+                                        return color(i);
+                                    })
+                                    .attr("d", function (d) {
+                                        // log the result of the arc generator to show how cool it is :)
+                                        console.log(arc(d));
+                                        return arc(d);
+                                    });
+
+                            // add the text
+                            arcs.append("svg:text").attr("transform", function (d) {
+                                d.innerRadius = 0;
+                                d.outerRadius = r;
+                                return "translate(" + arc.centroid(d) + ")";
+                            }).attr("text-anchor", "middle").text(function (d, i) {
+                                        return data[i].label;
+                                    }
+                            );
+                            console.log(data);
+                        });
+
+            }, 1000);
+
+        </script>
+    </div>
+    <div id="terminal"></div>
+</main>
+
+</body>
