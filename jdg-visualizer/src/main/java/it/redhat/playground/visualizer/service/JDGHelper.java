@@ -16,15 +16,17 @@
  */
 package it.redhat.playground.visualizer.service;
 
+import it.redhat.playground.JDG;
 import it.redhat.playground.console.commands.*;
 import it.redhat.playground.domain.Value;
 import it.redhat.playground.visualizer.configuration.JDGDemo;
 import it.redhat.playground.visualizer.console.CollectingUI;
+import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
+import org.infinispan.remoting.transport.Address;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class JDGHelper {
@@ -134,6 +136,43 @@ public class JDGHelper {
         log.info("Executing routing command");
         new RoutingConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
         return ui.getResult();
+    }
+
+    String csvDataForChart() {
+        List<Address> members= cacheManager.getMembers();
+        int howMany = members.size();
+
+        StringBuilder list = new StringBuilder();
+        for (int i=0; i<howMany-1; i++) {
+            Address member = members.get(i);
+            list.append(member.toString()).append(",");
+        }
+        list.append(members.get(howMany-1).toString()).append("\n");
+
+        Map<String, Long> keyCountMap = new HashMap<>();
+
+        Cache<Long, Value> cache = cacheManager.getCache();
+
+        Set<Long> keys = cache.keySet();
+        for(Long k : keys) {
+            List<Address> addresses = JDG.locate(cache, k);
+            for(Address address : addresses) {
+                if (keyCountMap.containsKey(address.toString())) {
+                    keyCountMap.put(address.toString(), keyCountMap.get(address.toString()) + 1);
+                } else {
+                    keyCountMap.put(address.toString(), 1l);
+                }
+            }
+        }
+
+        for (int i=0; i<howMany-1; i++) {
+            Address member = members.get(i);
+            list.append(keyCountMap.get(member.toString())).append(",");
+        }
+        list.append(keyCountMap.get(members.get(howMany-1).toString())).append("\n");
+
+        log.info(list.toString());
+        return list.toString();
     }
 
     String hashtags() {

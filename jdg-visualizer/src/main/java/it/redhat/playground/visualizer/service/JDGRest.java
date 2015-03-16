@@ -19,7 +19,6 @@ package it.redhat.playground.visualizer.service;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Application;
-import java.util.Random;
 import java.util.logging.Logger;
 
 @ApplicationPath("/rest")
@@ -156,16 +155,15 @@ public class JDGRest extends Application {
     @Path("/data/all")
     @Produces({"application/json"})
     public String dataAll() {
-        log.info("Received data/all request");
-        int v1 = new Random().nextInt(30) + 10;
+        log.fine("Received data/all request");
+
+        /*int v1 = new Random().nextInt(30) + 10;
         int v2 = new Random().nextInt(40) + 10;
         int v3 = 100 - v1 - v2;
         //String result = "[['data1'," + v1 + "],['data2'," + v2 + "],['data3'," + v3 + "]]";
-        String result = "data1,data2,data3\n" + v1 + "," + v2 + "," + v3 + "\n";
-
-        log.info("Result is " + result);
-        //return "{\"result\":\"" + result + "\"}";
-        return result;
+        String result =
+                "data1,data2,data3\n" + v1 + "," + v2 + "," + v3 + "\n";*/
+        return jdgHelper.csvDataForChart();
 
     }
 
