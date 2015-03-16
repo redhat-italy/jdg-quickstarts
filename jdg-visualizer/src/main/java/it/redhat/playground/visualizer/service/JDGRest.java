@@ -156,13 +156,6 @@ public class JDGRest extends Application {
     @Produces({"application/json"})
     public String dataAll() {
         log.fine("Received data/all request");
-
-        /*int v1 = new Random().nextInt(30) + 10;
-        int v2 = new Random().nextInt(40) + 10;
-        int v3 = 100 - v1 - v2;
-        //String result = "[['data1'," + v1 + "],['data2'," + v2 + "],['data3'," + v3 + "]]";
-        String result =
-                "data1,data2,data3\n" + v1 + "," + v2 + "," + v3 + "\n";*/
         return jdgHelper.csvDataForChart();
 
     }
