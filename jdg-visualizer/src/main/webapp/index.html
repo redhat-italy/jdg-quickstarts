@@ -20,10 +20,11 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8"/>
     <title>JDG Quickstarts Console</title>
+    <meta charset="utf-8"/>
     <meta name="author" content="Ugo Landini"/>
     <meta name="Description" content="JDG Playground Web CLI."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
     <link rel="shortcut icon" href="favicon.ico"/>
     <script src="./js/jquery-1.7.1.min.js"></script>
@@ -38,16 +39,22 @@
 </head>
 <body>
 
-<main>
+<div id="main">
     <div id="chart">
         <script>
             var chart = c3.generate({
                 data: {
                     url: 'rest/data/all',
-                    type : 'donut',
-                    onclick: function (d, i) { console.log("onclick", d, i); },
-                    onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-                    onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+                    type: 'donut',
+                    onclick: function (d, i) {
+                        console.log("onclick", d, i);
+                    },
+                    onmouseover: function (d, i) {
+                        console.log("onmouseover", d, i);
+                    },
+                    onmouseout: function (d, i) {
+                        console.log("onmouseout", d, i);
+                    }
                 },
                 donut: {
                     title: "JDG Chart"
@@ -62,6 +69,6 @@
         </script>
     </div>
     <div id="terminal"></div>
-</main>
+</div>
 
 </body>

@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-jQuery('#terminal').ready(function ($) {
+jQuery().ready(function ($) {
     var id = 1;
-    $('body').terminal(function (command, term) {
+    $('#terminal').terminal(function (command, term) {
         var cmd = $.terminal.splitCommand(command);
 
         if (cmd.name == 'help') {
