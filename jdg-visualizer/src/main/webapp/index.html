@@ -42,30 +42,48 @@
 <div id="main">
     <div id="chart">
         <script>
-            var chart = c3.generate({
-                data: {
-                    url: 'rest/data/all',
-                    type: 'donut',
-                    onclick: function (d, i) {
-                        console.log("onclick", d, i);
-                    },
-                    onmouseover: function (d, i) {
-                        console.log("onmouseover", d, i);
-                    },
-                    onmouseout: function (d, i) {
-                        console.log("onmouseout", d, i);
-                    }
-                },
-                donut: {
-                    title: "JDG Chart"
-                }
+            var oldData = null;
+            jQuery().ready(function ($) {
+                setInterval(function () {
+                    $.ajax({
+                        url: 'rest/data/all',
+                        cache: false,
+                        dataType: 'text',
+                        success: function (newData) {
+                            if (oldData != newData) {
+                                oldData = newData;
+                                chart = c3.generate({
+                                    data: {
+                                        url: 'rest/data/all',
+                                        type: 'donut',
+                                        onclick: function (d, i) {
+                                            console.log("onclick", d, i);
+                                        },
+                                        onmouseover: function (d, i) {
+                                            console.log("onmouseover", d, i);
+                                        },
+                                        onmouseout: function (d, i) {
+                                            console.log("onmouseout", d, i);
+                                        }
+                                    },
+                                    donut: {
+                                        title: "JDG Chart"
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }, 1000);
+                /*
+                 setInterval(function () {
+                 chart.load({
+                 url: 'rest/data/all',
+                 unload: true,
+                 done: false
+                 });
+                 }, 1000)
+                 */
             });
-
-            setInterval(function () {
-                chart.load({
-                    url: 'rest/data/all'
-                });
-            }, 1000)
         </script>
     </div>
     <div id="terminal"></div>
