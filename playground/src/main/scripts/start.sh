@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+java -jar -Dplayground.jgroups.configuration=jgroups-tcp.xml -Dlog4j.configuration=file:log4j.properties -Djava.net.preferIPv4Stack=true -Djgroups.bind_addr=localhost jdg-quickstarts-playground-1.0-SNAPSHOT.jar
