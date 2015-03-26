@@ -48,7 +48,7 @@ public class TwitterStatsCommand implements ConsoleCommand {
                 console.println("No hashtag #" + hashtag + " registered");
             }
         } catch (NoSuchElementException e) {
-            throw new IllegalParametersException("Expected usage: stop <hashtag>");
+            throw new IllegalParametersException("Expected usage: stats <hashtag>");
         }
         return true;
     }
