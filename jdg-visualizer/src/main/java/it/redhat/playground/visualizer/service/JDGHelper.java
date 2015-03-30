@@ -16,12 +16,14 @@
  */
 package it.redhat.playground.visualizer.service;
 
-import it.redhat.playground.JDG;
+import it.redhat.playground.console.UI;
 import it.redhat.playground.console.commands.*;
 import it.redhat.playground.domain.Value;
 import it.redhat.playground.visualizer.configuration.JDGDemo;
 import it.redhat.playground.visualizer.console.CollectingUI;
+import it.redhat.playground.visualizer.dto.JDGNodeInfo;
 import org.infinispan.Cache;
+import org.infinispan.distexec.mapreduce.MapReduceTask;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.remoting.transport.Address;
 
@@ -31,132 +33,136 @@ import java.util.logging.Logger;
 
 public class JDGHelper {
 
-    @Inject @JDGDemo
+    @Inject
+    @JDGDemo
     private DefaultCacheManager cacheManager;
 
     @Inject
     private Logger log;
 
-    String address() {
-        CollectingUI ui = new CollectingUI();
+    public UI address() {
         log.info("Executing address command");
-        new AddressConsoleCommand(cacheManager).execute(ui, null);
-        return ui.getResult();
+        ConsoleCommand command = new AddressConsoleCommand(cacheManager);
+        return commandExecutor(command, null);
     }
 
-    String get(String key) {
-        CollectingUI ui = new CollectingUI();
-        List<String> args = new ArrayList<>();
-        args.add(key);
+    public UI  get(String key) {
         log.info("Executing key command");
-        new GetConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
-        return ui.getResult();
+        ConsoleCommand command = new GetConsoleCommand(cacheManager.<Long, Value>getCache());
+        Iterator<String> args = Arrays.asList(key).iterator();
+        return commandExecutor(command, args);
     }
 
-    String post(String key, String value) {
-        CollectingUI ui = new CollectingUI();
-        List<String> args = new ArrayList<>();
-        args.add(key);
-        args.add(value);
+    public UI  post(String key, String value) {
         log.info("Executing put command");
-        new PutConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
-        return ui.getResult();
+        ConsoleCommand command = new PutConsoleCommand(cacheManager.<Long, Value>getCache());
+        Iterator<String> args = Arrays.asList(key, value).iterator();
+        return commandExecutor(command, args);
     }
 
-    String pia(String key, String value) {
-        CollectingUI ui = new CollectingUI();
-        List<String> args = new ArrayList<>();
-        args.add(key);
-        args.add(value);
+    public UI  pia(String key, String value) {
         log.info("Executing putIfAbsent command");
-        new PutIfAbsentConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
-        return ui.getResult();
+        ConsoleCommand command = new PutIfAbsentConsoleCommand(cacheManager.<Long, Value>getCache());
+        Iterator<String> args = Arrays.asList(key, value).iterator();
+        return commandExecutor(command, args);
     }
 
-    String locate(String key) {
-        CollectingUI ui = new CollectingUI();
-        List<String> args = new ArrayList<>();
-        args.add(key);
+    public UI  locate(String key) {
         log.info("Executing locate command");
-        new LocateConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, args.iterator());
-        return ui.getResult();
+        return commandExecutor(new LocateConsoleCommand(cacheManager.<Long, Value>getCache()), Arrays.asList(key).iterator());
     }
 
-    String info() {
-        CollectingUI ui = new CollectingUI();
+    public UI  info() {
         log.info("Executing info command");
-        new InfoConsoleCommand(cacheManager).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new InfoConsoleCommand(cacheManager), null);
     }
 
-    String key() {
-        CollectingUI ui = new CollectingUI();
+    public UI  key() {
         log.info("Executing key command");
-        new KeyConsoleCommand(cacheManager).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new KeyConsoleCommand(cacheManager), null);
     }
 
-    String loadtest() {
-        CollectingUI ui = new CollectingUI();
+    public UI  loadtest() {
         log.info("Executing loadTest command");
-        new LoadTestConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new LoadTestConsoleCommand(cacheManager.<Long, Value>getCache()), null);
     }
 
-    String local() {
-        CollectingUI ui = new CollectingUI();
+    public UI  local() {
         log.info("Executing local command");
-        new LocalConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new LocalConsoleCommand(cacheManager.<Long, Value>getCache()), null);
     }
 
-    String primary() {
-        CollectingUI ui = new CollectingUI();
+    public UI  primary() {
         log.info("Executing primary command");
-        new PrimaryConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new PrimaryConsoleCommand(cacheManager.<Long, Value>getCache()), null);
     }
 
-    String all() {
-        CollectingUI ui = new CollectingUI();
+    public UI  all() {
         log.info("Executing all command");
-        new AllConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new AllConsoleCommand(cacheManager.<Long, Value>getCache()), null);
     }
 
-    String replica() {
-        CollectingUI ui = new CollectingUI();
+    public UI  replica() {
         log.info("Executing replica command");
-        new ReplicaConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new ReplicaConsoleCommand(cacheManager.<Long, Value>getCache()), null);
     }
 
-    String routing() {
-        CollectingUI ui = new CollectingUI();
+    public UI  routing() {
         log.info("Executing routing command");
-        new RoutingConsoleCommand(cacheManager.<Long, Value>getCache()).execute(ui, null);
-        return ui.getResult();
+        return commandExecutor(new RoutingConsoleCommand(cacheManager.<Long, Value>getCache()), null);
     }
 
-    String csvDataForChart() {
-        List<Address> members= cacheManager.getMembers();
+    public List<JDGNodeInfo> getJDGInfo() {
+        Cache<Long, Value> cache = cacheManager.getCache();
+        Map<String, Long> jdgInfos = new MapReduceTask<Long, Value, String, Long>(cache)
+                .mappedWith(new MapperKeysToAddress())
+                .reducedWith(new ReducerKeysToAddress())
+                .execute();
+
+        List<JDGNodeInfo> result = new ArrayList<>();
+        for(Address address : cacheManager.getMembers()) {
+            String label = address.toString();
+            Long value = 0L;
+            if(jdgInfos.containsKey(label)) {
+                jdgInfos.get(label);
+            }
+            result.add(new JDGNodeInfo(label, value));
+        }
+        return result;
+    }
+
+    public UI  hashtags() {
+        CollectingUI ui = new CollectingUI();
+        ui.println("List all registered hashtags feeding the grid");
+        return ui;
+    }
+
+    private UI commandExecutor(ConsoleCommand command, Iterator<String> args) {
+        CollectingUI ui = new CollectingUI();
+        command.execute(ui, args);
+        return ui;
+    }
+
+/*
+    public JDGCommandResult  csvDataForChart() {
+        List<Address> members = cacheManager.getMembers();
         int howMany = members.size();
 
         StringBuilder list = new StringBuilder();
-        for (int i=0; i<howMany-1; i++) {
+        for (int i = 0; i < howMany - 1; i++) {
             Address member = members.get(i);
             list.append(member.toString()).append(",");
         }
-        list.append(members.get(howMany-1).toString()).append("\n");
+        list.append(members.get(howMany - 1).toString()).append("\n");
 
         Map<String, Long> keyCountMap = new HashMap<>();
 
         Cache<Long, Value> cache = cacheManager.getCache();
 
         Set<Long> keys = cache.keySet();
-        for(Long k : keys) {
+        for (Long k : keys) {
             List<Address> addresses = JDG.locate(cache, k);
-            for(Address address : addresses) {
+            for (Address address : addresses) {
                 if (keyCountMap.containsKey(address.toString())) {
                     keyCountMap.put(address.toString(), keyCountMap.get(address.toString()) + 1);
                 } else {
@@ -165,19 +171,15 @@ public class JDGHelper {
             }
         }
 
-        for (int i=0; i<howMany-1; i++) {
+        for (int i = 0; i < howMany - 1; i++) {
             Address member = members.get(i);
             list.append(keyCountMap.get(member.toString())).append(",");
         }
-        list.append(keyCountMap.get(members.get(howMany-1).toString())).append("\n");
+        list.append(keyCountMap.get(members.get(howMany - 1).toString())).append("\n");
 
         log.info(list.toString());
         return list.toString();
     }
-
-    String hashtags() {
-        return "List all registered hashtags feeding the grid";
-    }
-
+*/
 }
 

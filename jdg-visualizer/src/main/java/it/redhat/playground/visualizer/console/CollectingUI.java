@@ -23,39 +23,35 @@ public class CollectingUI implements UI {
 
     @Override
     public void print(Object message) {
-        result.append(convertCRToJson(message.toString()));
+        result.append(message.toString());
     }
 
     @Override
     public void println(Object message) {
-        result.append(convertCRToJson(message.toString() + "\n"));
+        result.append(message.toString()).append("\n");
     }
 
     @Override
     public void print(String message) {
-        result.append(convertCRToJson(message));
+        result.append(message);
     }
 
     @Override
     public void println(String message) {
-        result.append(convertCRToJson(message + "\n"));
+        result.append(message).append("\n");
     }
 
     @Override
     public void println() {
+        result.append("\n");
     }
 
     @Override
     public void printUsage() {
-
     }
 
     public String getResult() {
         return result.toString();
-    }
-
-    private String convertCRToJson(String text) {
-        return text.replace("\n", "\\n");
     }
 
     private StringBuilder result = new StringBuilder();

@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 -->
-
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -24,6 +23,7 @@
     <title>JDG Quickstarts Console</title>
     <meta name="author" content="Ugo Landini"/>
     <meta name="Description" content="JDG Playground Web CLI."/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="sitemap" type="application/xml" title="Sitemap" href=""/>
     <link rel="shortcut icon" href="favicon.ico"/>
     <script src="./js/jquery-1.7.1.min.js"></script>
@@ -36,102 +36,133 @@
 </head>
 <body>
 
-<main>
+<div id="main">
     <div id="chart">
         <script>
-            var w = 400;
-            var h = 400;
-            var r = h / 2;
-            var color = d3.scale.category20c();
+            var width = 800;
+            var height = 400;
+            var r = Math.min(width, height) / 2;
 
-            d3.json(
-                    'rest/data/all',
+            var format = d3.format("2,.1%");
+            var color = d3.scale.category20();
+            var chooseColor = function (d) {
+                return color(d.data.label);
+            };
+            var arcTween = function (fun) {
+                return function (a) {
+                    var i = d3.interpolate(this._current, a);
+                    this._current = i(0);
+                    return function (t) {
+                        return fun(i(t));
+                    };
+                };
+            };
+
+            var svg = d3.select("#chart").append("svg")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+            // declare an arc generator function
+            var arc = d3.svg.arc().outerRadius(r).innerRadius(r / 3 * 2);
+            var createPie = function (data) {
+                var tot = d3.sum(data, function (d) {
+                    return d.value;
+                });
+                var scale = d3.scale.linear()
+                        .domain([-0.1, tot])
+                        .range([0, 100]);
+                return d3.layout.pie().value(function (d) {
+                    return scale(d.value);
+                }).sort(null);
+            };
+
+            d3.json('rest/data/all',
                     function (data) {
-
-                        var vis = d3.select('#chart')
-                                .append("svg:svg")
-                                .data([data])
-                                .attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
-                        var pie = d3.layout.pie().value(function (d) {
-                            return d.value;
-                        });
-
-                        // declare an arc generator function
-                        var arc = d3.svg.arc().outerRadius(r);
-
-                        // select paths, use arc generator to draw
-                        var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
-                        arcs.append("svg:path")
-                                .attr("fill", function (d, i) {
-                                    return color(i);
+                        var pie = createPie(data);
+                        var path = svg.selectAll("path").data(pie(data));
+                        path.enter()
+                                .append("path")
+                                .attr("fill", chooseColor)
+                                .attr("d", arc)
+                                .each(function (d) {
+                                    this._current = d;
                                 })
-                                .attr("d", function (d) {
-                                    // log the result of the arc generator to show how cool it is :)
-                                    console.log(arc(d));
-                                    return arc(d);
+                                .append("title")
+                                .text(function (d) {
+                                    return d.data.label;
                                 });
 
-                        // add the text
-                        arcs.append("svg:text").attr("transform", function (d) {
-                            d.innerRadius = 0;
-                            d.outerRadius = r;
-                            return "translate(" + arc.centroid(d) + ")";
-                        }).attr("text-anchor", "middle").text(function (d, i) {
-                                    return data[i].label;
-                                }
-                        );
-
-                        console.log(data);
-
-
+                        var text = svg.selectAll("text").data(pie(data));
+                        text
+                                .enter()
+                                .append("text")
+                                .attr("fill", "white")
+                                .attr("text-anchor", "middle")
+                                .attr("transform", function (d) {
+                                    return "translate(" + arc.centroid(d) + ")";
+                                })
+                                .text(function (d, i) {
+                                    return format(d.value / 100);
+                                })
+                                .each(function (d) {
+                                    this._current = d;
+                                });
                     });
 
             setInterval(function () {
-
-                d3.json(
-                        'rest/data/all',
+                d3.json('rest/data/all',
                         function (data) {
-                            var vis = d3.select('#chart')
-                                    .data([data])
+                            var pie = createPie(data);
+                            var path = svg.selectAll("path").data(pie(data));
+                            path.enter()
+                                    .append("path")
+                                    .attr("fill", chooseColor)
+                                    .each(function (d) {
+                                        this._current = d;
+                                    })
+                                    .append("title")
+                                    .text(function (d) {
+                                        return d.data.label;
+                                    });
+                            path.exit()
                                     .transition()
                                     .duration(500)
-                                    .attr("width", w).attr("height", h).append("svg:g").attr("transform", "translate(" + r + "," + r + ")");
-                            var pie = d3.layout.pie().value(function (d) {
-                                return d.value;
-                            });
+                                    .attrTween("d", arcTween(arc))
+                                    .remove();
+                            path
+                                    .transition()
+                                    .duration(750)
+                                    .attrTween("d", arcTween(arc));
 
-                            // declare an arc generator function
-                            var arc = d3.svg.arc().outerRadius(r);
-
-                            // select paths, use arc generator to draw
-                            var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
-                            arcs.append("svg:path")
-                                    .attr("fill", function (d, i) {
-                                        return color(i);
-                                    })
-                                    .attr("d", function (d) {
-                                        // log the result of the arc generator to show how cool it is :)
-                                        console.log(arc(d));
-                                        return arc(d);
+                            var text = svg.selectAll("text").data(pie(data));
+                            text
+                                    .enter()
+                                    .append("text")
+                                    .attr("fill", "white")
+                                    .attr("text-anchor", "middle")
+                                    .each(function (d) {
+                                        this._current = d;
                                     });
 
-                            // add the text
-                            arcs.append("svg:text").attr("transform", function (d) {
-                                d.innerRadius = 0;
-                                d.outerRadius = r;
-                                return "translate(" + arc.centroid(d) + ")";
-                            }).attr("text-anchor", "middle").text(function (d, i) {
-                                        return data[i].label;
-                                    }
-                            );
-                            console.log(data);
-                        });
+                            text.exit().remove();
+                            text
+                                    .transition()
+                                    .duration(750)
+                                    .attrTween("transform", arcTween(function (d) {
+                                        return "translate(" + arc.centroid(d) + ")";
+                                    }))
+                                    .text(function (d, i) {
+                                        return format(d.value / 100);
+                                    })
 
-            }, 1000);
+                        });
+            }, 2000);
 
         </script>
     </div>
     <div id="terminal"></div>
-</main>
+</div>
 
 </body>
