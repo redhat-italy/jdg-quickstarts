@@ -24,15 +24,13 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import javax.inject.Inject;
 import java.util.logging.Logger;
 
 @Startup
 @Singleton
 public class PlaygroundCacheManagerProvider {
 
-    @Inject
-    private Logger log;
+    private Logger log = Logger.getLogger(PlaygroundCacheManagerProvider.class.getName());
 
     private DefaultCacheManager manager;
 

@@ -27,16 +27,16 @@ import java.util.logging.Logger;
 public class Resources {
 
     @Inject
-    PlaygroundCacheManagerProvider cacheManagerProvider;
+    private PlaygroundCacheManagerProvider cacheManagerProvider;
 
     @Produces
-    Logger getLogger(InjectionPoint ip) {
+    public Logger getLogger(InjectionPoint ip) {
         String category = ip.getMember().getDeclaringClass().getName();
         return Logger.getLogger(category);
     }
 
     @Produces @JDGDemo
-    DefaultCacheManager getDefaultCacheManager() {
+    public DefaultCacheManager getDefaultCacheManager() {
         return cacheManagerProvider.getCacheManager();
     }
 
