@@ -16,6 +16,7 @@
  */
 package it.redhat.playground.visualizer.service;
 
+import it.redhat.playground.JDG;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.commands.*;
 import it.redhat.playground.domain.Value;
@@ -114,19 +115,23 @@ public class JDGHelper {
 
     public List<JDGNodeInfo> getJDGInfo() {
         Cache<Long, Value> cache = cacheManager.getCache();
-        Map<String, Long> jdgInfos = new MapReduceTask<Long, Value, String, Long>(cache)
-                .mappedWith(new MapperKeysToAddress())
-                .reducedWith(new ReducerKeysToAddress())
-                .execute();
+
+        Map<String, Long> keyCountMap = new HashMap<>();
+        Set<Long> keys = cache.keySet();
+        for (Long k : keys) {
+            List<Address> addresses = JDG.locate(cache, k);
+            for (Address address : addresses) {
+                if (keyCountMap.containsKey(address.toString())) {
+                    keyCountMap.put(address.toString(), keyCountMap.get(address.toString()) + 1);
+                } else {
+                    keyCountMap.put(address.toString(), 1l);
+                }
+            }
+        }
 
         List<JDGNodeInfo> result = new ArrayList<>();
-        for(Address address : cacheManager.getMembers()) {
-            String label = address.toString();
-            Long value = 0L;
-            if(jdgInfos.containsKey(label)) {
-                jdgInfos.get(label);
-            }
-            result.add(new JDGNodeInfo(label, value));
+        for(Map.Entry<String, Long> entry: keyCountMap.entrySet()) {
+            result.add(new JDGNodeInfo(entry.getKey(), entry.getValue()));
         }
         return result;
     }
@@ -142,44 +147,5 @@ public class JDGHelper {
         command.execute(ui, args);
         return ui;
     }
-
-/*
-    public JDGCommandResult  csvDataForChart() {
-        List<Address> members = cacheManager.getMembers();
-        int howMany = members.size();
-
-        StringBuilder list = new StringBuilder();
-        for (int i = 0; i < howMany - 1; i++) {
-            Address member = members.get(i);
-            list.append(member.toString()).append(",");
-        }
-        list.append(members.get(howMany - 1).toString()).append("\n");
-
-        Map<String, Long> keyCountMap = new HashMap<>();
-
-        Cache<Long, Value> cache = cacheManager.getCache();
-
-        Set<Long> keys = cache.keySet();
-        for (Long k : keys) {
-            List<Address> addresses = JDG.locate(cache, k);
-            for (Address address : addresses) {
-                if (keyCountMap.containsKey(address.toString())) {
-                    keyCountMap.put(address.toString(), keyCountMap.get(address.toString()) + 1);
-                } else {
-                    keyCountMap.put(address.toString(), 1l);
-                }
-            }
-        }
-
-        for (int i = 0; i < howMany - 1; i++) {
-            Address member = members.get(i);
-            list.append(keyCountMap.get(member.toString())).append(",");
-        }
-        list.append(keyCountMap.get(members.get(howMany - 1).toString())).append("\n");
-
-        log.info(list.toString());
-        return list.toString();
-    }
-*/
 }
 
