@@ -62,7 +62,7 @@ public class PlaygroundConfiguration {
     public DefaultCacheManager getCacheManager() {
         GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault()
 
-                .transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configuration", "jgroups-udp.xml"))
+                .transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configuration", "jgroups-tcp.xml"))
                 .globalJmxStatistics().allowDuplicateDomains(true).enable()
                 .build();
 
