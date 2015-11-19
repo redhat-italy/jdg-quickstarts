@@ -56,6 +56,8 @@ public class PlaygroundConfiguration {
         for (ConsoleCommand command : baseCommands()) {
             textUI.register(command);
         }
+
+        cache.addListener(new ListenerTest());
         return this;
     }
 
