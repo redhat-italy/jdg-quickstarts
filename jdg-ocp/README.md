@@ -1,6 +1,6 @@
-# Openshift JEE sample application
-This is an example JEE application which uses a Datastores component as persistence
-Once built it you can test it with:
+# Openshift JDG-EAP sample application
+This is an example JEE application which connects via HotRod from EAP to JDG
 
-http://[project.IPAddress.xip.io]/movieplex7-1.0-SNAPSHOT/
+http://<address>/jdg/test
+
 
