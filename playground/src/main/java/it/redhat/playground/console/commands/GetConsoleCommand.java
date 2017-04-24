@@ -34,8 +34,7 @@ public class GetConsoleCommand implements ConsoleCommand {
 
     @Inject
     public GetConsoleCommand(PlaygroundConfiguration conf) {
-        this.cache = conf.getCache()
-        ;
+        this.cache = conf.getCache();
     }
 
     @Override

@@ -48,7 +48,6 @@ public class PutConsoleCommand implements ConsoleCommand {
         try {
             Long id = Long.parseLong(args.next());
             String value = args.next();
-
             cache.put(id, new SimpleValue(value));
 
             console.println("Written (" + id + "," + value + ")");

@@ -67,10 +67,7 @@ public class PlaygroundConfiguration {
 
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.jmxStatistics().enable();
-
-        if (isPassivated()) {
-            configurePassivation(configurationBuilder);
-        }
+        configureCacheMode(configurationBuilder);
 
         if (persistence()) {
             configureCacheStore(configurationBuilder);
@@ -80,24 +77,16 @@ public class PlaygroundConfiguration {
         return new DefaultCacheManager(glob, loc, true);
     }
 
-    private void configurePassivation(ConfigurationBuilder configurationBuilder) {
-
-        configurationBuilder
-                .persistence()
-                .passivation(isPassivated())
-                .eviction()
-                .strategy(EvictionStrategy.LRU).type(EvictionType.COUNT).size(evictionSize())
-                .build();
-
-    }
-
     private void configureCacheStore(ConfigurationBuilder configurationBuilder) {
 
         configurationBuilder
                 .persistence()
+                .passivation(isPassivated())
                 .addSingleFileStore()
                 .shared(false)
                 .location(location())
+                .eviction()
+                .strategy(EvictionStrategy.LRU).type(EvictionType.COUNT).size(evictionSize())
                 .build();
 
     }
