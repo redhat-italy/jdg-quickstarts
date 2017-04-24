@@ -25,14 +25,15 @@ import java.util.List;
 
 public class TwitterConfiguration extends PlaygroundConfiguration {
 
-    @Override
+    //@Override
     protected List<ConsoleCommand> baseCommands() {
-        ArrayList<ConsoleCommand> commands = new ArrayList<>(super.baseCommands());
+        ArrayList<ConsoleCommand> commands = new ArrayList<>();
+        //ArrayList<ConsoleCommand> commands = new ArrayList<>(super.baseCommands());
         commands.add(new TwitterStartCommand(this.cache));
         commands.add(new TwitterStopCommand());
         commands.add(new TwitterHashtagsCommand());
         commands.add(new TwitterStatsCommand());
-        commands.add(new TwitterQuitConsoleCommand(this.manager));
+        commands.add(new TwitterQuitConsoleCommand(this.cacheManager));
         return commands;
     }
 }

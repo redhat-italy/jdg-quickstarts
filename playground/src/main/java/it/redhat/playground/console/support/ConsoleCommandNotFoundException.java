@@ -15,20 +15,11 @@
  * limitations under the License.
  */
 
-package it.redhat.playground.visualizer.configuration;
+package it.redhat.playground.console.support;
 
-import javax.inject.Qualifier;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+public class ConsoleCommandNotFoundException extends RuntimeException {
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-@Qualifier
-@Retention(RUNTIME)
-@Target({METHOD, FIELD, PARAMETER, TYPE})
-public @interface JDGDemo {
+    public ConsoleCommandNotFoundException(String name) {
+        super(String.format("Console command %s not found", name));
+    }
 }

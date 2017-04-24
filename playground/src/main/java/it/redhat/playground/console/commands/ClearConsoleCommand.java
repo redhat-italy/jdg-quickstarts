@@ -17,11 +17,13 @@
 
 package it.redhat.playground.console.commands;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.infinispan.Cache;
 import org.infinispan.manager.DefaultCacheManager;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 
 public class ClearConsoleCommand implements ConsoleCommand {
@@ -29,8 +31,9 @@ public class ClearConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "clear";
     private final DefaultCacheManager cacheManager;
 
-    public ClearConsoleCommand(DefaultCacheManager cacheManager) {
-        this.cacheManager = cacheManager;
+    @Inject
+    public ClearConsoleCommand(PlaygroundConfiguration conf) {
+        this.cacheManager = conf.getCacheManager();
     }
 
     @Override

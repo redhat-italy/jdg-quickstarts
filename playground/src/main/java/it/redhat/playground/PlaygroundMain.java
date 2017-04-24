@@ -18,6 +18,9 @@
 package it.redhat.playground;
 
 import it.redhat.playground.configuration.PlaygroundConfiguration;
+import it.redhat.playground.console.TextUI;
+import org.jboss.weld.environment.se.Weld;
+import org.jboss.weld.environment.se.WeldContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,10 +29,25 @@ import java.io.IOException;
 public class PlaygroundMain {
 
     public static void main(String[] args) throws IOException {
-        new PlaygroundConfiguration()
-                .configure()
-                .start();
+
+        Weld weld = new Weld();
+        WeldContainer container = weld.initialize();
+        PlaygroundConfiguration conf = container.instance().select(PlaygroundConfiguration.class).get();
+        conf.build();
+
+        TextUI textUI = container.instance().select(TextUI.class).get();
+        printBanner();
+        textUI.start();
+
+    }
+
+    private static void printBanner() {
+        System.out.println("---------------------------------------");
+        System.out.println("           JDG Playground CLI");
+        System.out.println("---------------------------------------");
+        System.out.println();
     }
 
     private static Logger log = LoggerFactory.getLogger(PlaygroundMain.class.getName());
 }
+

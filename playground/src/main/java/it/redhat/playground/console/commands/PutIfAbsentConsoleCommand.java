@@ -17,12 +17,14 @@
 
 package it.redhat.playground.console.commands;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.SimpleValue;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -31,8 +33,9 @@ public class PutIfAbsentConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "putIfAbsent|putifabsent|pia";
     private final Cache<Long, Value> cache;
 
-    public PutIfAbsentConsoleCommand(Cache<Long, Value> cache) {
-        this.cache = cache;
+    @Inject
+    public PutIfAbsentConsoleCommand(PlaygroundConfiguration conf) {
+        this.cache = conf.getCache();
     }
 
     @Override

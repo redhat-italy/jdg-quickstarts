@@ -17,11 +17,13 @@
 
 package it.redhat.playground.console.commands;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -30,8 +32,10 @@ public class GetConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "get";
     private final Cache<Long, Value> cache;
 
-    public GetConsoleCommand(Cache<Long, Value> cache) {
-        this.cache = cache;
+    @Inject
+    public GetConsoleCommand(PlaygroundConfiguration conf) {
+        this.cache = conf.getCache()
+        ;
     }
 
     @Override

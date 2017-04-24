@@ -18,12 +18,14 @@
 package it.redhat.playground.console.commands;
 
 import it.redhat.playground.JDG;
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 import org.infinispan.remoting.transport.Address;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -33,8 +35,9 @@ public class LocateConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "locate";
     private final Cache<Long, Value> cache;
 
-    public LocateConsoleCommand(Cache<Long, Value> cache) {
-        this.cache = cache;
+    @Inject
+    public LocateConsoleCommand(PlaygroundConfiguration conf) {
+        this.cache = conf.getCache();
     }
 
     @Override

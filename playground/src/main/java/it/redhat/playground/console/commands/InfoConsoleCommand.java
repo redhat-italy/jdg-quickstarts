@@ -17,10 +17,12 @@
 
 package it.redhat.playground.console.commands;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.infinispan.manager.DefaultCacheManager;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 
 public class InfoConsoleCommand implements ConsoleCommand {
@@ -29,8 +31,9 @@ public class InfoConsoleCommand implements ConsoleCommand {
 
     private DefaultCacheManager cacheManager;
 
-    public InfoConsoleCommand(DefaultCacheManager cacheManager) {
-        this.cacheManager = cacheManager;
+    @Inject
+    public InfoConsoleCommand(PlaygroundConfiguration conf) {
+        this.cacheManager = conf.getCacheManager();
     }
 
     @Override
@@ -58,8 +61,11 @@ public class InfoConsoleCommand implements ConsoleCommand {
         info.append("Cache Name: ").append(cacheManager.getCache()).append("\n");
         info.append("Cache Size: ").append(cacheManager.getCache().size()).append("\n");
         info.append("Cache Status: ").append(cacheManager.getCache().getStatus()).append("\n");
-        info.append("Number of Owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumOwners()).append("\n");
-        info.append("Number of Segments: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getConsistentHash().getNumSegments()).append("\n");
+        info.append("Cache Persistence:").append(cacheManager.getCache().getCacheConfiguration().persistence().toString()).append("\n");
+        //info.append("Number of Owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash()).append("\n");
+        //info.append("Number of Owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash().getNumOwners()).append("\n");
+        //info.append("Number of Segments: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash().getNumSegments()).append("\n");
+
         return info.toString();
     }
 

@@ -17,12 +17,14 @@
 
 package it.redhat.playground.console.commands;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.SimpleValue;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 
 public class LoadTestConsoleCommand implements ConsoleCommand {
@@ -30,8 +32,9 @@ public class LoadTestConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "loadtest";
     private final Cache<Long, Value> cache;
 
-    public LoadTestConsoleCommand(Cache<Long, Value> cache) {
-        this.cache = cache;
+    @Inject
+    public LoadTestConsoleCommand(PlaygroundConfiguration conf) {
+        this.cache = conf.getCache();
     }
 
     @Override

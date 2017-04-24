@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.redhat.jdg</groupId>
-    <artifactId>jdg-quickstarts-parent</artifactId>
+    <artifactId>jdg-quickstarts</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>JDG Quickstarts Parent</name>
     <packaging>pom</packaging>
@@ -37,23 +37,24 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <version.org.infinispan>8.0.1.Final</version.org.infinispan>
+        <version.org.infinispan>9.0.0.Final</version.org.infinispan>
         <!--version.org.infinispan>6.2.0.Final-redhat-1</version.org.infinispan-->
 
         <version.buildhelper.maven.plugin>1.7</version.buildhelper.maven.plugin>
         <war.plugin.version>2.2</war.plugin.version>
         <version.maven.surefire>2.14</version.maven.surefire>
 
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.plugin.version>2.5.1</maven.compiler.plugin.version>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.plugin.version>3.3</maven.compiler.plugin.version>
         <maven.resources.plugin.version>2.6</maven.resources.plugin.version>
         <maven.bundle.plugin.version>2.3.7</maven.bundle.plugin.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>4.8.2</junit.version>
-        <slf4j.version>1.7.6</slf4j.version>
+        <junit.version>4.12</junit.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
+        <version.weld>1.1.33.Final</version.weld>
 
     </properties>
 
@@ -61,12 +62,9 @@
         <module>playground</module>
         <module>twitter</module>
         <module>dist-exec</module>
-        <module>map-reduce</module>
-        <module>transactions</module>
+        <!--module>transactions</module-->
         <module>perf-test</module>
         <module>jmx-statistics</module>
-        <module>jdg-visualizer</module>
-        <!--module>jdg-web</module-->
     </modules>
 
     <dependencyManagement>
@@ -77,6 +75,12 @@
                 <version>${version.org.infinispan}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.weld.se</groupId>
+                <artifactId>weld-se</artifactId>
+                <version>${version.weld}</version>
             </dependency>
 
             <!--TEST-->

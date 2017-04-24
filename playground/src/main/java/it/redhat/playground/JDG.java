@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,6 +19,7 @@ package it.redhat.playground;
 
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
+import org.infinispan.distribution.LocalizedCacheTopology;
 import org.infinispan.remoting.transport.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,23 +31,24 @@ import java.util.Set;
 public class JDG {
 
     public static String routingTable(Cache<Long, Value> cache) {
-        return cache.getAdvancedCache().getDistributionManager().getConsistentHash().getRoutingTableAsString();
+        return cache.getAdvancedCache().getDistributionManager().getWriteConsistentHash().getRoutingTableAsString();
     }
 
     public static List<Address> locate(Cache<Long, Value> cache, long id) {
-        return cache.getAdvancedCache().getDistributionManager().getConsistentHash().locateOwners(id);
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getActualMembers();
     }
 
     public static Address locatePrimary(Cache<Long, Value> cache, Long id) {
-        return cache.getAdvancedCache().getDistributionManager().getConsistentHash().locatePrimaryOwner(id);
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(id).primary();
     }
 
     public static boolean checkIfCacheIsPrimaryFor(Cache<Long, Value> cache, long key) {
-        return cache.getAdvancedCache().getDistributionManager().getPrimaryLocation(key).equals(cache.getCacheManager().getAddress());
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).isPrimary();
     }
 
     public static boolean checkIfKeyIsLocalInCache(Cache<Long, Value> cache, long key) {
-        return cache.getAdvancedCache().getDistributionManager().getLocality(key).isLocal();
+        LocalizedCacheTopology topology = cache.getAdvancedCache().getDistributionManager().getCacheTopology();
+        return topology.isReadOwner(key) || topology.isWriteOwner(key);
     }
 
     public static boolean checkIfCacheIsSecondaryFor(Cache<Long, Value> cache, long key) {
@@ -97,8 +99,10 @@ public class JDG {
         return values;
     }
 
-    private static  final Logger log = LoggerFactory.getLogger(JDG.class);
+    private static final Logger log = LoggerFactory.getLogger(JDG.class);
 
-    private static enum Filter {ALL, LOCAL, PRIMARY, REPLICA};
+    private static enum Filter {ALL, LOCAL, PRIMARY, REPLICA}
+
+    ;
 
 }

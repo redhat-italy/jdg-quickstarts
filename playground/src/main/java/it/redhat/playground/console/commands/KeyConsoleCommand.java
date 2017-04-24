@@ -17,6 +17,7 @@
 
 package it.redhat.playground.console.commands;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.infinispan.Cache;
@@ -25,6 +26,7 @@ import org.infinispan.affinity.KeyAffinityServiceFactory;
 import org.infinispan.affinity.impl.RndKeyGenerator;
 import org.infinispan.manager.DefaultCacheManager;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,10 +36,10 @@ public class KeyConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "key";
     private DefaultCacheManager cacheManager;
 
-    public KeyConsoleCommand(DefaultCacheManager cacheManager) {
-        this.cacheManager = cacheManager;
+    @Inject
+    public KeyConsoleCommand(PlaygroundConfiguration conf) {
+        this.cacheManager = conf.getCacheManager();
     }
-
 
     @Override
     public String command() {

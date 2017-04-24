@@ -26,8 +26,8 @@ public class TwitterMain {
 
     public static void main(String[] args) throws IOException {
         new TwitterConfiguration()
-                .configure()
-                .start();
+                .build();
+                //.start();
     }
 
     private static Logger log = LoggerFactory.getLogger(TwitterMain.class.getName());

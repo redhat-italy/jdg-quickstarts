@@ -19,34 +19,32 @@ package it.redhat.playground.console;
 
 import it.redhat.playground.console.commands.ConsoleCommand;
 import it.redhat.playground.console.support.ConsoleCommandComparator;
+import it.redhat.playground.console.support.ConsoleCommandNotFoundException;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.StreamSupport;
 
 public class TextUI implements UI {
+
+    @Inject
+    private Instance<ConsoleCommand> commands;
 
     private final static Logger log = LoggerFactory.getLogger(TextUI.class);
 
     private final BufferedReader in;
     private final PrintStream out;
-    private final Map<Pattern, ConsoleCommand> commands = new HashMap<Pattern, ConsoleCommand>();
 
-    public TextUI(InputStream in, PrintStream out) {
-        this.in = new BufferedReader(new InputStreamReader(in));
-        this.out = out;
-    }
-
-    public UI register(ConsoleCommand cmd) {
-        if (cmd == null) {
-            throw new IllegalArgumentException("Command argument cannot be null");
-        }
-        String name = cmd.command();
-        commands.put(Pattern.compile(name), cmd);
-        return this;
+    public TextUI() {
+        this.in = new BufferedReader(new InputStreamReader(System.in));
+        this.out = System.out;
     }
 
     public void start() throws IOException {
@@ -66,15 +64,12 @@ public class TextUI implements UI {
         Scanner scanner = new Scanner(line);
         try {
             String name = scanner.next();
-            for(Pattern key: commands.keySet()) {
-                if(key.matcher(name).matches()) {
-                    ConsoleCommand command = commands.get(key);
-                    return command.execute(this, scanner);
-                }
-            }
+            findByName(name)
+                    .orElseThrow(() -> new ConsoleCommandNotFoundException(name))
+                    .execute(this, scanner);
         } catch (NoSuchElementException e) {
             out.println("> ");
-        } catch (IllegalParametersException e) {
+        } catch (IllegalParametersException | ConsoleCommandNotFoundException e) {
             println(e.getMessage());
         }
         return true;
@@ -107,12 +102,17 @@ public class TextUI implements UI {
 
     @Override
     public void printUsage() {
-        TreeSet<ConsoleCommand> orderedSet = new TreeSet<ConsoleCommand>(new ConsoleCommandComparator());
-        orderedSet.addAll(commands.values());
 
-        out.println("Commands:");
-        for(ConsoleCommand command : orderedSet) {
-            command.usage(this);
-        }
+        StreamSupport.stream(commands.spliterator(), true)
+                .sorted(new ConsoleCommandComparator())
+                .forEachOrdered(c -> {
+                    c.usage(this);
+                });
+    }
+
+    private Optional<ConsoleCommand> findByName(String name) {
+        return StreamSupport.stream(commands.spliterator(), false)
+                .filter(c -> Pattern.compile(c.command()).matcher(name).matches())
+                .findFirst();
     }
 }

@@ -25,9 +25,10 @@ import java.util.List;
 
 public class PerfTestConfiguration extends PlaygroundConfiguration {
 
-    @Override
+    //@Override
     protected List<ConsoleCommand> baseCommands() {
-        ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>(super.baseCommands());
+        ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>();
+        //ArrayList<ConsoleCommand> commands = new ArrayList<ConsoleCommand>(super.baseCommands());
         commands.add(new SPutConsoleCommand(this.cache));
         commands.add(new SizeConsoleCommand(this.cache));
         commands.add(new TestConsoleCommand(this.cache));

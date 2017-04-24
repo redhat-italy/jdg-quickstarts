@@ -17,10 +17,12 @@
 
 package it.redhat.playground.console.commands;
 
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import org.infinispan.manager.DefaultCacheManager;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 
 public class QuitConsoleCommand implements ConsoleCommand {
@@ -28,8 +30,9 @@ public class QuitConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "quit|exit|q|x";
     private final DefaultCacheManager cacheManager;
 
-    public QuitConsoleCommand(DefaultCacheManager cacheManager) {
-        this.cacheManager = cacheManager;
+    @Inject
+    public QuitConsoleCommand(PlaygroundConfiguration conf) {
+        this.cacheManager = conf.getCacheManager();
     }
 
     @Override

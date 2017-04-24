@@ -26,8 +26,7 @@ public class DistExecMain {
 
     public static void main(String[] args) throws IOException {
         new DistExecConfiguration()
-                .configure()
-                .start();
+                .build();
     }
 
     private static Logger log = LoggerFactory.getLogger(PlaygroundMain.class.getName());

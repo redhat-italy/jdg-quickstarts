@@ -18,11 +18,13 @@
 package it.redhat.playground.console.commands;
 
 import it.redhat.playground.JDG;
+import it.redhat.playground.configuration.PlaygroundConfiguration;
 import it.redhat.playground.console.UI;
 import it.redhat.playground.console.support.IllegalParametersException;
 import it.redhat.playground.domain.Value;
 import org.infinispan.Cache;
 
+import javax.inject.Inject;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -31,8 +33,9 @@ public class PrimaryConsoleCommand implements ConsoleCommand {
     private static final String COMMAND_NAME = "primary";
     private final Cache<Long, Value> cache;
 
-    public PrimaryConsoleCommand(Cache<Long, Value> cache) {
-        this.cache = cache;
+    @Inject
+    public PrimaryConsoleCommand(PlaygroundConfiguration conf) {
+        this.cache = conf.getCache();
     }
 
     @Override
