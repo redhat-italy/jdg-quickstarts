@@ -24,6 +24,7 @@ import org.infinispan.remoting.transport.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -34,12 +35,40 @@ public class JDG {
         return cache.getAdvancedCache().getDistributionManager().getWriteConsistentHash().getRoutingTableAsString();
     }
 
-    public static List<Address> locate(Cache<Long, Value> cache, long id) {
+    public static List<Address> locate(Cache<Long, Value> cache) {
         return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getActualMembers();
     }
 
-    public static Address locatePrimary(Cache<Long, Value> cache, Long id) {
-        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(id).primary();
+    public static Address locatePrimary(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).primary();
+    }
+
+    public static List<Address> locateReadOwners(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).readOwners();
+    }
+
+    public static List<Address> locateWriteOwners(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).writeOwners();
+    }
+
+    public static Collection<Address> locateWriteBackupOwners(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).writeBackups();
+    }
+
+    public static boolean isPrimary(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).isPrimary();
+    }
+
+    public static boolean isReadOwner(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).isReadOwner();
+    }
+
+    public static boolean isWriteOwner(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).isWriteOwner();
+    }
+
+    public static boolean isWriteBackup(Cache<Long, Value> cache, Long key) {
+        return cache.getAdvancedCache().getDistributionManager().getCacheTopology().getDistribution(key).isWriteBackup();
     }
 
     public static boolean checkIfCacheIsPrimaryFor(Cache<Long, Value> cache, long key) {
@@ -48,7 +77,7 @@ public class JDG {
 
     public static boolean checkIfKeyIsLocalInCache(Cache<Long, Value> cache, long key) {
         LocalizedCacheTopology topology = cache.getAdvancedCache().getDistributionManager().getCacheTopology();
-        return topology.isReadOwner(key) || topology.isWriteOwner(key);
+        return topology.getDistribution(key).isPrimary() || topology.isReadOwner(key) || topology.isWriteOwner(key);
     }
 
     public static boolean checkIfCacheIsSecondaryFor(Cache<Long, Value> cache, long key) {
