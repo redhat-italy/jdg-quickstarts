@@ -33,6 +33,8 @@ public class JDG {
 
     public static String routingTable(Cache<Long, Value> cache) {
         return cache.getAdvancedCache().getDistributionManager().getWriteConsistentHash().getRoutingTableAsString();
+        //String readRouting = cache.getAdvancedCache().getDistributionManager().getReadConsistentHash().getRoutingTableAsString();
+        //return "Write routing table\n" + writeRouting + "\nRead routing table\n" + readRouting;
     }
 
     public static List<Address> locate(Cache<Long, Value> cache) {
