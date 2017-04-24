@@ -28,12 +28,11 @@ import java.util.Iterator;
 public class InfoConsoleCommand implements ConsoleCommand {
 
     private static final String COMMAND_NAME = "info";
-
-    private DefaultCacheManager cacheManager;
+    private PlaygroundConfiguration conf;
 
     @Inject
     public InfoConsoleCommand(PlaygroundConfiguration conf) {
-        this.cacheManager = conf.getCacheManager();
+        this.conf = conf;
     }
 
     @Override
@@ -50,21 +49,20 @@ public class InfoConsoleCommand implements ConsoleCommand {
     private String buildInfo() {
 
         StringBuilder info = new StringBuilder();
-        info.append("Cache Mode: ").append(cacheManager.getCache().getCacheConfiguration().clustering().cacheModeString()).append("\n");
-        info.append("Cache Manager Status: ").append(cacheManager.getStatus()).append("\n");
-        info.append("Cache Manager Address: ").append(cacheManager.getAddress()).append("\n");
-        info.append("Coordinator address: ").append(cacheManager.getCoordinator()).append("\n");
-        info.append("Is Coordinator: ").append(cacheManager.isCoordinator()).append("\n");
-        info.append("Cluster Name: ").append(cacheManager.getClusterName()).append("\n");
-        info.append("Cluster Size: ").append(cacheManager.getClusterSize()).append("\n");
-        info.append("Member list: ").append(cacheManager.getMembers()).append("\n");
-        info.append("Cache Name: ").append(cacheManager.getCache()).append("\n");
-        info.append("Cache Size: ").append(cacheManager.getCache().size()).append("\n");
-        info.append("Cache Status: ").append(cacheManager.getCache().getStatus()).append("\n");
-        info.append("Cache Persistence:").append(cacheManager.getCache().getCacheConfiguration().persistence().toString()).append("\n");
-        //info.append("Number of Owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash()).append("\n");
-        //info.append("Number of Owners: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash().getNumOwners()).append("\n");
-        //info.append("Number of Segments: ").append(cacheManager.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash().getNumSegments()).append("\n");
+        info.append("Cache Mode: ").append(conf.getCache().getCacheConfiguration().clustering().cacheModeString()).append("\n");
+        info.append("Cache Manager Status: ").append(conf.getCacheManager().getStatus()).append("\n");
+        info.append("Cache Manager Address: ").append(conf.getCacheManager().getAddress()).append("\n");
+        info.append("Coordinator address: ").append(conf.getCacheManager().getCoordinator()).append("\n");
+        info.append("Is Coordinator: ").append(conf.getCacheManager().isCoordinator()).append("\n");
+        info.append("Cluster Name: ").append(conf.getCacheManager().getClusterName()).append("\n");
+        info.append("Cluster Size: ").append(conf.getCacheManager().getClusterSize()).append("\n");
+        info.append("Member list: ").append(conf.getCacheManager().getMembers()).append("\n");
+        info.append("Cache Name: ").append(conf.getCache()).append("\n");
+        info.append("Cache Size: ").append(conf.getCache().size()).append("\n");
+        info.append("Cache Status: ").append(conf.getCache().getStatus()).append("\n");
+        info.append("Cache Persistence:").append(conf.getCache().getCacheConfiguration().persistence().toString()).append("\n");
+        info.append("Number of Owners: ").append(conf.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash().getNumOwners()).append("\n");
+        info.append("Number of Segments: ").append(conf.getCache().getAdvancedCache().getDistributionManager().getWriteConsistentHash().getNumSegments()).append("\n");
 
         return info.toString();
     }

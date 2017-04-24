@@ -45,7 +45,7 @@ public class PlaygroundConfiguration {
     public PlaygroundConfiguration build() {
 
         cacheManager = buildCacheManager();
-        cache = cacheManager.getCache();
+        cache = cacheManager.getCache("PLAYGROUND", true);
         cache.addListener(new ListenerTest());
         return this;
     }
@@ -62,6 +62,7 @@ public class PlaygroundConfiguration {
         GlobalConfiguration glob = new GlobalConfigurationBuilder().clusteredDefault()
 
                 //.transport().addProperty("configurationFile", System.getProperty("playground.jgroups.configuration", "default-jgroups-tcp.xml"))
+                .transport().clusterName("PLAYGROUND")
                 .globalJmxStatistics().allowDuplicateDomains(true).enable()
                 .build();
 
